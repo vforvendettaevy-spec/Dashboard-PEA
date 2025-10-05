@@ -1,0 +1,193 @@
+<script>
+    let historiqueMois = [];
+
+    window.onload = function() {
+        const saved = localStorage.getItem('dashboardData');
+        if (saved) {
+            const data = JSON.parse(saved);
+            document.getElementById('revenu').value = data.revenu || 1200;
+            document.getElementById('investissement').value = data.investissement || 900;
+            document.getElementById('msciWorld').value = data.msciWorld || 85;
+            document.getElementById('msciEM').value = data.msciEM || 15;
+            document.getElementById('rendement').value = data.rendement || 7;
+            document.getElementById('age').value = data.age || 17;
+            document.getElementById('livretA').value = data.livretA || 5000;
+            historiqueMois = data.historique || [];
+        }
+        calculer();
+    };
+
+    function sauvegarder() {
+        const data = {
+            revenu: parseFloat(document.getElementById('revenu').value),
+            investissement: parseFloat(document.getElementById('investissement').value),
+            msciWorld: parseFloat(document.getElementById('msciWorld').value),
+            msciEM: parseFloat(document.getElementById('msciEM').value),
+            rendement: parseFloat(document.getElementById('rendement').value),
+            age: parseFloat(document.getElementById('age').value),
+            livretA: parseFloat(document.getElementById('livretA').value),
+            historique: historiqueMois
+        };
+        localStorage.setItem('dashboardData', JSON.stringify(data));
+    }
+
+    function calculer() {
+        const livretA = parseFloat(document.getElementById('livretA').value) || 0;
+        const rendement = parseFloat(document.getElementById('rendement').value) / 100 || 0.07;
+        const age = parseFloat(document.getElementById('age').value) || 17;
+        const investissement = parseFloat(document.getElementById('investissement').value) || 900;
+
+        let valeurPEA = 0;
+        let totalVerse = 0;
+        
+        historiqueMois.forEach((mois, index) => {
+            totalVerse += mois.montant;
+            const moisEcoules = historiqueMois.length - index;
+            valeurPEA += mois.montant * Math.pow(1 + rendement/12, moisEcoules);
+        });
+
+        const plusValue = valeurPEA - totalVerse;
+        const capitalTotal = livretA + valeurPEA;
+        const progressionPct = (capitalTotal / 1000000 * 100).toFixed(2);
+
+        document.getElementById('capitalTotal').textContent = formatEuro(capitalTotal);
+        document.getElementById('valeurPEA').textContent = formatEuro(valeurPEA);
+        document.getElementById('plusValue').textContent = formatEuro(plusValue, true);
+        document.getElementById('progression').textContent = progressionPct + '%';
+        document.getElementById('progressBar').style.width = Math.min(progressionPct, 100) + '%';
+        document.getElementById('progressBar').textContent = progressionPct + '%';
+
+        afficherHistorique();
+        afficherProjection(capitalTotal, investissement, rendement, age);
+        sauvegarder();
+    }
+
+    function ajouterMois() {
+        const mois = document.getElementById('nouveauMois').value;
+        const montant = parseFloat(document.getElementById('nouveauMontant').value);
+
+        if (!mois || !montant) {
+            alert('❌ Merci de remplir le mois et le montant !');
+            return;
+        }
+
+        const msciWorld = parseFloat(document.getElementById('msciWorld').value) / 100;
+        const msciEM = parseFloat(document.getElementById('msciEM').value) / 100;
+
+        historiqueMois.push({
+            mois: mois,
+            montant: montant,
+            world: montant * msciWorld,
+            em: montant * msciEM,
+            date: new Date(mois),
+            id: Date.now()
+        });
+
+        historiqueMois.sort((a, b) => a.date - b.date);
+        document.getElementById('nouveauMois').value = '';
+        calculer();
+    }
+
+    function supprimerMois(id) {
+        if (confirm('Supprimer ce mois ?')) {
+            historiqueMois = historiqueMois.filter(m => m.id !== id);
+            calculer();
+        }
+    }
+
+    function afficherHistorique() {
+        const tbody = document.getElementById('historique');
+        let html = '';
+
+        if (historiqueMois.length === 0) {
+            html = '<tr><td colspan="7" style="text-align: center; color: #718096;">Aucun investissement enregistré. Ajoute ton premier mois !</td></tr>';
+            tbody.innerHTML = html;
+            return;
+        }
+
+        const rendement = parseFloat(document.getElementById('rendement').value) / 100;
+        let valeurCumulee = 0;
+        let totalVerse = 0;
+
+        historiqueMois.forEach((mois) => {
+            totalVerse += mois.montant;
+            const index = historiqueMois.indexOf(mois);
+            const moisEcoules = historiqueMois.length - index;
+            const valeurMois = mois.montant * Math.pow(1 + rendement/12, moisEcoules);
+            valeurCumulee += valeurMois;
+            const plusValue = valeurCumulee - totalVerse;
+
+            const dateObj = new Date(mois.mois);
+            const moisFormate = dateObj.toLocaleDateString('fr-FR', { year: 'numeric', month: 'long' });
+
+            html += `
+                <tr>
+                    <td>${moisFormate}</td>
+                    <td><strong>${formatEuro(mois.montant)}</strong></td>
+                    <td>${formatEuro(mois.world)}</td>
+                    <td>${formatEuro(mois.em)}</td>
+                    <td class="positive"><strong>${formatEuro(valeurCumulee)}</strong></td>
+                    <td class="positive">${formatEuro(plusValue, true)}</td>
+                    <td><button class="btn-delete" data-id="${mois.id}">🗑️</button></td>
+                </tr>
+            `;
+        });
+
+        tbody.innerHTML = html;
+    }
+
+    // ✅ Ajout de l'écouteur d'événement global pour les boutons 🗑️
+    document.addEventListener("click", function(e) {
+        if (e.target.classList.contains("btn-delete")) {
+            const id = parseInt(e.target.getAttribute("data-id"));
+            supprimerMois(id);
+        }
+    });
+
+    function afficherProjection(capitalActuel, investissement, rendement, ageActuel) {
+        const ages = [20, 25, 30, 35, 40, 45];
+        const grid = document.getElementById('projectionGrid');
+        const tbody = document.getElementById('projectionBody');
+        
+        let htmlGrid = '';
+        let htmlTable = '';
+
+        ages.forEach(age => {
+            if (age <= ageActuel) return;
+
+            const annees = age - ageActuel;
+            const mois = annees * 12;
+            const totalVerse = capitalActuel + (investissement * mois);
+            const tauxMensuel = rendement / 12;
+            const capitalFinal = capitalActuel * Math.pow(1 + tauxMensuel, mois) + 
+                                investissement * ((Math.pow(1 + tauxMensuel, mois) - 1) / tauxMensuel);
+            const plusValue = capitalFinal - totalVerse;
+
+            htmlGrid += `
+                <div class="projection-card">
+                    <div class="projection-age">${age} ans</div>
+                    <div class="projection-amount">${formatEuro(capitalFinal)}</div>
+                </div>
+            `;
+
+            htmlTable += `
+                <tr>
+                    <td><strong>${age} ans</strong></td>
+                    <td>${annees} an${annees > 1 ? 's' : ''}</td>
+                    <td>${formatEuro(totalVerse)}</td>
+                    <td class="positive"><strong>${formatEuro(capitalFinal)}</strong></td>
+                    <td class="positive">${formatEuro(plusValue, true)}</td>
+                </tr>
+            `;
+        });
+
+        grid.innerHTML = htmlGrid;
+        tbody.innerHTML = htmlTable;
+    }
+
+    function formatEuro(valeur, avecSigne = false) {
+        if (valeur === null || valeur === undefined || isNaN(valeur)) return '0 €';
+        const formatted = Math.round(valeur).toLocaleString('fr-FR') + ' €';
+        return avecSigne && valeur >= 0 ? '+' + formatted : formatted;
+    }
+</script>
