@@ -217,7 +217,7 @@ th{background:#1e2433;color:#cbd5e0;font-weight:700;font-size:13px;text-transfor
           <button class="btn-add" onclick="ajouterMois('pea')">➕ Ajouter</button>
         </div>
         <table>
-          <thead><tr><th>📅 Date</th><th>💰 Versement</th><th>⚡ Frais</th><th>🌍 World</th><th>📊 Parts WPEA</th><th>🌏 EM</th><th>📊 Parts PAEEM</th><th>📈 Valeur actuelle</th><th>💹 Plus-value</th><th>🗑️</th></tr></thead>
+          <thead><tr><th>📅 Date</th><th>💰 Versement</th><th>⚡ Frais</th><th>🌍 Parts WPEA</th><th>💵 Prix achat</th><th>🌏 Parts PAEEM</th><th>💵 Prix achat</th><th>📈 Valeur actuelle</th><th>💹 Plus-value</th><th>🗑️</th></tr></thead>
           <tbody id="historiquePEA"></tbody>
         </table>
       </div>
@@ -635,29 +635,36 @@ function afficherHistorique(type) {
     const pv = cumul - (versed - (versed * fraisPct));
     const dateStr = depDate.toLocaleDateString('fr-FR', { day: '2-digit', month: 'long', year: 'numeric' });
     
-    let partsWPEA = 0;
-    let partsPAEEM = 0;
-    let htmlPartsWPEA = '--';
-    let htmlPartsPAEEM = '--';
-    
     if (type === 'pea') {
-      if (coursWPEA > 0 && item.world > 0) {
-        partsWPEA = item.world / coursWPEA;
-        const valeurActuelleWorld = partsWPEA * coursWPEA;
-        const pvWorld = valeurActuelleWorld - item.world;
-        const classePVWorld = pvWorld >= 0 ? 'positive' : 'negative';
-        htmlPartsWPEA = `${partsWPEA.toFixed(4)} parts<br><small style="font-size:11px;color:#9ca3af">Prix: ${formatEuroDecimal(coursWPEA)}</small><br><small class="${classePVWorld}">${formatEuroDecimal(pvWorld, true)}</small>`;
+      // Stocker les prix d'achat si pas déjà fait
+      if (!item.prixAchatWPEA && coursWPEA > 0) {
+        item.prixAchatWPEA = coursWPEA;
+      }
+      if (!item.prixAchatPAEEM && coursPAEEM > 0) {
+        item.prixAchatPAEEM = coursPAEEM;
       }
       
-      if (coursPAEEM > 0 && item.em > 0) {
-        partsPAEEM = item.em / coursPAEEM;
-        const valeurActuelleEM = partsPAEEM * coursPAEEM;
-        const pvEM = valeurActuelleEM - item.em;
-        const classePVEM = pvEM >= 0 ? 'positive' : 'negative';
-        htmlPartsPAEEM = `${partsPAEEM.toFixed(4)} parts<br><small style="font-size:11px;color:#9ca3af">Prix: ${formatEuroDecimal(coursPAEEM)}</small><br><small class="${classePVEM}">${formatEuroDecimal(pvEM, true)}</small>`;
+      // Calculer les parts achetées
+      let partsWPEA = 0;
+      let partsPAEEM = 0;
+      let htmlPartsWPEA = '--';
+      let htmlPrixAchatWPEA = '--';
+      let htmlPartsPAEEM = '--';
+      let htmlPrixAchatPAEEM = '--';
+      
+      if (item.prixAchatWPEA > 0 && item.world > 0) {
+        partsWPEA = item.world / item.prixAchatWPEA;
+        htmlPartsWPEA = `${partsWPEA.toFixed(4)} parts`;
+        htmlPrixAchatWPEA = formatEuroDecimal(item.prixAchatWPEA);
       }
       
-      html += `<tr><td>${dateStr}</td><td><strong>${formatEuroDecimal(item.montant)}</strong></td><td style="color:#e53e3e">${formatEuroDecimal(frais)}</td><td>${formatEuroDecimal(item.world)}</td><td>${htmlPartsWPEA}</td><td>${formatEuroDecimal(item.em)}</td><td>${htmlPartsPAEEM}</td><td class="positive"><strong>${formatEuroDecimal(cumul)}</strong></td><td class="${pv >= 0 ? 'positive' : 'negative'}">${formatEuroDecimal(pv, true)}</td><td><button class="btn-delete" onclick="supprimer('${type}', ${item.id})">🗑️</button></td></tr>`;
+      if (item.prixAchatPAEEM > 0 && item.em > 0) {
+        partsPAEEM = item.em / item.prixAchatPAEEM;
+        htmlPartsPAEEM = `${partsPAEEM.toFixed(4)} parts`;
+        htmlPrixAchatPAEEM = formatEuroDecimal(item.prixAchatPAEEM);
+      }
+      
+      html += `<tr><td>${dateStr}</td><td><strong>${formatEuroDecimal(item.montant)}</strong></td><td style="color:#e53e3e">${formatEuroDecimal(frais)}</td><td>${htmlPartsWPEA}</td><td>${htmlPrixAchatWPEA}</td><td>${htmlPartsPAEEM}</td><td>${htmlPrixAchatPAEEM}</td><td class="positive"><strong>${formatEuroDecimal(cumul)}</strong></td><td class="${pv >= 0 ? 'positive' : 'negative'}">${formatEuroDecimal(pv, true)}</td><td><button class="btn-delete" onclick="supprimer('${type}', ${item.id})">🗑️</button></td></tr>`;
     } else {
       html += `<tr><td>${dateStr}</td><td><strong>${formatEuroDecimal(item.montant)}</strong></td><td style="color:#e53e3e">${formatEuroDecimal(frais)}</td><td>${formatEuroDecimal(item.world)}</td><td>${formatEuroDecimal(item.em)}</td><td class="positive"><strong>${formatEuroDecimal(cumul)}</strong></td><td class="${pv >= 0 ? 'positive' : 'negative'}">${formatEuroDecimal(pv, true)}</td><td><button class="btn-delete" onclick="supprimer('${type}', ${item.id})">🗑️</button></td></tr>`;
     }
@@ -771,6 +778,10 @@ function ajouterMois(type) {
     return;
   }
   
+  if (type === 'pea' && (coursWPEA === 0 || coursPAEEM === 0)) {
+    alert('⚠️ Attention : Entre d\'abord les cours actuels de WPEA et PAEEM en haut de la page pour enregistrer les prix d\'achat !');
+  }
+  
   const worldPct = (Number(document.getElementById(worldId).value) || 85) / 100;
   const emPct = (Number(document.getElementById(emId).value) || 15) / 100;
   
@@ -781,6 +792,12 @@ function ajouterMois(type) {
     em: montant * emPct,
     id: Date.now()
   };
+  
+  // Sauvegarder les prix d'achat pour le PEA
+  if (type === 'pea') {
+    item.prixAchatWPEA = coursWPEA;
+    item.prixAchatPAEEM = coursPAEEM;
+  }
   
   if (type === 'pea') {
     historiquePEA.push(item);
