@@ -210,11 +210,14 @@ th{background:#1e2433;color:#cbd5e0;font-weight:700;font-size:13px;text-transfor
 
       <div class="chart-section">
         <div class="section-title">📈 Historique des investissements PEA</div>
-        <div class="table-controls">
-          <div><label>📅 Date</label><input id="nouvelleDatePEA" type="date" /></div>
-          <div><label>💰 Montant (€)</label><input id="nouveauMontantPEA" type="number" placeholder="900" value="900" step="0.01" /></div>
-          <div></div>
-          <button class="btn-add" onclick="ajouterMois('pea')">➕ Ajouter</button>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-bottom:14px">
+          <div><label style="font-size:12px;color:#9ca3af;margin-bottom:4px;display:block">📅 Date</label><input id="nouvelleDatePEA" type="date" style="padding:10px;border-radius:8px;border:1px solid #4a5568;background:#1e2433;color:#e2e8f0;font-size:14px;width:100%" /></div>
+          <div><label style="font-size:12px;color:#9ca3af;margin-bottom:4px;display:block">💰 Montant total (€)</label><input id="nouveauMontantPEA" type="number" placeholder="900" value="900" step="0.01" style="padding:10px;border-radius:8px;border:1px solid #4a5568;background:#1e2433;color:#e2e8f0;font-size:14px;width:100%" /></div>
+          <div><label style="font-size:12px;color:#9ca3af;margin-bottom:4px;display:block">🌍 Parts WPEA</label><input id="nouvellesPartsWPEA" type="number" placeholder="7.2345" step="0.0001" style="padding:10px;border-radius:8px;border:1px solid #4a5568;background:#1e2433;color:#e2e8f0;font-size:14px;width:100%" /></div>
+          <div><label style="font-size:12px;color:#9ca3af;margin-bottom:4px;display:block">💵 Prix WPEA (€)</label><input id="nouveauPrixWPEA" type="number" placeholder="124.50" step="0.01" style="padding:10px;border-radius:8px;border:1px solid #4a5568;background:#1e2433;color:#e2e8f0;font-size:14px;width:100%" /></div>
+          <div><label style="font-size:12px;color:#9ca3af;margin-bottom:4px;display:block">🌏 Parts PAEEM</label><input id="nouvellesPartsPAEEM" type="number" placeholder="3.1234" step="0.0001" style="padding:10px;border-radius:8px;border:1px solid #4a5568;background:#1e2433;color:#e2e8f0;font-size:14px;width:100%" /></div>
+          <div><label style="font-size:12px;color:#9ca3af;margin-bottom:4px;display:block">💵 Prix PAEEM (€)</label><input id="nouveauPrixPAEEM" type="number" placeholder="45.80" step="0.01" style="padding:10px;border-radius:8px;border:1px solid #4a5568;background:#1e2433;color:#e2e8f0;font-size:14px;width:100%" /></div>
+          <div style="display:flex;align-items:end"><button class="btn-add" onclick="ajouterMois('pea')" style="width:100%;padding:12px">➕ Ajouter</button></div>
         </div>
         <table>
           <thead><tr><th>📅 Date</th><th>💰 Versement</th><th>⚡ Frais</th><th>🌍 Parts WPEA</th><th>💵 Prix achat</th><th>🌏 Parts PAEEM</th><th>💵 Prix achat</th><th>📈 Valeur actuelle</th><th>💹 Plus-value</th><th>🗑️</th></tr></thead>
@@ -636,31 +639,19 @@ function afficherHistorique(type) {
     const dateStr = depDate.toLocaleDateString('fr-FR', { day: '2-digit', month: 'long', year: 'numeric' });
     
     if (type === 'pea') {
-      // Stocker les prix d'achat si pas déjà fait
-      if (!item.prixAchatWPEA && coursWPEA > 0) {
-        item.prixAchatWPEA = coursWPEA;
-      }
-      if (!item.prixAchatPAEEM && coursPAEEM > 0) {
-        item.prixAchatPAEEM = coursPAEEM;
-      }
-      
-      // Calculer les parts achetées
-      let partsWPEA = 0;
-      let partsPAEEM = 0;
+      // Utiliser les parts et prix saisis manuellement
       let htmlPartsWPEA = '--';
       let htmlPrixAchatWPEA = '--';
       let htmlPartsPAEEM = '--';
       let htmlPrixAchatPAEEM = '--';
       
-      if (item.prixAchatWPEA > 0 && item.world > 0) {
-        partsWPEA = item.world / item.prixAchatWPEA;
-        htmlPartsWPEA = `${partsWPEA.toFixed(4)} parts`;
+      if (item.partsWPEA > 0 && item.prixAchatWPEA > 0) {
+        htmlPartsWPEA = `${item.partsWPEA.toFixed(4)}`;
         htmlPrixAchatWPEA = formatEuroDecimal(item.prixAchatWPEA);
       }
       
-      if (item.prixAchatPAEEM > 0 && item.em > 0) {
-        partsPAEEM = item.em / item.prixAchatPAEEM;
-        htmlPartsPAEEM = `${partsPAEEM.toFixed(4)} parts`;
+      if (item.partsPAEEM > 0 && item.prixAchatPAEEM > 0) {
+        htmlPartsPAEEM = `${item.partsPAEEM.toFixed(4)}`;
         htmlPrixAchatPAEEM = formatEuroDecimal(item.prixAchatPAEEM);
       }
       
@@ -765,45 +756,72 @@ function calculerScenarios(capital, rendActuel) {
 }
 
 function ajouterMois(type) {
-  const dateId = type === 'pea' ? 'nouvelleDatePEA' : 'nouvelleDateCTO';
-  const montantId = type === 'pea' ? 'nouveauMontantPEA' : 'nouveauMontantCTO';
-  const worldId = type === 'pea' ? 'peaMsciWorld' : 'ctoMsciWorld';
-  const emId = type === 'pea' ? 'peaMsciEM' : 'ctoMsciEM';
-  
-  const date = document.getElementById(dateId).value;
-  const montant = Number(document.getElementById(montantId).value) || 0;
-  
-  if (!date || montant <= 0) {
-    alert('❌ Remplis la date et le montant !');
-    return;
-  }
-  
-  if (type === 'pea' && (coursWPEA === 0 || coursPAEEM === 0)) {
-    alert('⚠️ Attention : Entre d\'abord les cours actuels de WPEA et PAEEM en haut de la page pour enregistrer les prix d\'achat !');
-  }
-  
-  const worldPct = (Number(document.getElementById(worldId).value) || 85) / 100;
-  const emPct = (Number(document.getElementById(emId).value) || 15) / 100;
-  
-  const item = {
-    date: date,
-    montant: montant,
-    world: montant * worldPct,
-    em: montant * emPct,
-    id: Date.now()
-  };
-  
-  // Sauvegarder les prix d'achat pour le PEA
   if (type === 'pea') {
-    item.prixAchatWPEA = coursWPEA;
-    item.prixAchatPAEEM = coursPAEEM;
-  }
-  
-  if (type === 'pea') {
+    const date = document.getElementById('nouvelleDatePEA').value;
+    const montant = Number(document.getElementById('nouveauMontantPEA').value) || 0;
+    const partsWPEA = Number(document.getElementById('nouvellesPartsWPEA').value) || 0;
+    const prixWPEA = Number(document.getElementById('nouveauPrixWPEA').value) || 0;
+    const partsPAEEM = Number(document.getElementById('nouvellesPartsPAEEM').value) || 0;
+    const prixPAEEM = Number(document.getElementById('nouveauPrixPAEEM').value) || 0;
+    
+    if (!date || montant <= 0) {
+      alert('❌ Remplis au minimum la date et le montant total !');
+      return;
+    }
+    
+    // Calculer les montants investis dans chaque ETF
+    const montantWPEA = partsWPEA * prixWPEA;
+    const montantPAEEM = partsPAEEM * prixPAEEM;
+    
+    const item = {
+      date: date,
+      montant: montant,
+      world: montantWPEA,
+      em: montantPAEEM,
+      partsWPEA: partsWPEA,
+      prixAchatWPEA: prixWPEA,
+      partsPAEEM: partsPAEEM,
+      prixAchatPAEEM: prixPAEEM,
+      id: Date.now()
+    };
+    
     historiquePEA.push(item);
     historiquePEA.sort((a, b) => new Date(a.date) - new Date(b.date));
-    document.getElementById(dateId).value = '';
+    
+    // Vider les champs
+    document.getElementById('nouvelleDatePEA').value = '';
+    document.getElementById('nouveauMontantPEA').value = '900';
+    document.getElementById('nouvellesPartsWPEA').value = '';
+    document.getElementById('nouveauPrixWPEA').value = '';
+    document.getElementById('nouvellesPartsPAEEM').value = '';
+    document.getElementById('nouveauPrixPAEEM').value = '';
+    
   } else {
+    // CTO
+    const dateId = 'nouvelleDateCTO';
+    const montantId = 'nouveauMontantCTO';
+    const worldId = 'ctoMsciWorld';
+    const emId = 'ctoMsciEM';
+    
+    const date = document.getElementById(dateId).value;
+    const montant = Number(document.getElementById(montantId).value) || 0;
+    
+    if (!date || montant <= 0) {
+      alert('❌ Remplis la date et le montant !');
+      return;
+    }
+    
+    const worldPct = (Number(document.getElementById(worldId).value) || 90) / 100;
+    const emPct = (Number(document.getElementById(emId).value) || 10) / 100;
+    
+    const item = {
+      date: date,
+      montant: montant,
+      world: montant * worldPct,
+      em: montant * emPct,
+      id: Date.now()
+    };
+    
     historiqueCTO.push(item);
     historiqueCTO.sort((a, b) => new Date(a.date) - new Date(b.date));
     document.getElementById(dateId).value = '';
