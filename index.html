@@ -117,6 +117,7 @@ th{background:#1e2433;color:#cbd5e0;font-weight:700;font-size:13px;text-transfor
           <div class="param-item"><label>💰 Revenu mensuel (€)</label><input id="revenu" type="number" value="1200" min="0" step="0.01" /></div>
           <div class="param-item"><label>📈 Investissement PEA (€/mois)</label><input id="investissementPEA" type="number" value="900" min="0" step="0.01" /></div>
           <div class="param-item"><label>📈 Investissement CTO (€/mois)</label><input id="investissementCTO" type="number" value="0" min="0" step="0.01" /></div>
+          <div class="param-item"><label>💵 Solde espèces PEA (€)</label><input id="soldeEspecesPEA" type="number" value="0" min="0" step="0.01" /></div>
           <div class="param-item"><label>⚡ Frais de courtage (%)</label><input id="fraisCourtage" type="number" value="0.5" step="0.1" min="0" max="10" /></div>
           <div class="param-item"><label>🌍 PEA - MSCI World (%)</label><input id="peaMsciWorld" type="number" value="85" min="0" max="100" /></div>
           <div class="param-item"><label>🌏 PEA - Émergents (%)</label><input id="peaMsciEM" type="number" value="15" min="0" max="100" /></div>
@@ -133,6 +134,7 @@ th{background:#1e2433;color:#cbd5e0;font-weight:700;font-size:13px;text-transfor
       <div class="stats-grid">
         <div class="stat-card"><div class="stat-label">💰 Capital total</div><div class="stat-value" id="capitalTotal">0 €</div></div>
         <div class="stat-card pea"><div class="stat-label">📈 PEA - Valeur</div><div class="stat-value" id="valeurPEA">0 €</div></div>
+        <div class="stat-card pea"><div class="stat-label">💵 PEA - Solde espèces</div><div class="stat-value" id="soldeEspecesPEADisplay">0 €</div></div>
         <div class="stat-card pea"><div class="stat-label">💹 PEA - Plus-value</div><div id="plusValuePEA" style="font-size:24px;font-weight:800;color:#39b46e">+0 €</div></div>
         <div class="stat-card cto"><div class="stat-label">📈 CTO - Valeur</div><div class="stat-value" id="valeurCTO">0 €</div></div>
         <div class="stat-card cto"><div class="stat-label">💹 CTO - Plus-value</div><div id="plusValueCTO" style="font-size:24px;font-weight:800;color:#7a6ff0">+0 €</div></div>
@@ -391,6 +393,7 @@ function sauvegarder() {
     revenu: document.getElementById('revenu').value,
     investissementPEA: document.getElementById('investissementPEA').value,
     investissementCTO: document.getElementById('investissementCTO').value,
+    soldeEspecesPEA: document.getElementById('soldeEspecesPEA').value,
     fraisCourtage: document.getElementById('fraisCourtage').value,
     peaMsciWorld: document.getElementById('peaMsciWorld').value,
     peaMsciEM: document.getElementById('peaMsciEM').value,
@@ -495,6 +498,7 @@ function calculer() {
   const rend = Number(document.getElementById('rendement').value) || 7;
   const livret = Number(document.getElementById('livretA').value) || 0;
   const courant = Number(document.getElementById('compteCourant').value) || 0;
+  const soldeEspeces = Number(document.getElementById('soldeEspecesPEA').value) || 0;
   
   const pea = calculerValeur(historiquePEA, rend);
   const cto = calculerValeur(historiqueCTO, rend);
@@ -505,11 +509,12 @@ function calculer() {
   const cryptoPlusValue = btc.plusValue + eth.plusValue;
   const fraisTotaux = pea.totalFrais + cto.totalFrais + btc.totalFrais + eth.totalFrais;
   
-  const total = livret + courant + pea.valeur + cto.valeur + cryptoValeur;
+  const total = livret + courant + pea.valeur + soldeEspeces + cto.valeur + cryptoValeur;
   const prog = (total / 1000000 * 100).toFixed(2);
   
   document.getElementById('capitalTotal').textContent = formatEuroDecimal(total);
   document.getElementById('valeurPEA').textContent = formatEuroDecimal(pea.valeur);
+  document.getElementById('soldeEspecesPEADisplay').textContent = formatEuroDecimal(soldeEspeces);
   document.getElementById('valeurCTO').textContent = formatEuroDecimal(cto.valeur);
   document.getElementById('valeurCrypto').textContent = formatEuroDecimal(cryptoValeur);
   document.getElementById('plusValuePEA').textContent = formatEuroDecimal(pea.plusValue, true);
@@ -538,20 +543,20 @@ function calculer() {
   document.getElementById('plusValueETH').textContent = formatEuroDecimal(eth.plusValue, true);
   document.getElementById('plusValueETH').style.color = eth.plusValue >= 0 ? '#39b46e' : '#e53e3e';
   
-  dessinerGraphique(pea.valeur, cto.valeur, cryptoValeur, livret, courant);
+  dessinerGraphique(pea.valeur, cto.valeur, cryptoValeur, livret, courant, soldeEspeces);
   afficherHistorique('pea');
   afficherHistorique('cto');
   afficherHistoriqueCrypto('btc');
   afficherHistoriqueCrypto('eth');
-  afficherProjection(pea.valeur + cto.valeur + livret + courant, rend);
-  calculerScenarios(pea.valeur + cto.valeur + livret + courant, rend);
+  afficherProjection(pea.valeur + cto.valeur + livret + courant + soldeEspeces, rend);
+  calculerScenarios(pea.valeur + cto.valeur + livret + courant + soldeEspeces, rend);
   sauvegarder();
 }
 
-function dessinerGraphique(valPEA, valCTO, valCrypto, livret, courant) {
+function dessinerGraphique(valPEA, valCTO, valCrypto, livret, courant, soldeEspeces) {
   const canvas = document.getElementById('pieChart');
   const ctx = canvas.getContext('2d');
-  const total = valPEA + valCTO + valCrypto + livret + courant;
+  const total = valPEA + valCTO + valCrypto + livret + courant + soldeEspeces;
   const legend = document.getElementById('pieLegend');
   
   if (total === 0) {
@@ -566,6 +571,7 @@ function dessinerGraphique(valPEA, valCTO, valCrypto, livret, courant) {
   
   const data = [
     { label: '📈 PEA', value: valPEA, color: '#39b46e' },
+    { label: '💵 PEA Espèces', value: soldeEspeces, color: '#52c785' },
     { label: '📊 CTO', value: valCTO, color: '#7a6ff0' },
     { label: '₿ Crypto', value: valCrypto, color: '#f7931a' },
     { label: '💚 Livret A', value: livret, color: '#01731f' },
