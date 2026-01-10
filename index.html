@@ -447,7 +447,7 @@ async function rafraichirCours() {
   }
 }
 
-function calculerValeur(historique, rendementAnn) {
+function calculerValeur(historique, rendementAnn, isPEA = false) {
   const today = new Date();
   const rendement = rendementAnn / 100;
   const fraisPct = (Number(document.getElementById('fraisCourtage').value) || 0) / 100;
@@ -456,18 +456,26 @@ function calculerValeur(historique, rendementAnn) {
   let totalFrais = 0;
   
   historique.forEach(item => {
-    const depDate = new Date(item.date);
-    let months = (today.getFullYear() - depDate.getFullYear()) * 12 + (today.getMonth() - depDate.getMonth());
-    if (months < 0) months = 0;
-    
     const frais = item.montant * fraisPct;
     const montantInvesti = item.montant - frais;
     totalFrais += frais;
-    
-    const monthlyRate = rendement / 12;
-    const value = montantInvesti * Math.pow(1 + monthlyRate, months);
-    valeur += value;
     totalVerse += item.montant;
+    
+    if (isPEA && item.partsWPEA && item.partsPAEEM && coursWPEA > 0 && coursPAEEM > 0) {
+      // Pour le PEA : calculer la valeur réelle avec les cours actuels
+      const valeurWPEA = item.partsWPEA * coursWPEA;
+      const valeurPAEEM = item.partsPAEEM * coursPAEEM;
+      valeur += valeurWPEA + valeurPAEEM;
+    } else {
+      // Pour le CTO ou ancien PEA sans parts : utiliser le rendement moyen
+      const depDate = new Date(item.date);
+      let months = (today.getFullYear() - depDate.getFullYear()) * 12 + (today.getMonth() - depDate.getMonth());
+      if (months < 0) months = 0;
+      
+      const monthlyRate = rendement / 12;
+      const value = montantInvesti * Math.pow(1 + monthlyRate, months);
+      valeur += value;
+    }
   });
   
   return { valeur, totalVerse, plusValue: valeur - (totalVerse - totalFrais), totalFrais };
@@ -500,8 +508,8 @@ function calculer() {
   const courant = Number(document.getElementById('compteCourant').value) || 0;
   const soldeEspeces = Number(document.getElementById('soldeEspecesPEA').value) || 0;
   
-  const pea = calculerValeur(historiquePEA, rend);
-  const cto = calculerValeur(historiqueCTO, rend);
+  const pea = calculerValeur(historiquePEA, rend, true); // true = calcul avec cours réels ETF
+  const cto = calculerValeur(historiqueCTO, rend, false);
   const btc = calculerCrypto(historiqueBTC, coursBTC);
   const eth = calculerCrypto(historiqueETH, coursETH);
   
@@ -625,23 +633,32 @@ function afficherHistorique(type) {
   const rend = (Number(document.getElementById('rendement').value) || 7) / 100;
   const fraisPct = (Number(document.getElementById('fraisCourtage').value) || 0) / 100;
   const today = new Date();
-  let cumul = 0;
-  let versed = 0;
+  let cumulValeur = 0;
+  let cumulVerse = 0;
   let html = '';
   
   h.forEach(item => {
     const depDate = new Date(item.date);
-    let months = (today.getFullYear() - depDate.getFullYear()) * 12 + (today.getMonth() - depDate.getMonth());
-    if (months < 0) months = 0;
-    
     const frais = item.montant * fraisPct;
     const montantInvesti = item.montant - frais;
     
-    const mRate = rend / 12;
-    const val = montantInvesti * Math.pow(1 + mRate, months);
-    cumul += val;
-    versed += item.montant;
-    const pv = cumul - (versed - (versed * fraisPct));
+    let valeurLigne = 0;
+    
+    if (type === 'pea' && item.partsWPEA && item.partsPAEEM && coursWPEA > 0 && coursPAEEM > 0) {
+      // Calcul réel avec cours actuels
+      valeurLigne = (item.partsWPEA * coursWPEA) + (item.partsPAEEM * coursPAEEM);
+    } else {
+      // Calcul avec rendement moyen
+      let months = (today.getFullYear() - depDate.getFullYear()) * 12 + (today.getMonth() - depDate.getMonth());
+      if (months < 0) months = 0;
+      const mRate = rend / 12;
+      valeurLigne = montantInvesti * Math.pow(1 + mRate, months);
+    }
+    
+    cumulValeur += valeurLigne;
+    cumulVerse += item.montant;
+    
+    const pvCumul = cumulValeur - (cumulVerse - (cumulVerse * fraisPct));
     const dateStr = depDate.toLocaleDateString('fr-FR', { day: '2-digit', month: 'long', year: 'numeric' });
     
     if (type === 'pea') {
@@ -661,9 +678,9 @@ function afficherHistorique(type) {
         htmlPrixAchatPAEEM = formatEuroDecimal(item.prixAchatPAEEM);
       }
       
-      html += `<tr><td>${dateStr}</td><td><strong>${formatEuroDecimal(item.montant)}</strong></td><td style="color:#e53e3e">${formatEuroDecimal(frais)}</td><td>${htmlPartsWPEA}</td><td>${htmlPrixAchatWPEA}</td><td>${htmlPartsPAEEM}</td><td>${htmlPrixAchatPAEEM}</td><td class="positive"><strong>${formatEuroDecimal(cumul)}</strong></td><td class="${pv >= 0 ? 'positive' : 'negative'}">${formatEuroDecimal(pv, true)}</td><td><button class="btn-delete" onclick="supprimer('${type}', ${item.id})">🗑️</button></td></tr>`;
+      html += `<tr><td>${dateStr}</td><td><strong>${formatEuroDecimal(item.montant)}</strong></td><td style="color:#e53e3e">${formatEuroDecimal(frais)}</td><td>${htmlPartsWPEA}</td><td>${htmlPrixAchatWPEA}</td><td>${htmlPartsPAEEM}</td><td>${htmlPrixAchatPAEEM}</td><td class="positive"><strong>${formatEuroDecimal(cumulValeur)}</strong></td><td class="${pvCumul >= 0 ? 'positive' : 'negative'}">${formatEuroDecimal(pvCumul, true)}</td><td><button class="btn-delete" onclick="supprimer('${type}', ${item.id})">🗑️</button></td></tr>`;
     } else {
-      html += `<tr><td>${dateStr}</td><td><strong>${formatEuroDecimal(item.montant)}</strong></td><td style="color:#e53e3e">${formatEuroDecimal(frais)}</td><td>${formatEuroDecimal(item.world)}</td><td>${formatEuroDecimal(item.em)}</td><td class="positive"><strong>${formatEuroDecimal(cumul)}</strong></td><td class="${pv >= 0 ? 'positive' : 'negative'}">${formatEuroDecimal(pv, true)}</td><td><button class="btn-delete" onclick="supprimer('${type}', ${item.id})">🗑️</button></td></tr>`;
+      html += `<tr><td>${dateStr}</td><td><strong>${formatEuroDecimal(item.montant)}</strong></td><td style="color:#e53e3e">${formatEuroDecimal(frais)}</td><td>${formatEuroDecimal(item.world)}</td><td>${formatEuroDecimal(item.em)}</td><td class="positive"><strong>${formatEuroDecimal(cumulValeur)}</strong></td><td class="${pvCumul >= 0 ? 'positive' : 'negative'}">${formatEuroDecimal(pvCumul, true)}</td><td><button class="btn-delete" onclick="supprimer('${type}', ${item.id})">🗑️</button></td></tr>`;
     }
   });
   
