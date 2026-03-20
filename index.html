@@ -6,95 +6,299 @@
 <title>Dashboard PEA + CTO + Crypto - LUKA_INVEST_PRO</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>📊</text></svg>" />
 <style>
-*{box-sizing:border-box}
-body{font-family:"Segoe UI",Roboto,Arial,sans-serif;background:linear-gradient(135deg,#0a0e14 0%,#1a1f2e 100%);margin:0;padding:22px;color:#e2e8f0}
+/* =============================================
+   REVOLUT-INSPIRED DESIGN — CSS ONLY REWORK
+   JS & HTML fonctionnel 100% identique
+   ============================================= */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+  font-family:'Inter',"Segoe UI",Roboto,Arial,sans-serif;
+  background:#08090e;
+  margin:0;
+  padding:24px;
+  color:#e2e8f0;
+  min-height:100vh;
+}
+
 .container{max-width:1600px;margin:0 auto}
-.header{background:linear-gradient(135deg,#39b46e 0%,#2d8f57 100%);color:#fff;padding:36px;border-radius:18px;margin-bottom:26px;box-shadow:0 10px 40px rgba(57,180,110,0.18);text-align:center}
-.header h1{font-size:34px;margin-bottom:6px}
-.header p{opacity:.95;font-size:16px}
-.folder-tabs{display:flex;gap:4px;margin-bottom:0;position:relative;padding-left:10px}
-.folder-tab{background:#2d3748;color:#cbd5e0;border:none;padding:14px 28px;border-radius:12px 12px 0 0;font-weight:700;cursor:pointer;font-size:15px;transition:all .2s;position:relative;border-bottom:3px solid transparent}
-.folder-tab:hover{background:#374151;transform:translateY(-2px)}
-.folder-tab.active{background:#1e2433;color:#39b46e;border-bottom:3px solid #39b46e;transform:translateY(0)}
-.page-content{background:#1e2433;border-radius:0 14px 14px 14px;padding:32px;box-shadow:0 6px 20px rgba(0,0,0,0.4);border:1px solid #2d3748;min-height:600px}
+
+/* ── HEADER ── */
+.header{
+  background:#0f1117;
+  border:1px solid #1e2030;
+  color:#fff;
+  padding:36px 40px;
+  border-radius:28px;
+  margin-bottom:10px;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+.header::before{
+  content:'';
+  position:absolute;
+  top:-60px;left:50%;
+  transform:translateX(-50%);
+  width:500px;height:200px;
+  background:radial-gradient(ellipse,rgba(124,109,250,0.15) 0%,transparent 70%);
+  pointer-events:none;
+}
+.header h1{
+  font-size:28px;
+  font-weight:800;
+  letter-spacing:-0.5px;
+  margin-bottom:6px;
+  background:linear-gradient(135deg,#fff 0%,#a5b4fc 100%);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.header p{color:#6b7280;font-size:14px;font-weight:500}
+
+/* ── NAVIGATION TABS ── */
+.folder-tabs{
+  display:flex;
+  gap:4px;
+  padding:5px;
+  background:#0f1117;
+  border:1px solid #1e2030;
+  border-bottom:none;
+  border-radius:20px 20px 0 0;
+  width:fit-content;
+}
+.folder-tab{
+  background:transparent;
+  color:#6b7280;
+  border:none;
+  padding:10px 22px;
+  border-radius:14px;
+  font-weight:600;
+  cursor:pointer;
+  font-size:14px;
+  font-family:inherit;
+  transition:all .2s ease;
+}
+.folder-tab:hover{background:#1a1d2e;color:#a5b4fc;transform:none}
+.folder-tab.active{background:#7c6dfa;color:#fff;box-shadow:0 4px 16px rgba(124,109,250,0.35);transform:none}
+
+/* ── PAGE CONTENT ── */
+.page-content{
+  background:#0f1117;
+  border-radius:0 20px 20px 20px;
+  padding:32px;
+  border:1px solid #1e2030;
+  min-height:600px;
+}
 .page{display:none}
 .page.active{display:block}
-.params-section{background:#2d3748;border-radius:14px;padding:26px;margin-bottom:22px;border:1px solid #374151}
-.params-title{font-size:20px;font-weight:700;color:#e2e8f0;margin-bottom:16px;display:flex;gap:10px;align-items:center}
-.params-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
-.param-item{background:#1e2433;padding:14px;border-radius:10px;border:1px solid #374151;transition:all .18s}
-.param-item:hover{transform:translateY(-3px);border-color:#39b46e}
-.param-item label{display:block;font-weight:600;color:#cbd5e0;margin-bottom:8px;font-size:14px}
-.param-item input{width:100%;padding:10px;border-radius:8px;border:1px solid #4a5568;font-size:15px;background:#0a0e14;color:#e2e8f0}
-.btn-primary{background:linear-gradient(135deg,#39b46e 0%,#2d8f57 100%);color:#fff;border:none;padding:12px 28px;border-radius:12px;font-weight:700;cursor:pointer;box-shadow:0 6px 18px rgba(57,180,110,.18);transition:transform .2s;font-size:15px}
-.btn-primary:hover{transform:translateY(-3px)}
-.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin:20px 0}
-.stat-card{background:#2d3748;padding:20px;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.3);border:1px solid #374151}
-.stat-card.pea{border-left:4px solid #39b46e}
-.stat-card.cto{border-left:4px solid #7a6ff0}
-.stat-card.crypto{border-left:4px solid #f7931a}
-.stat-label{font-size:13px;color:#9ca3af;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px}
-.stat-value{font-size:28px;font-weight:800;color:#e2e8f0}
-.progress-bar{background:#374151;height:32px;border-radius:18px;overflow:hidden;margin-top:12px}
-.progress-fill{height:100%;display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;background:linear-gradient(90deg,#39b46e,#2d8f57);transition:width .5s}
-.chart-section{background:#2d3748;border-radius:14px;padding:26px;margin-bottom:22px;border:1px solid #374151}
-.section-title{font-size:19px;font-weight:800;color:#e2e8f0;margin-bottom:18px;display:flex;align-items:center;gap:8px}
+
+/* ── PARAMS SECTION ── */
+.params-section{
+  background:#13151f;
+  border-radius:20px;
+  padding:28px;
+  margin-bottom:20px;
+  border:1px solid #1e2030;
+}
+.params-title{
+  font-size:15px;font-weight:700;color:#e2e8f0;
+  margin-bottom:20px;display:flex;gap:10px;align-items:center;
+}
+.params-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.param-item{
+  background:#0f1117;padding:14px 16px;
+  border-radius:14px;border:1px solid #1e2030;transition:all .2s ease;
+}
+.param-item:hover{border-color:#7c6dfa;background:#12142a;transform:none}
+.param-item label{
+  display:block;font-weight:600;color:#6b7280;margin-bottom:8px;
+  font-size:11px;text-transform:uppercase;letter-spacing:0.6px;
+}
+.param-item input{
+  width:100%;padding:10px 12px;border-radius:10px;
+  border:1px solid #1e2030;font-size:15px;font-family:inherit;
+  font-weight:600;background:#08090e;color:#e2e8f0;transition:border-color .2s;
+}
+.param-item input:focus{outline:none;border-color:#7c6dfa}
+
+/* ── BUTTONS ── */
+.btn-primary{
+  background:#7c6dfa;color:#fff;border:none;
+  padding:13px 32px;border-radius:100px;
+  font-weight:700;font-family:inherit;cursor:pointer;font-size:14px;
+  transition:all .2s ease;box-shadow:0 4px 20px rgba(124,109,250,0.3);
+}
+.btn-primary:hover{background:#6b5ef0;transform:translateY(-2px);box-shadow:0 8px 28px rgba(124,109,250,0.4)}
+.btn-add{
+  background:#7c6dfa;color:#fff;padding:10px 16px;
+  border-radius:12px;border:none;font-weight:700;
+  font-family:inherit;cursor:pointer;font-size:13px;transition:all .2s;
+}
+.btn-add:hover{background:#6b5ef0;transform:translateY(-1px)}
+.btn-delete{
+  background:rgba(248,113,113,0.1);color:#f87171;
+  border:1px solid rgba(248,113,113,0.2);padding:6px 12px;
+  border-radius:8px;cursor:pointer;font-size:12px;
+  font-family:inherit;font-weight:600;transition:all .2s;
+}
+.btn-delete:hover{background:rgba(248,113,113,0.2)}
+.btn-refresh{
+  background:#13151f;color:#fb923c;
+  border:1px solid rgba(251,146,60,0.25);
+  padding:10px 22px;border-radius:100px;font-weight:700;
+  font-family:inherit;cursor:pointer;font-size:13px;
+  margin-bottom:20px;transition:all .2s;
+}
+.btn-refresh:hover{background:rgba(251,146,60,0.08);transform:translateY(-1px)}
+
+/* ── STAT CARDS ── */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin:20px 0}
+.stat-card{
+  background:#13151f;padding:20px;border-radius:20px;
+  border:1px solid #1e2030;transition:border-color .2s;
+}
+.stat-card:hover{border-color:#2d3055}
+.stat-card.pea{border-left:3px solid #7c6dfa}
+.stat-card.cto{border-left:3px solid #a78bfa}
+.stat-card.crypto{border-left:3px solid #fb923c}
+.stat-label{
+  font-size:11px;color:#6b7280;margin-bottom:10px;
+  text-transform:uppercase;letter-spacing:0.8px;font-weight:600;
+}
+.stat-value{font-size:26px;font-weight:800;color:#e2e8f0;letter-spacing:-0.5px}
+
+/* ── PROGRESS BAR ── */
+.progress-bar{background:#1e2030;height:10px;border-radius:100px;overflow:hidden;margin-top:14px}
+.progress-fill{
+  height:100%;display:flex;align-items:center;justify-content:flex-end;
+  padding-right:6px;font-weight:700;font-size:9px;color:#fff;
+  background:linear-gradient(90deg,#7c6dfa,#a78bfa);
+  transition:width .6s cubic-bezier(.4,0,.2,1);border-radius:100px;
+}
+
+/* ── CHART SECTIONS ── */
+.chart-section{
+  background:#13151f;border-radius:20px;padding:26px;
+  margin-bottom:16px;border:1px solid #1e2030;
+}
+.section-title{
+  font-size:15px;font-weight:700;color:#e2e8f0;
+  margin-bottom:20px;display:flex;align-items:center;gap:8px;
+}
+
+/* ── TABLE CONTROLS ── */
 .table-controls{display:grid;grid-template-columns:180px 140px 140px 110px;gap:10px;margin-bottom:14px;align-items:end}
-.table-controls input{padding:10px;border-radius:8px;border:1px solid #4a5568;background:#1e2433;color:#e2e8f0;font-size:14px}
-.table-controls label{font-size:12px;color:#9ca3af;margin-bottom:4px;display:block}
-.btn-add{background:linear-gradient(135deg,#7a6ff0,#6355cc);color:#fff;padding:10px;border-radius:8px;border:none;font-weight:700;cursor:pointer;font-size:14px}
-.btn-delete{background:#e53e3e;color:#fff;border:none;padding:8px 12px;border-radius:6px;cursor:pointer;font-size:13px}
-.btn-refresh{background:linear-gradient(135deg,#f7931a,#d97706);color:#fff;border:none;padding:10px 20px;border-radius:8px;font-weight:700;cursor:pointer;font-size:14px;margin-bottom:16px}
-table{width:100%;border-collapse:collapse;margin-top:10px}
-th,td{padding:12px;text-align:left;border-bottom:1px solid #374151;color:#e2e8f0;font-size:14px}
-th{background:#1e2433;color:#cbd5e0;font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:0.3px}
-.positive{color:#39b46e;font-weight:800}
-.negative{color:#e53e3e;font-weight:800}
-.projection-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-top:10px}
-.projection-card{background:linear-gradient(135deg,#7a6ff0 0%,#6355cc 100%);color:#fff;padding:18px;border-radius:10px;text-align:center;box-shadow:0 4px 12px rgba(122,111,240,0.3)}
-.projection-age{font-size:22px;font-weight:800;margin-bottom:4px}
-.projection-amount{font-size:15px;opacity:.95}
-.pie-container{display:flex;justify-content:center;align-items:center;gap:40px;flex-wrap:wrap;margin-top:20px}
-.pie-legend{display:flex;flex-direction:column;gap:12px}
-.legend-item{display:flex;align-items:center;gap:10px;font-size:15px}
-.legend-color{width:24px;height:24px;border-radius:4px}
-.legend-label{color:#cbd5e0}
-.legend-value{color:#e2e8f0;font-weight:700;margin-left:auto}
-.scenario-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:16px}
-.scenario-card{background:#1e2433;padding:24px;border-radius:12px;border:2px solid #374151}
-.scenario-card.optimiste{border-color:#39b46e}
-.scenario-card.neutre{border-color:#7a6ff0}
-.scenario-card.pessimiste{border-color:#e53e3e}
-.scenario-title{font-size:16px;font-weight:700;margin-bottom:12px;text-align:center}
-.scenario-card.optimiste .scenario-title{color:#39b46e}
-.scenario-card.neutre .scenario-title{color:#7a6ff0}
-.scenario-card.pessimiste .scenario-title{color:#e53e3e}
-.scenario-value{font-size:26px;font-weight:800;text-align:center;margin:10px 0}
-.scenario-detail{font-size:13px;color:#9ca3af;text-align:center}
-.crypto-split{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-.crypto-box{background:#1e2433;padding:20px;border-radius:12px;border:2px solid #374151}
-.crypto-box.btc{border-color:#f7931a}
-.crypto-box.eth{border-color:#627eea}
-.crypto-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
-.crypto-title{font-size:20px;font-weight:800;display:flex;align-items:center;gap:8px}
-.crypto-title.btc{color:#f7931a}
-.crypto-title.eth{color:#627eea}
-.crypto-price{font-size:14px;color:#9ca3af}
-.crypto-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:16px}
-.crypto-stat{background:#2d3748;padding:12px;border-radius:8px}
-.crypto-stat-label{font-size:11px;color:#9ca3af;text-transform:uppercase;margin-bottom:4px}
-.crypto-stat-value{font-size:18px;font-weight:800;color:#e2e8f0}
-.etf-prices-section{background:#1e2433;padding:20px;border-radius:12px;border:2px solid #39b46e;margin-bottom:20px}
-.etf-prices-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:12px}
-.etf-price-card{background:#2d3748;padding:14px;border-radius:8px;border:1px solid #374151}
-.etf-name{font-size:14px;color:#9ca3af;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.3px}
-.etf-price{font-size:22px;font-weight:800;color:#39b46e}
-.etf-update-controls{display:grid;grid-template-columns:1fr 1fr 120px;gap:10px;align-items:end;margin-top:12px}
-/* CTO ETF section uses purple accent to distinguish from PEA */
-.etf-prices-section.cto{border-color:#7a6ff0}
-.etf-prices-section.cto .etf-price{color:#7a6ff0}
-@media (max-width:900px){.scenario-grid{grid-template-columns:1fr 1fr}.table-controls{grid-template-columns:1fr 1fr}.pie-container{flex-direction:column}.crypto-split{grid-template-columns:1fr}.folder-tabs{overflow-x:auto}.etf-prices-grid{grid-template-columns:1fr}}
-@media (max-width:600px){.scenario-grid{grid-template-columns:1fr}}
+.table-controls input{
+  padding:10px 12px;border-radius:10px;border:1px solid #1e2030;
+  background:#0f1117;color:#e2e8f0;font-size:14px;font-family:inherit;width:100%;transition:border-color .2s;
+}
+.table-controls input:focus{outline:none;border-color:#7c6dfa}
+.table-controls label{font-size:11px;color:#6b7280;margin-bottom:5px;display:block;text-transform:uppercase;letter-spacing:0.6px;font-weight:600}
+
+/* ── TABLES ── */
+table{width:100%;border-collapse:collapse;margin-top:12px}
+th{
+  background:#0f1117;color:#6b7280;font-weight:700;font-size:11px;
+  text-transform:uppercase;letter-spacing:0.6px;
+  padding:12px 14px;text-align:left;border-bottom:1px solid #1e2030;
+}
+td{
+  padding:13px 14px;text-align:left;border-bottom:1px solid #1a1d2e;
+  color:#e2e8f0;font-size:14px;font-weight:500;
+}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#12142a}
+.positive{color:#00d4aa;font-weight:700}
+.negative{color:#f87171;font-weight:700}
+
+/* ── PROJECTION CARDS ── */
+.projection-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-top:10px}
+.projection-card{
+  background:#0f1117;border:1px solid #2d2a5e;color:#fff;
+  padding:20px 16px;border-radius:18px;text-align:center;transition:all .2s;
+}
+.projection-card:hover{border-color:#7c6dfa;transform:translateY(-2px)}
+.projection-age{font-size:26px;font-weight:800;color:#7c6dfa;margin-bottom:6px;letter-spacing:-1px}
+.projection-amount{font-size:13px;color:#a5b4fc;font-weight:600}
+
+/* ── PIE CHART ── */
+.pie-container{display:flex;justify-content:center;align-items:center;gap:48px;flex-wrap:wrap;margin-top:20px}
+.pie-legend{display:flex;flex-direction:column;gap:10px}
+.legend-item{display:flex;align-items:center;gap:10px;font-size:14px}
+.legend-color{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.legend-label{color:#9ca3af;font-weight:500}
+.legend-value{color:#e2e8f0;font-weight:700;margin-left:auto;padding-left:16px}
+
+/* ── SCENARIO CARDS ── */
+.scenario-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:16px}
+.scenario-card{background:#0f1117;padding:22px 18px;border-radius:18px;border:1px solid #1e2030;transition:all .2s}
+.scenario-card:hover{transform:translateY(-2px)}
+.scenario-card.optimiste{border-color:rgba(0,212,170,0.3)}
+.scenario-card.neutre{border-color:rgba(124,109,250,0.3)}
+.scenario-card.pessimiste{border-color:rgba(248,113,113,0.3)}
+.scenario-title{font-size:12px;font-weight:700;margin-bottom:14px;text-align:center;text-transform:uppercase;letter-spacing:0.5px}
+.scenario-card.optimiste .scenario-title{color:#00d4aa}
+.scenario-card.neutre .scenario-title{color:#a78bfa}
+.scenario-card.pessimiste .scenario-title{color:#f87171}
+.scenario-value{font-size:20px;font-weight:800;text-align:center;margin:8px 0;letter-spacing:-0.5px}
+.scenario-detail{font-size:12px;color:#6b7280;text-align:center;font-weight:500}
+
+/* ── CRYPTO PAGE ── */
+.crypto-split{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.crypto-box{background:#0f1117;padding:22px;border-radius:20px;border:1px solid #1e2030}
+.crypto-box.btc{border-color:rgba(251,146,60,0.25)}
+.crypto-box.eth{border-color:rgba(129,140,248,0.25)}
+.crypto-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.crypto-title{font-size:18px;font-weight:800;display:flex;align-items:center;gap:8px;letter-spacing:-0.3px}
+.crypto-title.btc{color:#fb923c}
+.crypto-title.eth{color:#818cf8}
+.crypto-price{font-size:13px;color:#6b7280;font-weight:600}
+.crypto-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:18px}
+.crypto-stat{background:#13151f;padding:14px;border-radius:14px;border:1px solid #1e2030}
+.crypto-stat-label{font-size:10px;color:#6b7280;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:6px;font-weight:600}
+.crypto-stat-value{font-size:17px;font-weight:800;color:#e2e8f0}
+
+/* ── ETF PRICE SECTIONS ── */
+.etf-prices-section{
+  background:#0f1117;padding:22px;border-radius:20px;
+  border:1px solid rgba(124,109,250,0.3);margin-bottom:18px;
+}
+.etf-prices-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:14px}
+.etf-price-card{background:#13151f;padding:16px;border-radius:14px;border:1px solid #1e2030}
+.etf-name{font-size:11px;color:#6b7280;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.8px;font-weight:600}
+.etf-price{font-size:22px;font-weight:800;color:#7c6dfa;letter-spacing:-0.5px}
+.etf-update-controls{display:grid;grid-template-columns:1fr 1fr 130px;gap:10px;align-items:end;margin-top:14px}
+.etf-update-controls input{
+  padding:10px 12px;border-radius:10px;border:1px solid #1e2030;
+  background:#08090e;color:#e2e8f0;font-size:14px;font-family:inherit;
+  font-weight:600;width:100%;transition:border-color .2s;
+}
+.etf-update-controls input:focus{outline:none;border-color:#7c6dfa}
+.etf-update-controls label{font-size:11px;color:#6b7280;margin-bottom:5px;display:block;text-transform:uppercase;letter-spacing:0.6px;font-weight:600}
+.etf-prices-section.cto{border-color:rgba(167,139,250,0.3)}
+.etf-prices-section.cto .etf-price{color:#a78bfa}
+
+input[type="date"],input[type="number"]{color-scheme:dark}
+
+/* ── RESPONSIVE ── */
+@media (max-width:900px){
+  .scenario-grid{grid-template-columns:1fr 1fr}
+  .table-controls{grid-template-columns:1fr 1fr}
+  .pie-container{flex-direction:column}
+  .crypto-split{grid-template-columns:1fr}
+  .folder-tabs{overflow-x:auto;border-radius:16px 16px 0 0}
+  .etf-prices-grid{grid-template-columns:1fr}
+  .etf-update-controls{grid-template-columns:1fr 1fr}
+}
+@media (max-width:600px){
+  .scenario-grid{grid-template-columns:1fr}
+  body{padding:12px}
+  .page-content{padding:20px}
+  .header{padding:24px 20px}
+}
 </style>
 </head>
 <body>
@@ -131,18 +335,18 @@ th{background:#1e2433;color:#cbd5e0;font-weight:700;font-size:13px;text-transfor
           <div class="param-item"><label>💚 Livret A (€)</label><input id="livretA" type="number" value="3000" min="0" step="0.01" /></div>
           <div class="param-item"><label>💳 Compte courant (€)</label><input id="compteCourant" type="number" value="0" min="0" step="0.01" /></div>
         </div>
-        <div style="text-align:center;margin-top:20px"><button class="btn-primary" onclick="calculer()">🚀 Calculer ma projection</button></div>
+        <div style="text-align:center;margin-top:24px"><button class="btn-primary" onclick="calculer()">🚀 Calculer ma projection</button></div>
       </div>
 
       <div class="stats-grid">
         <div class="stat-card"><div class="stat-label">💰 Capital total</div><div class="stat-value" id="capitalTotal">0 €</div></div>
         <div class="stat-card pea"><div class="stat-label">📈 PEA - Valeur</div><div class="stat-value" id="valeurPEA">0 €</div></div>
         <div class="stat-card pea"><div class="stat-label">💵 PEA - Solde espèces</div><div class="stat-value" id="soldeEspecesPEADisplay">0 €</div></div>
-        <div class="stat-card pea"><div class="stat-label">💹 PEA - Plus-value</div><div id="plusValuePEA" style="font-size:24px;font-weight:800;color:#39b46e">+0 €</div></div>
+        <div class="stat-card pea"><div class="stat-label">💹 PEA - Plus-value</div><div id="plusValuePEA" style="font-size:22px;font-weight:800;color:#00d4aa">+0 €</div></div>
         <div class="stat-card cto"><div class="stat-label">📈 CTO - Valeur</div><div class="stat-value" id="valeurCTO">0 €</div></div>
-        <div class="stat-card cto"><div class="stat-label">💹 CTO - Plus-value</div><div id="plusValueCTO" style="font-size:24px;font-weight:800;color:#7a6ff0">+0 €</div></div>
+        <div class="stat-card cto"><div class="stat-label">💹 CTO - Plus-value</div><div id="plusValueCTO" style="font-size:22px;font-weight:800;color:#a78bfa">+0 €</div></div>
         <div class="stat-card crypto"><div class="stat-label">₿ Crypto - Valeur actuelle</div><div class="stat-value" id="valeurCrypto">0 €</div></div>
-        <div class="stat-card crypto"><div class="stat-label">💹 Crypto - Plus-value</div><div id="plusValueCrypto" style="font-size:24px;font-weight:800;color:#f7931a">+0 €</div></div>
+        <div class="stat-card crypto"><div class="stat-label">💹 Crypto - Plus-value</div><div id="plusValueCrypto" style="font-size:22px;font-weight:800;color:#fb923c">+0 €</div></div>
         <div class="stat-card"><div class="stat-label">⚡ Frais totaux payés</div><div class="stat-value" id="fraisTotaux">0 €</div></div>
         <div class="stat-card"><div class="stat-label">🎯 Progression vers 1M€</div><div class="stat-value" id="progression">0%</div><div class="progress-bar"><div id="progressBar" class="progress-fill" style="width:0%">0%</div></div></div>
       </div>
@@ -215,14 +419,14 @@ th{background:#1e2433;color:#cbd5e0;font-weight:700;font-size:13px;text-transfor
 
       <div class="chart-section">
         <div class="section-title">📈 Historique des investissements PEA</div>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-bottom:14px">
-          <div><label style="font-size:12px;color:#9ca3af;margin-bottom:4px;display:block">📅 Date</label><input id="nouvelleDatePEA" type="date" style="padding:10px;border-radius:8px;border:1px solid #4a5568;background:#1e2433;color:#e2e8f0;font-size:14px;width:100%" /></div>
-          <div><label style="font-size:12px;color:#9ca3af;margin-bottom:4px;display:block">💰 Montant total (€)</label><input id="nouveauMontantPEA" type="number" placeholder="900" value="900" step="0.01" style="padding:10px;border-radius:8px;border:1px solid #4a5568;background:#1e2433;color:#e2e8f0;font-size:14px;width:100%" /></div>
-          <div><label style="font-size:12px;color:#9ca3af;margin-bottom:4px;display:block">🌍 Parts WPEA</label><input id="nouvellesPartsWPEA" type="number" placeholder="7.2345" step="0.0001" style="padding:10px;border-radius:8px;border:1px solid #4a5568;background:#1e2433;color:#e2e8f0;font-size:14px;width:100%" /></div>
-          <div><label style="font-size:12px;color:#9ca3af;margin-bottom:4px;display:block">💵 Prix WPEA (€)</label><input id="nouveauPrixWPEA" type="number" placeholder="124.50" step="0.01" style="padding:10px;border-radius:8px;border:1px solid #4a5568;background:#1e2433;color:#e2e8f0;font-size:14px;width:100%" /></div>
-          <div><label style="font-size:12px;color:#9ca3af;margin-bottom:4px;display:block">🌏 Parts PAEEM</label><input id="nouvellesPartsPAEEM" type="number" placeholder="3.1234" step="0.0001" style="padding:10px;border-radius:8px;border:1px solid #4a5568;background:#1e2433;color:#e2e8f0;font-size:14px;width:100%" /></div>
-          <div><label style="font-size:12px;color:#9ca3af;margin-bottom:4px;display:block">💵 Prix PAEEM (€)</label><input id="nouveauPrixPAEEM" type="number" placeholder="45.80" step="0.01" style="padding:10px;border-radius:8px;border:1px solid #4a5568;background:#1e2433;color:#e2e8f0;font-size:14px;width:100%" /></div>
-          <div style="display:flex;align-items:end"><button class="btn-add" onclick="ajouterMois('pea')" style="width:100%;padding:12px">➕ Ajouter</button></div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-bottom:16px">
+          <div><label style="font-size:11px;color:#6b7280;margin-bottom:6px;display:block;text-transform:uppercase;letter-spacing:0.6px;font-weight:600">📅 Date</label><input id="nouvelleDatePEA" type="date" style="padding:10px 12px;border-radius:10px;border:1px solid #1e2030;background:#0f1117;color:#e2e8f0;font-size:14px;font-family:inherit;width:100%" /></div>
+          <div><label style="font-size:11px;color:#6b7280;margin-bottom:6px;display:block;text-transform:uppercase;letter-spacing:0.6px;font-weight:600">💰 Montant total (€)</label><input id="nouveauMontantPEA" type="number" placeholder="900" value="900" step="0.01" style="padding:10px 12px;border-radius:10px;border:1px solid #1e2030;background:#0f1117;color:#e2e8f0;font-size:14px;font-family:inherit;width:100%;font-weight:600" /></div>
+          <div><label style="font-size:11px;color:#6b7280;margin-bottom:6px;display:block;text-transform:uppercase;letter-spacing:0.6px;font-weight:600">🌍 Parts WPEA</label><input id="nouvellesPartsWPEA" type="number" placeholder="7.2345" step="0.0001" style="padding:10px 12px;border-radius:10px;border:1px solid #1e2030;background:#0f1117;color:#e2e8f0;font-size:14px;font-family:inherit;width:100%;font-weight:600" /></div>
+          <div><label style="font-size:11px;color:#6b7280;margin-bottom:6px;display:block;text-transform:uppercase;letter-spacing:0.6px;font-weight:600">💵 Prix WPEA (€)</label><input id="nouveauPrixWPEA" type="number" placeholder="124.50" step="0.01" style="padding:10px 12px;border-radius:10px;border:1px solid #1e2030;background:#0f1117;color:#e2e8f0;font-size:14px;font-family:inherit;width:100%;font-weight:600" /></div>
+          <div><label style="font-size:11px;color:#6b7280;margin-bottom:6px;display:block;text-transform:uppercase;letter-spacing:0.6px;font-weight:600">🌏 Parts PAEEM</label><input id="nouvellesPartsPAEEM" type="number" placeholder="3.1234" step="0.0001" style="padding:10px 12px;border-radius:10px;border:1px solid #1e2030;background:#0f1117;color:#e2e8f0;font-size:14px;font-family:inherit;width:100%;font-weight:600" /></div>
+          <div><label style="font-size:11px;color:#6b7280;margin-bottom:6px;display:block;text-transform:uppercase;letter-spacing:0.6px;font-weight:600">💵 Prix PAEEM (€)</label><input id="nouveauPrixPAEEM" type="number" placeholder="45.80" step="0.01" style="padding:10px 12px;border-radius:10px;border:1px solid #1e2030;background:#0f1117;color:#e2e8f0;font-size:14px;font-family:inherit;width:100%;font-weight:600" /></div>
+          <div style="display:flex;align-items:end"><button class="btn-add" onclick="ajouterMois('pea')" style="width:100%;padding:12px 16px">➕ Ajouter</button></div>
         </div>
         <table>
           <thead><tr><th>📅 Date</th><th>💰 Versement</th><th>⚡ Frais</th><th>🌍 Parts WPEA</th><th>💵 Prix achat</th><th>🌏 Parts PAEEM</th><th>💵 Prix achat</th><th>📈 Valeur actuelle</th><th>💹 Plus-value</th><th>🗑️</th></tr></thead>
@@ -233,17 +437,16 @@ th{background:#1e2433;color:#cbd5e0;font-weight:700;font-size:13px;text-transfor
 
     <!-- PAGE 3: CTO -->
     <div id="cto" class="page">
-      <!-- AJOUT : Section cours actuels des ETF (identique au PEA) -->
       <div class="etf-prices-section cto">
         <div class="section-title">📊 Cours actuels des ETF</div>
         <div class="etf-prices-grid">
           <div class="etf-price-card">
             <div class="etf-name">🌍 WPEA (MSCI World)</div>
-            <div class="etf-price" id="coursWPEACTO" style="color:#7a6ff0">-- €</div>
+            <div class="etf-price" id="coursWPEACTO" style="color:#a78bfa">-- €</div>
           </div>
           <div class="etf-price-card">
             <div class="etf-name">🌏 PAEEM (Émergents)</div>
-            <div class="etf-price" id="coursPAEEMCTO" style="color:#7a6ff0">-- €</div>
+            <div class="etf-price" id="coursPAEEMCTO" style="color:#a78bfa">-- €</div>
           </div>
         </div>
         <div class="etf-update-controls">
@@ -255,17 +458,15 @@ th{background:#1e2433;color:#cbd5e0;font-weight:700;font-size:13px;text-transfor
 
       <div class="chart-section">
         <div class="section-title">📊 Historique des investissements CTO</div>
-        <!-- AJOUT : Formulaire enrichi avec parts et prix (identique au PEA) -->
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-bottom:14px">
-          <div><label style="font-size:12px;color:#9ca3af;margin-bottom:4px;display:block">📅 Date</label><input id="nouvelleDateCTO" type="date" style="padding:10px;border-radius:8px;border:1px solid #4a5568;background:#1e2433;color:#e2e8f0;font-size:14px;width:100%" /></div>
-          <div><label style="font-size:12px;color:#9ca3af;margin-bottom:4px;display:block">💰 Montant total (€)</label><input id="nouveauMontantCTO" type="number" placeholder="0" value="0" step="0.01" style="padding:10px;border-radius:8px;border:1px solid #4a5568;background:#1e2433;color:#e2e8f0;font-size:14px;width:100%" /></div>
-          <div><label style="font-size:12px;color:#9ca3af;margin-bottom:4px;display:block">🌍 Parts WPEA</label><input id="nouvellesPartsWPEACTO" type="number" placeholder="7.2345" step="0.0001" style="padding:10px;border-radius:8px;border:1px solid #4a5568;background:#1e2433;color:#e2e8f0;font-size:14px;width:100%" /></div>
-          <div><label style="font-size:12px;color:#9ca3af;margin-bottom:4px;display:block">💵 Prix WPEA (€)</label><input id="nouveauPrixWPEACTO" type="number" placeholder="124.50" step="0.01" style="padding:10px;border-radius:8px;border:1px solid #4a5568;background:#1e2433;color:#e2e8f0;font-size:14px;width:100%" /></div>
-          <div><label style="font-size:12px;color:#9ca3af;margin-bottom:4px;display:block">🌏 Parts PAEEM</label><input id="nouvellesPartsPAEEMCTO" type="number" placeholder="3.1234" step="0.0001" style="padding:10px;border-radius:8px;border:1px solid #4a5568;background:#1e2433;color:#e2e8f0;font-size:14px;width:100%" /></div>
-          <div><label style="font-size:12px;color:#9ca3af;margin-bottom:4px;display:block">💵 Prix PAEEM (€)</label><input id="nouveauPrixPAEEMCTO" type="number" placeholder="45.80" step="0.01" style="padding:10px;border-radius:8px;border:1px solid #4a5568;background:#1e2433;color:#e2e8f0;font-size:14px;width:100%" /></div>
-          <div style="display:flex;align-items:end"><button class="btn-add" onclick="ajouterMois('cto')" style="width:100%;padding:12px">➕ Ajouter</button></div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-bottom:16px">
+          <div><label style="font-size:11px;color:#6b7280;margin-bottom:6px;display:block;text-transform:uppercase;letter-spacing:0.6px;font-weight:600">📅 Date</label><input id="nouvelleDateCTO" type="date" style="padding:10px 12px;border-radius:10px;border:1px solid #1e2030;background:#0f1117;color:#e2e8f0;font-size:14px;font-family:inherit;width:100%" /></div>
+          <div><label style="font-size:11px;color:#6b7280;margin-bottom:6px;display:block;text-transform:uppercase;letter-spacing:0.6px;font-weight:600">💰 Montant total (€)</label><input id="nouveauMontantCTO" type="number" placeholder="0" value="0" step="0.01" style="padding:10px 12px;border-radius:10px;border:1px solid #1e2030;background:#0f1117;color:#e2e8f0;font-size:14px;font-family:inherit;width:100%;font-weight:600" /></div>
+          <div><label style="font-size:11px;color:#6b7280;margin-bottom:6px;display:block;text-transform:uppercase;letter-spacing:0.6px;font-weight:600">🌍 Parts WPEA</label><input id="nouvellesPartsWPEACTO" type="number" placeholder="7.2345" step="0.0001" style="padding:10px 12px;border-radius:10px;border:1px solid #1e2030;background:#0f1117;color:#e2e8f0;font-size:14px;font-family:inherit;width:100%;font-weight:600" /></div>
+          <div><label style="font-size:11px;color:#6b7280;margin-bottom:6px;display:block;text-transform:uppercase;letter-spacing:0.6px;font-weight:600">💵 Prix WPEA (€)</label><input id="nouveauPrixWPEACTO" type="number" placeholder="124.50" step="0.01" style="padding:10px 12px;border-radius:10px;border:1px solid #1e2030;background:#0f1117;color:#e2e8f0;font-size:14px;font-family:inherit;width:100%;font-weight:600" /></div>
+          <div><label style="font-size:11px;color:#6b7280;margin-bottom:6px;display:block;text-transform:uppercase;letter-spacing:0.6px;font-weight:600">🌏 Parts PAEEM</label><input id="nouvellesPartsPAEEMCTO" type="number" placeholder="3.1234" step="0.0001" style="padding:10px 12px;border-radius:10px;border:1px solid #1e2030;background:#0f1117;color:#e2e8f0;font-size:14px;font-family:inherit;width:100%;font-weight:600" /></div>
+          <div><label style="font-size:11px;color:#6b7280;margin-bottom:6px;display:block;text-transform:uppercase;letter-spacing:0.6px;font-weight:600">💵 Prix PAEEM (€)</label><input id="nouveauPrixPAEEMCTO" type="number" placeholder="45.80" step="0.01" style="padding:10px 12px;border-radius:10px;border:1px solid #1e2030;background:#0f1117;color:#e2e8f0;font-size:14px;font-family:inherit;width:100%;font-weight:600" /></div>
+          <div style="display:flex;align-items:end"><button class="btn-add" onclick="ajouterMois('cto')" style="width:100%;padding:12px 16px">➕ Ajouter</button></div>
         </div>
-        <!-- AJOUT : Tableau enrichi avec colonnes parts (identique au PEA) -->
         <table>
           <thead><tr><th>📅 Date</th><th>💰 Versement</th><th>⚡ Frais</th><th>🌍 Parts WPEA</th><th>💵 Prix achat</th><th>🌏 Parts PAEEM</th><th>💵 Prix achat</th><th>📈 Valeur actuelle</th><th>💹 Plus-value</th><th>🗑️</th></tr></thead>
           <tbody id="historiqueCTO"></tbody>
@@ -276,7 +477,7 @@ th{background:#1e2433;color:#cbd5e0;font-weight:700;font-size:13px;text-transfor
     <!-- PAGE 4: CRYPTO -->
     <div id="crypto" class="page">
       <button class="btn-refresh" onclick="rafraichirCours()">🔄 Rafraîchir les cours</button>
-      <div style="font-size:12px;color:#9ca3af;margin-bottom:20px">Dernière mise à jour: <span id="lastUpdate">Jamais</span></div>
+      <div style="font-size:12px;color:#6b7280;margin-bottom:20px;font-weight:500">Dernière mise à jour: <span id="lastUpdate">Jamais</span></div>
       
       <div class="crypto-split">
         <div class="crypto-box btc">
@@ -413,44 +614,20 @@ window.onload = function() {
 function mettreAJourCoursETF() {
   const wpea = Number(document.getElementById('nouveauCoursWPEA').value);
   const paeem = Number(document.getElementById('nouveauCoursPAEEM').value);
-  
-  if (wpea > 0) {
-    coursWPEA = wpea;
-    document.getElementById('coursWPEA').textContent = formatEuroDecimal(coursWPEA);
-  }
-  if (paeem > 0) {
-    coursPAEEM = paeem;
-    document.getElementById('coursPAEEM').textContent = formatEuroDecimal(coursPAEEM);
-  }
-  
-  if (wpea > 0 || paeem > 0) {
-    calculer();
-    alert('✅ Cours des ETF mis à jour !');
-  } else {
-    alert('❌ Entre au moins un cours valide !');
-  }
+  if (wpea > 0) { coursWPEA = wpea; document.getElementById('coursWPEA').textContent = formatEuroDecimal(coursWPEA); }
+  if (paeem > 0) { coursPAEEM = paeem; document.getElementById('coursPAEEM').textContent = formatEuroDecimal(coursPAEEM); }
+  if (wpea > 0 || paeem > 0) { calculer(); alert('✅ Cours des ETF mis à jour !'); }
+  else { alert('❌ Entre au moins un cours valide !'); }
 }
 
-// AJOUT : fonction de mise à jour des cours ETF du CTO (identique à mettreAJourCoursETF)
+// AJOUT : fonction de mise à jour des cours ETF du CTO
 function mettreAJourCoursETFCTO() {
   const wpea = Number(document.getElementById('nouveauCoursWPEACTO').value);
   const paeem = Number(document.getElementById('nouveauCoursPAEEMCTO').value);
-  
-  if (wpea > 0) {
-    coursWPEACTO = wpea;
-    document.getElementById('coursWPEACTO').textContent = formatEuroDecimal(coursWPEACTO);
-  }
-  if (paeem > 0) {
-    coursPAEEMCTO = paeem;
-    document.getElementById('coursPAEEMCTO').textContent = formatEuroDecimal(coursPAEEMCTO);
-  }
-  
-  if (wpea > 0 || paeem > 0) {
-    calculer();
-    alert('✅ Cours des ETF CTO mis à jour !');
-  } else {
-    alert('❌ Entre au moins un cours valide !');
-  }
+  if (wpea > 0) { coursWPEACTO = wpea; document.getElementById('coursWPEACTO').textContent = formatEuroDecimal(coursWPEACTO); }
+  if (paeem > 0) { coursPAEEMCTO = paeem; document.getElementById('coursPAEEMCTO').textContent = formatEuroDecimal(coursPAEEMCTO); }
+  if (wpea > 0 || paeem > 0) { calculer(); alert('✅ Cours des ETF CTO mis à jour !'); }
+  else { alert('❌ Entre au moins un cours valide !'); }
 }
 
 function sauvegarder() {
@@ -485,18 +662,10 @@ async function rafraichirCours() {
   try {
     document.getElementById('prixBTC').textContent = 'Prix: Chargement...';
     document.getElementById('prixETH').textContent = 'Prix: Chargement...';
-    
     const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=eur', {
-      method: 'GET',
-      headers: {
-        'Accept': 'application/json'
-      }
+      method: 'GET', headers: { 'Accept': 'application/json' }
     });
-    
-    if (!response.ok) {
-      throw new Error('Limite API atteinte. Attends 1 minute.');
-    }
-    
+    if (!response.ok) throw new Error('Limite API atteinte. Attends 1 minute.');
     const data = await response.json();
     coursBTC = data.bitcoin.eur;
     coursETH = data.ethereum.eur;
@@ -519,60 +688,39 @@ function calculerValeur(historique, rendementAnn, isPEA = false) {
   const today = new Date();
   const rendement = rendementAnn / 100;
   const fraisPct = (Number(document.getElementById('fraisCourtage').value) || 0) / 100;
-  let valeur = 0;
-  let totalVerse = 0;
-  let totalFrais = 0;
-  
+  let valeur = 0, totalVerse = 0, totalFrais = 0;
   historique.forEach(item => {
     const frais = item.montant * fraisPct;
     const montantInvesti = item.montant - frais;
     totalFrais += frais;
     totalVerse += item.montant;
-    
     if (isPEA && item.partsWPEA && item.partsPAEEM && coursWPEA > 0 && coursPAEEM > 0) {
-      // Pour le PEA : calculer la valeur réelle avec les cours actuels
-      const valeurWPEA = item.partsWPEA * coursWPEA;
-      const valeurPAEEM = item.partsPAEEM * coursPAEEM;
-      valeur += valeurWPEA + valeurPAEEM;
+      valeur += item.partsWPEA * coursWPEA + item.partsPAEEM * coursPAEEM;
     } else if (!isPEA && item.partsWPEA && item.partsPAEEM && coursWPEACTO > 0 && coursPAEEMCTO > 0) {
-      // AJOUT : Pour le CTO : calculer la valeur réelle avec les cours actuels du CTO
-      const valeurWPEA = item.partsWPEA * coursWPEACTO;
-      const valeurPAEEM = item.partsPAEEM * coursPAEEMCTO;
-      valeur += valeurWPEA + valeurPAEEM;
+      // AJOUT : Pour le CTO : calcul avec cours actuels CTO
+      valeur += item.partsWPEA * coursWPEACTO + item.partsPAEEM * coursPAEEMCTO;
     } else {
-      // Pour le CTO ou ancien PEA sans parts : utiliser le rendement moyen
       const depDate = new Date(item.date);
       let months = (today.getFullYear() - depDate.getFullYear()) * 12 + (today.getMonth() - depDate.getMonth());
       if (months < 0) months = 0;
-      
-      const monthlyRate = rendement / 12;
-      const value = montantInvesti * Math.pow(1 + monthlyRate, months);
-      valeur += value;
+      valeur += montantInvesti * Math.pow(1 + rendement / 12, months);
     }
   });
-  
   return { valeur, totalVerse, plusValue: valeur - (totalVerse - totalFrais), totalFrais };
 }
 
 function calculerCrypto(historique, coursActuel) {
   const fraisPct = (Number(document.getElementById('fraisCourtage').value) || 0) / 100;
-  let totalInvesti = 0;
-  let quantiteTotale = 0;
-  let totalFrais = 0;
-  
+  let totalInvesti = 0, quantiteTotale = 0, totalFrais = 0;
   historique.forEach(item => {
     const frais = item.montant * fraisPct;
     const montantNet = item.montant - frais;
-    const quantite = montantNet / item.prixAchat;
-    quantiteTotale += quantite;
+    quantiteTotale += montantNet / item.prixAchat;
     totalInvesti += item.montant;
     totalFrais += frais;
   });
-  
   const valeurActuelle = quantiteTotale * coursActuel;
-  const plusValue = valeurActuelle - (totalInvesti - totalFrais);
-  
-  return { totalInvesti, quantiteTotale, valeurActuelle, plusValue, totalFrais };
+  return { totalInvesti, quantiteTotale, valeurActuelle, plusValue: valeurActuelle - (totalInvesti - totalFrais), totalFrais };
 }
 
 function calculer() {
@@ -580,50 +728,44 @@ function calculer() {
   const livret = Number(document.getElementById('livretA').value) || 0;
   const courant = Number(document.getElementById('compteCourant').value) || 0;
   const soldeEspeces = Number(document.getElementById('soldeEspecesPEA').value) || 0;
-  
-  const pea = calculerValeur(historiquePEA, rend, true); // true = calcul avec cours réels ETF
+  const pea = calculerValeur(historiquePEA, rend, true);
   const cto = calculerValeur(historiqueCTO, rend, false);
   const btc = calculerCrypto(historiqueBTC, coursBTC);
   const eth = calculerCrypto(historiqueETH, coursETH);
-  
   const cryptoValeur = btc.valeurActuelle + eth.valeurActuelle;
   const cryptoPlusValue = btc.plusValue + eth.plusValue;
   const fraisTotaux = pea.totalFrais + cto.totalFrais + btc.totalFrais + eth.totalFrais;
-  
   const total = livret + courant + pea.valeur + soldeEspeces + cto.valeur + cryptoValeur;
   const prog = (total / 1000000 * 100).toFixed(2);
-  
+
   document.getElementById('capitalTotal').textContent = formatEuroDecimal(total);
   document.getElementById('valeurPEA').textContent = formatEuroDecimal(pea.valeur);
   document.getElementById('soldeEspecesPEADisplay').textContent = formatEuroDecimal(soldeEspeces);
   document.getElementById('valeurCTO').textContent = formatEuroDecimal(cto.valeur);
   document.getElementById('valeurCrypto').textContent = formatEuroDecimal(cryptoValeur);
   document.getElementById('plusValuePEA').textContent = formatEuroDecimal(pea.plusValue, true);
-  document.getElementById('plusValuePEA').style.color = pea.plusValue >= 0 ? '#39b46e' : '#e53e3e';
+  document.getElementById('plusValuePEA').style.color = pea.plusValue >= 0 ? '#00d4aa' : '#f87171';
   document.getElementById('plusValueCTO').textContent = formatEuroDecimal(cto.plusValue, true);
-  document.getElementById('plusValueCTO').style.color = cto.plusValue >= 0 ? '#7a6ff0' : '#e53e3e';
+  document.getElementById('plusValueCTO').style.color = cto.plusValue >= 0 ? '#a78bfa' : '#f87171';
   document.getElementById('plusValueCrypto').textContent = formatEuroDecimal(cryptoPlusValue, true);
-  document.getElementById('plusValueCrypto').style.color = cryptoPlusValue >= 0 ? '#f7931a' : '#e53e3e';
+  document.getElementById('plusValueCrypto').style.color = cryptoPlusValue >= 0 ? '#fb923c' : '#f87171';
   document.getElementById('fraisTotaux').textContent = formatEuroDecimal(fraisTotaux);
   document.getElementById('progression').textContent = prog + '%';
-  
   const bar = document.getElementById('progressBar');
   bar.style.width = Math.min(prog, 100) + '%';
   bar.textContent = prog + '%';
-  
-  // Stats crypto
+
   document.getElementById('totalBTC').textContent = formatEuroDecimal(btc.totalInvesti);
   document.getElementById('quantiteBTC').textContent = btc.quantiteTotale.toFixed(8);
   document.getElementById('valeurActuelleBTC').textContent = formatEuroDecimal(btc.valeurActuelle);
   document.getElementById('plusValueBTC').textContent = formatEuroDecimal(btc.plusValue, true);
-  document.getElementById('plusValueBTC').style.color = btc.plusValue >= 0 ? '#39b46e' : '#e53e3e';
-  
+  document.getElementById('plusValueBTC').style.color = btc.plusValue >= 0 ? '#00d4aa' : '#f87171';
   document.getElementById('totalETH').textContent = formatEuroDecimal(eth.totalInvesti);
   document.getElementById('quantiteETH').textContent = eth.quantiteTotale.toFixed(8);
   document.getElementById('valeurActuelleETH').textContent = formatEuroDecimal(eth.valeurActuelle);
   document.getElementById('plusValueETH').textContent = formatEuroDecimal(eth.plusValue, true);
-  document.getElementById('plusValueETH').style.color = eth.plusValue >= 0 ? '#39b46e' : '#e53e3e';
-  
+  document.getElementById('plusValueETH').style.color = eth.plusValue >= 0 ? '#00d4aa' : '#f87171';
+
   dessinerGraphique(pea.valeur, cto.valeur, cryptoValeur, livret, courant, soldeEspeces);
   afficherHistorique('pea');
   afficherHistorique('cto');
@@ -639,123 +781,76 @@ function dessinerGraphique(valPEA, valCTO, valCrypto, livret, courant, soldeEspe
   const ctx = canvas.getContext('2d');
   const total = valPEA + valCTO + valCrypto + livret + courant + soldeEspeces;
   const legend = document.getElementById('pieLegend');
-  
   if (total === 0) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = '#9ca3af';
-    ctx.font = '16px sans-serif';
-    ctx.textAlign = 'center';
-    ctx.fillText('Commence à investir !', canvas.width / 2, canvas.height / 2);
-    legend.innerHTML = '';
-    return;
+    ctx.fillStyle = '#6b7280'; ctx.font = '16px Inter,sans-serif';
+    ctx.textAlign = 'center'; ctx.fillText('Commence à investir !', canvas.width / 2, canvas.height / 2);
+    legend.innerHTML = ''; return;
   }
-  
   const data = [
-    { label: '📈 PEA', value: valPEA, color: '#7F00FF' },
-    { label: '💵 PEA Espèces', value: soldeEspeces, color: '#52c785' },
-    { label: '📊 CTO', value: valCTO, color: '#7a6ff0' },
-    { label: '₿ Crypto', value: valCrypto, color: '#f7931a' },
-    { label: '💚 Livret A', value: livret, color: '#01731f' },
-    { label: '💳 Compte', value: courant, color: '#4299e1' }
+    { label: '📈 PEA', value: valPEA, color: '#7c6dfa' },
+    { label: '💵 PEA Espèces', value: soldeEspeces, color: '#a78bfa' },
+    { label: '📊 CTO', value: valCTO, color: '#6366f1' },
+    { label: '₿ Crypto', value: valCrypto, color: '#fb923c' },
+    { label: '💚 Livret A', value: livret, color: '#00d4aa' },
+    { label: '💳 Compte', value: courant, color: '#60a5fa' }
   ].filter(x => x.value > 0);
-  
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  const cx = canvas.width / 2;
-  const cy = canvas.height / 2;
-  const r = 110;
+  const cx = canvas.width / 2, cy = canvas.height / 2, r = 110;
   let angle = -Math.PI / 2;
-  
   data.forEach(item => {
     const slice = (item.value / total) * 2 * Math.PI;
-    ctx.beginPath();
-    ctx.fillStyle = item.color;
-    ctx.moveTo(cx, cy);
-    ctx.arc(cx, cy, r, angle, angle + slice);
-    ctx.closePath();
-    ctx.fill();
-    
+    ctx.beginPath(); ctx.fillStyle = item.color;
+    ctx.moveTo(cx, cy); ctx.arc(cx, cy, r, angle, angle + slice);
+    ctx.closePath(); ctx.fill();
     const mid = angle + slice / 2;
-    const tx = cx + Math.cos(mid) * r * 0.65;
-    const ty = cy + Math.sin(mid) * r * 0.65;
     const pct = ((item.value / total) * 100).toFixed(1);
-    ctx.fillStyle = '#fff';
-    ctx.font = 'bold 13px sans-serif';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText(pct + '%', tx, ty);
+    ctx.fillStyle = '#fff'; ctx.font = 'bold 12px Inter,sans-serif';
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText(pct + '%', cx + Math.cos(mid) * r * 0.65, cy + Math.sin(mid) * r * 0.65);
     angle += slice;
   });
-  
-  let html = '';
-  data.forEach(item => {
+  legend.innerHTML = data.map(item => {
     const pct = ((item.value / total) * 100).toFixed(1);
-    html += `<div class="legend-item"><div class="legend-color" style="background:${item.color}"></div><span class="legend-label">${item.label}</span><span class="legend-value">${formatEuroDecimal(item.value)} (${pct}%)</span></div>`;
-  });
-  legend.innerHTML = html;
+    return `<div class="legend-item"><div class="legend-color" style="background:${item.color}"></div><span class="legend-label">${item.label}</span><span class="legend-value">${formatEuroDecimal(item.value)} (${pct}%)</span></div>`;
+  }).join('');
 }
 
 function afficherHistorique(type) {
   const h = type === 'pea' ? historiquePEA : historiqueCTO;
   const tbody = document.getElementById('historique' + (type === 'pea' ? 'PEA' : 'CTO'));
-  
   if (h.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="10" style="text-align:center">Aucun investissement</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="10" style="text-align:center;color:#6b7280;padding:24px">Aucun investissement</td></tr>';
     return;
   }
-  
   const rend = (Number(document.getElementById('rendement').value) || 7) / 100;
   const fraisPct = (Number(document.getElementById('fraisCourtage').value) || 0) / 100;
   const today = new Date();
-  let cumulValeur = 0;
-  let cumulVerse = 0;
-  let html = '';
-  
+  let cumulValeur = 0, cumulVerse = 0, html = '';
   h.forEach(item => {
     const depDate = new Date(item.date);
     const frais = item.montant * fraisPct;
     const montantInvesti = item.montant - frais;
-    
     let valeurLigne = 0;
-    
     if (type === 'pea' && item.partsWPEA && item.partsPAEEM && coursWPEA > 0 && coursPAEEM > 0) {
-      // Calcul réel avec cours actuels PEA
       valeurLigne = (item.partsWPEA * coursWPEA) + (item.partsPAEEM * coursPAEEM);
     } else if (type === 'cto' && item.partsWPEA && item.partsPAEEM && coursWPEACTO > 0 && coursPAEEMCTO > 0) {
       // AJOUT : Calcul réel avec cours actuels CTO
       valeurLigne = (item.partsWPEA * coursWPEACTO) + (item.partsPAEEM * coursPAEEMCTO);
     } else {
-      // Calcul avec rendement moyen
       let months = (today.getFullYear() - depDate.getFullYear()) * 12 + (today.getMonth() - depDate.getMonth());
       if (months < 0) months = 0;
-      const mRate = rend / 12;
-      valeurLigne = montantInvesti * Math.pow(1 + mRate, months);
+      valeurLigne = montantInvesti * Math.pow(1 + rend / 12, months);
     }
-    
     cumulValeur += valeurLigne;
     cumulVerse += item.montant;
-    
     const pvCumul = cumulValeur - (cumulVerse - (cumulVerse * fraisPct));
     const dateStr = depDate.toLocaleDateString('fr-FR', { day: '2-digit', month: 'long', year: 'numeric' });
-    
-    // AJOUT : le CTO affiche maintenant les mêmes colonnes que le PEA (parts + prix)
-    let htmlPartsWPEA = '--';
-    let htmlPrixAchatWPEA = '--';
-    let htmlPartsPAEEM = '--';
-    let htmlPrixAchatPAEEM = '--';
-    
-    if (item.partsWPEA > 0 && item.prixAchatWPEA > 0) {
-      htmlPartsWPEA = `${item.partsWPEA.toFixed(4)}`;
-      htmlPrixAchatWPEA = formatEuroDecimal(item.prixAchatWPEA);
-    }
-    
-    if (item.partsPAEEM > 0 && item.prixAchatPAEEM > 0) {
-      htmlPartsPAEEM = `${item.partsPAEEM.toFixed(4)}`;
-      htmlPrixAchatPAEEM = formatEuroDecimal(item.prixAchatPAEEM);
-    }
-    
-    html += `<tr><td>${dateStr}</td><td><strong>${formatEuroDecimal(item.montant)}</strong></td><td style="color:#e53e3e">${formatEuroDecimal(frais)}</td><td>${htmlPartsWPEA}</td><td>${htmlPrixAchatWPEA}</td><td>${htmlPartsPAEEM}</td><td>${htmlPrixAchatPAEEM}</td><td class="positive"><strong>${formatEuroDecimal(cumulValeur)}</strong></td><td class="${pvCumul >= 0 ? 'positive' : 'negative'}">${formatEuroDecimal(pvCumul, true)}</td><td><button class="btn-delete" onclick="supprimer('${type}', ${item.id})">🗑️</button></td></tr>`;
+    let htmlPartsWPEA = '--', htmlPrixAchatWPEA = '--', htmlPartsPAEEM = '--', htmlPrixAchatPAEEM = '--';
+    if (item.partsWPEA > 0 && item.prixAchatWPEA > 0) { htmlPartsWPEA = item.partsWPEA.toFixed(4); htmlPrixAchatWPEA = formatEuroDecimal(item.prixAchatWPEA); }
+    if (item.partsPAEEM > 0 && item.prixAchatPAEEM > 0) { htmlPartsPAEEM = item.partsPAEEM.toFixed(4); htmlPrixAchatPAEEM = formatEuroDecimal(item.prixAchatPAEEM); }
+    html += `<tr><td>${dateStr}</td><td><strong>${formatEuroDecimal(item.montant)}</strong></td><td style="color:#f87171">${formatEuroDecimal(frais)}</td><td>${htmlPartsWPEA}</td><td>${htmlPrixAchatWPEA}</td><td>${htmlPartsPAEEM}</td><td>${htmlPrixAchatPAEEM}</td><td class="positive"><strong>${formatEuroDecimal(cumulValeur)}</strong></td><td class="${pvCumul >= 0 ? 'positive' : 'negative'}">${formatEuroDecimal(pvCumul, true)}</td><td><button class="btn-delete" onclick="supprimer('${type}', ${item.id})">🗑️</button></td></tr>`;
   });
-  
   tbody.innerHTML = html;
 }
 
@@ -764,14 +859,11 @@ function afficherHistoriqueCrypto(type) {
   const tbody = document.getElementById('historique' + (type === 'btc' ? 'BTC' : 'ETH'));
   const cours = type === 'btc' ? coursBTC : coursETH;
   const fraisPct = (Number(document.getElementById('fraisCourtage').value) || 0) / 100;
-  
   if (h.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center">Aucun investissement</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:#6b7280;padding:24px">Aucun investissement</td></tr>';
     return;
   }
-  
-  let html = '';
-  h.forEach(item => {
+  tbody.innerHTML = h.map(item => {
     const depDate = new Date(item.date);
     const dateStr = depDate.toLocaleDateString('fr-FR', { day: '2-digit', month: 'long', year: 'numeric' });
     const frais = item.montant * fraisPct;
@@ -779,11 +871,8 @@ function afficherHistoriqueCrypto(type) {
     const quantite = montantNet / item.prixAchat;
     const valeurActuelle = quantite * cours;
     const plusValue = valeurActuelle - montantNet;
-    
-    html += `<tr><td>${dateStr}</td><td><strong>${formatEuroDecimal(item.montant)}</strong></td><td>${formatEuroDecimal(item.prixAchat)}</td><td>${quantite.toFixed(8)}</td><td class="positive">${formatEuroDecimal(valeurActuelle)}</td><td class="${plusValue >= 0 ? 'positive' : 'negative'}">${formatEuroDecimal(plusValue, true)}</td><td><button class="btn-delete" onclick="supprimer('${type}', ${item.id})">🗑️</button></td></tr>`;
-  });
-  
-  tbody.innerHTML = html;
+    return `<tr><td>${dateStr}</td><td><strong>${formatEuroDecimal(item.montant)}</strong></td><td>${formatEuroDecimal(item.prixAchat)}</td><td>${quantite.toFixed(8)}</td><td class="positive">${formatEuroDecimal(valeurActuelle)}</td><td class="${plusValue >= 0 ? 'positive' : 'negative'}">${formatEuroDecimal(plusValue, true)}</td><td><button class="btn-delete" onclick="supprimer('${type}', ${item.id})">🗑️</button></td></tr>`;
+  }).join('');
 }
 
 function afficherProjection(capital, rend) {
@@ -794,25 +883,15 @@ function afficherProjection(capital, rend) {
   const fraisPct = (Number(document.getElementById('fraisCourtage').value) || 0) / 100;
   const inv = (invPEA + invCTO) * (1 - fraisPct);
   const mRate = (rend / 100) / 12;
-  
   const grid = document.getElementById('projectionGrid');
   const tbody = document.getElementById('projectionBody');
-  grid.innerHTML = '';
-  tbody.innerHTML = '';
-  
+  grid.innerHTML = ''; tbody.innerHTML = '';
   ages.forEach(a => {
     if (a <= age) return;
-    const yrs = a - age;
-    const mths = yrs * 12;
-    let final;
-    if (mRate === 0) {
-      final = capital + inv * mths;
-    } else {
-      final = capital * Math.pow(1 + mRate, mths) + inv * ((Math.pow(1 + mRate, mths) - 1) / mRate);
-    }
+    const yrs = a - age, mths = yrs * 12;
+    const final = mRate === 0 ? capital + inv * mths : capital * Math.pow(1 + mRate, mths) + inv * ((Math.pow(1 + mRate, mths) - 1) / mRate);
     const versed = capital + (invPEA + invCTO) * mths;
     const pv = final - versed + (invPEA + invCTO) * mths * fraisPct;
-    
     grid.innerHTML += `<div class="projection-card"><div class="projection-age">${a} ans</div><div class="projection-amount">${formatEuroDecimal(final)}</div></div>`;
     tbody.innerHTML += `<tr><td><strong>${a} ans</strong></td><td>${yrs} an${yrs>1?'s':''}</td><td>${formatEuroDecimal(versed)}</td><td class="positive"><strong>${formatEuroDecimal(final)}</strong></td><td class="${pv >= 0 ? 'positive' : 'negative'}">${formatEuroDecimal(pv, true)}</td></tr>`;
   });
@@ -825,25 +904,10 @@ function calculerScenarios(capital, rendActuel) {
   const fraisPct = (Number(document.getElementById('fraisCourtage').value) || 0) / 100;
   const inv = (invPEA + invCTO) * (1 - fraisPct);
   const yrs = 45 - age;
-  
   if (yrs <= 0) return;
-  
-  const scen = [
-    { id: 'Pessimiste', r: 5 },
-    { id: 'Neutre', r: 6.5 },
-    { id: 'Optimiste', r: 8 },
-    { id: 'UltraOptimiste', r: 9.5 }
-  ];
-  
-  scen.forEach(s => {
-    const mth = yrs * 12;
-    const mRate = (s.r / 100) / 12;
-    let final;
-    if (mRate === 0) {
-      final = capital + inv * mth;
-    } else {
-      final = capital * Math.pow(1 + mRate, mth) + inv * ((Math.pow(1 + mRate, mth) - 1) / mRate);
-    }
+  [{ id: 'Pessimiste', r: 5 }, { id: 'Neutre', r: 6.5 }, { id: 'Optimiste', r: 8 }, { id: 'UltraOptimiste', r: 9.5 }].forEach(s => {
+    const mth = yrs * 12, mRate = (s.r / 100) / 12;
+    const final = mRate === 0 ? capital + inv * mth : capital * Math.pow(1 + mRate, mth) + inv * ((Math.pow(1 + mRate, mth) - 1) / mRate);
     const gains = final - capital - (invPEA + invCTO) * mth + (invPEA + invCTO) * mth * fraisPct;
     document.getElementById('scenario' + s.id).textContent = formatEuroDecimal(final);
     document.getElementById('detail' + s.id).textContent = '+' + formatEuroDecimal(gains) + ' de gains';
@@ -858,72 +922,26 @@ function ajouterMois(type) {
     const prixWPEA = Number(document.getElementById('nouveauPrixWPEA').value) || 0;
     const partsPAEEM = Number(document.getElementById('nouvellesPartsPAEEM').value) || 0;
     const prixPAEEM = Number(document.getElementById('nouveauPrixPAEEM').value) || 0;
-    
-    if (!date || montant <= 0) {
-      alert('❌ Remplis au minimum la date et le montant total !');
-      return;
-    }
-    
-    // Calculer les montants investis dans chaque ETF
-    const montantWPEA = partsWPEA * prixWPEA;
-    const montantPAEEM = partsPAEEM * prixPAEEM;
-    
-    const item = {
-      date: date,
-      montant: montant,
-      world: montantWPEA,
-      em: montantPAEEM,
-      partsWPEA: partsWPEA,
-      prixAchatWPEA: prixWPEA,
-      partsPAEEM: partsPAEEM,
-      prixAchatPAEEM: prixPAEEM,
-      id: Date.now()
-    };
-    
-    historiquePEA.push(item);
+    if (!date || montant <= 0) { alert('❌ Remplis au minimum la date et le montant total !'); return; }
+    historiquePEA.push({ date, montant, world: partsWPEA * prixWPEA, em: partsPAEEM * prixPAEEM, partsWPEA, prixAchatWPEA: prixWPEA, partsPAEEM, prixAchatPAEEM: prixPAEEM, id: Date.now() });
     historiquePEA.sort((a, b) => new Date(a.date) - new Date(b.date));
-    
-    // Vider les champs
     document.getElementById('nouvelleDatePEA').value = '';
     document.getElementById('nouveauMontantPEA').value = '900';
     document.getElementById('nouvellesPartsWPEA').value = '';
     document.getElementById('nouveauPrixWPEA').value = '';
     document.getElementById('nouvellesPartsPAEEM').value = '';
     document.getElementById('nouveauPrixPAEEM').value = '';
-    
   } else {
-    // AJOUT : CTO enrichi avec parts et prix (identique au PEA)
+    // AJOUT : CTO enrichi avec parts et prix
     const date = document.getElementById('nouvelleDateCTO').value;
     const montant = Number(document.getElementById('nouveauMontantCTO').value) || 0;
     const partsWPEA = Number(document.getElementById('nouvellesPartsWPEACTO').value) || 0;
     const prixWPEA = Number(document.getElementById('nouveauPrixWPEACTO').value) || 0;
     const partsPAEEM = Number(document.getElementById('nouvellesPartsPAEEMCTO').value) || 0;
     const prixPAEEM = Number(document.getElementById('nouveauPrixPAEEMCTO').value) || 0;
-    
-    if (!date || montant <= 0) {
-      alert('❌ Remplis la date et le montant !');
-      return;
-    }
-    
-    const montantWPEA = partsWPEA * prixWPEA;
-    const montantPAEEM = partsPAEEM * prixPAEEM;
-    
-    const item = {
-      date: date,
-      montant: montant,
-      world: montantWPEA,
-      em: montantPAEEM,
-      partsWPEA: partsWPEA,
-      prixAchatWPEA: prixWPEA,
-      partsPAEEM: partsPAEEM,
-      prixAchatPAEEM: prixPAEEM,
-      id: Date.now()
-    };
-    
-    historiqueCTO.push(item);
+    if (!date || montant <= 0) { alert('❌ Remplis la date et le montant !'); return; }
+    historiqueCTO.push({ date, montant, world: partsWPEA * prixWPEA, em: partsPAEEM * prixPAEEM, partsWPEA, prixAchatWPEA: prixWPEA, partsPAEEM, prixAchatPAEEM: prixPAEEM, id: Date.now() });
     historiqueCTO.sort((a, b) => new Date(a.date) - new Date(b.date));
-    
-    // Vider les champs
     document.getElementById('nouvelleDateCTO').value = '';
     document.getElementById('nouveauMontantCTO').value = '0';
     document.getElementById('nouvellesPartsWPEACTO').value = '';
@@ -931,7 +949,6 @@ function ajouterMois(type) {
     document.getElementById('nouvellesPartsPAEEMCTO').value = '';
     document.getElementById('nouveauPrixPAEEMCTO').value = '';
   }
-  
   calculer();
 }
 
@@ -939,48 +956,23 @@ function ajouterCrypto(type) {
   const dateId = 'nouvelleDate' + type.toUpperCase();
   const montantId = 'nouveauMontant' + type.toUpperCase();
   const prixId = 'nouveauPrix' + type.toUpperCase();
-  
   const date = document.getElementById(dateId).value;
   const montant = Number(document.getElementById(montantId).value) || 0;
   const prix = Number(document.getElementById(prixId).value) || 0;
-  
-  if (!date || montant <= 0 || prix <= 0) {
-    alert('❌ Remplis tous les champs !');
-    return;
-  }
-  
-  const item = {
-    date: date,
-    montant: montant,
-    prixAchat: prix,
-    id: Date.now()
-  };
-  
-  if (type === 'btc') {
-    historiqueBTC.push(item);
-    historiqueBTC.sort((a, b) => new Date(a.date) - new Date(b.date));
-  } else {
-    historiqueETH.push(item);
-    historiqueETH.sort((a, b) => new Date(a.date) - new Date(b.date));
-  }
-  
+  if (!date || montant <= 0 || prix <= 0) { alert('❌ Remplis tous les champs !'); return; }
+  const item = { date, montant, prixAchat: prix, id: Date.now() };
+  if (type === 'btc') { historiqueBTC.push(item); historiqueBTC.sort((a, b) => new Date(a.date) - new Date(b.date)); }
+  else { historiqueETH.push(item); historiqueETH.sort((a, b) => new Date(a.date) - new Date(b.date)); }
   document.getElementById(dateId).value = '';
   calculer();
 }
 
 function supprimer(type, id) {
   if (!confirm('Supprimer cet investissement ?')) return;
-  
-  if (type === 'pea') {
-    historiquePEA = historiquePEA.filter(x => x.id !== id);
-  } else if (type === 'cto') {
-    historiqueCTO = historiqueCTO.filter(x => x.id !== id);
-  } else if (type === 'btc') {
-    historiqueBTC = historiqueBTC.filter(x => x.id !== id);
-  } else if (type === 'eth') {
-    historiqueETH = historiqueETH.filter(x => x.id !== id);
-  }
-  
+  if (type === 'pea') historiquePEA = historiquePEA.filter(x => x.id !== id);
+  else if (type === 'cto') historiqueCTO = historiqueCTO.filter(x => x.id !== id);
+  else if (type === 'btc') historiqueBTC = historiqueBTC.filter(x => x.id !== id);
+  else if (type === 'eth') historiqueETH = historiqueETH.filter(x => x.id !== id);
   calculer();
 }
 
