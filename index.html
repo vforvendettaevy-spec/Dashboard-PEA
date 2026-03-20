@@ -6,110 +6,345 @@
 <title>Dashboard PEA + CTO + Crypto - LUKA_INVEST_PRO</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>📊</text></svg>" />
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+/* === RESET & BASE === */
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Inter',"Segoe UI",Roboto,Arial,sans-serif;background:#08090e;margin:0;padding:24px;color:#e2e8f0;min-height:100vh}
-.container{max-width:1600px;margin:0 auto}
-.header{background:#0f1117;border:1px solid #1e2030;color:#fff;padding:36px 40px;border-radius:28px;margin-bottom:10px;text-align:center;position:relative;overflow:hidden}
-.header::before{content:'';position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:500px;height:200px;background:radial-gradient(ellipse,rgba(124,109,250,0.15) 0%,transparent 70%);pointer-events:none}
-.header h1{font-size:28px;font-weight:800;letter-spacing:-0.5px;margin-bottom:6px;background:linear-gradient(135deg,#fff 0%,#a5b4fc 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.header p{color:#6b7280;font-size:14px;font-weight:500}
-.folder-tabs{display:flex;gap:4px;padding:5px;background:#0f1117;border:1px solid #1e2030;border-bottom:none;border-radius:20px 20px 0 0;width:fit-content}
-.folder-tab{background:transparent;color:#6b7280;border:none;padding:10px 22px;border-radius:14px;font-weight:600;cursor:pointer;font-size:14px;font-family:inherit;transition:all .2s ease}
-.folder-tab:hover{background:#1a1d2e;color:#a5b4fc;transform:none}
-.folder-tab.active{background:#7c6dfa;color:#fff;box-shadow:0 4px 16px rgba(124,109,250,0.35);transform:none}
-.page-content{background:#0f1117;border-radius:0 20px 20px 20px;padding:32px;border:1px solid #1e2030;min-height:600px}
-.page{display:none}
+::selection{background:rgba(124,109,250,0.3);color:#fff}
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:#2a2d3e;border-radius:10px}
+::-webkit-scrollbar-thumb:hover{background:#3a3d5e}
+body{
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  background:#0a0a0f;
+  margin:0;padding:0;
+  color:#e8eaed;
+  min-height:100vh;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale
+}
+/* === LAYOUT === */
+.container{max-width:1440px;margin:0 auto;padding:20px 24px}
+/* === HEADER === */
+.header{
+  background:linear-gradient(180deg,#111118 0%,#0d0d14 100%);
+  color:#fff;padding:28px 36px;
+  border-radius:24px;margin-bottom:6px;
+  text-align:center;position:relative;overflow:hidden;
+  border:1px solid rgba(255,255,255,0.04)
+}
+.header::before{
+  content:'';position:absolute;top:-80px;left:50%;transform:translateX(-50%);
+  width:600px;height:240px;
+  background:radial-gradient(ellipse,rgba(124,109,250,0.08) 0%,transparent 70%);
+  pointer-events:none
+}
+.header::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(124,109,250,0.2),transparent)
+}
+.header h1{
+  font-size:24px;font-weight:700;letter-spacing:-0.3px;margin-bottom:4px;
+  color:#fff
+}
+.header p{color:rgba(255,255,255,0.4);font-size:13px;font-weight:400;letter-spacing:0.2px}
+/* === NAVIGATION TABS === */
+.folder-tabs{
+  display:flex;gap:2px;padding:4px;
+  background:#111118;
+  border:1px solid rgba(255,255,255,0.04);border-bottom:none;
+  border-radius:16px 16px 0 0;
+  width:fit-content;
+  backdrop-filter:blur(20px)
+}
+.folder-tab{
+  background:transparent;color:rgba(255,255,255,0.4);
+  border:none;padding:10px 18px;border-radius:12px;
+  font-weight:500;cursor:pointer;font-size:13px;font-family:inherit;
+  transition:all .3s cubic-bezier(.4,0,.2,1);
+  position:relative;letter-spacing:0.1px;
+  white-space:nowrap
+}
+.folder-tab:hover{
+  color:rgba(255,255,255,0.7);
+  background:rgba(255,255,255,0.04)
+}
+.folder-tab.active{
+  background:rgba(124,109,250,0.12);
+  color:#a5b4fc;
+  font-weight:600;
+  box-shadow:none
+}
+/* === PAGE CONTENT === */
+.page-content{
+  background:#111118;
+  border-radius:0 16px 16px 16px;
+  padding:28px;
+  border:1px solid rgba(255,255,255,0.04);
+  min-height:600px
+}
+.page{display:none;animation:fadeIn .4s ease}
 .page.active{display:block}
-.params-section{background:#13151f;border-radius:20px;padding:28px;margin-bottom:20px;border:1px solid #1e2030}
-.params-title{font-size:15px;font-weight:700;color:#e2e8f0;margin-bottom:20px;display:flex;gap:10px;align-items:center}
-.params-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
-.param-item{background:#0f1117;padding:14px 16px;border-radius:14px;border:1px solid #1e2030;transition:all .2s ease}
-.param-item:hover{border-color:#7c6dfa;background:#12142a;transform:none}
-.param-item label{display:block;font-weight:600;color:#6b7280;margin-bottom:8px;font-size:11px;text-transform:uppercase;letter-spacing:0.6px}
-.param-item input{width:100%;padding:10px 12px;border-radius:10px;border:1px solid #1e2030;font-size:15px;font-family:inherit;font-weight:600;background:#08090e;color:#e2e8f0;transition:border-color .2s}
-.param-item input:focus{outline:none;border-color:#7c6dfa}
-.btn-primary{background:#7c6dfa;color:#fff;border:none;padding:13px 32px;border-radius:100px;font-weight:700;font-family:inherit;cursor:pointer;font-size:14px;transition:all .2s ease;box-shadow:0 4px 20px rgba(124,109,250,0.3)}
-.btn-primary:hover{background:#6b5ef0;transform:translateY(-2px);box-shadow:0 8px 28px rgba(124,109,250,0.4)}
-.btn-add{background:#7c6dfa;color:#fff;padding:10px 16px;border-radius:12px;border:none;font-weight:700;font-family:inherit;cursor:pointer;font-size:13px;transition:all .2s}
-.btn-add:hover{background:#6b5ef0;transform:translateY(-1px)}
-.btn-delete{background:rgba(248,113,113,0.1);color:#f87171;border:1px solid rgba(248,113,113,0.2);padding:6px 12px;border-radius:8px;cursor:pointer;font-size:12px;font-family:inherit;font-weight:600;transition:all .2s}
-.btn-delete:hover{background:rgba(248,113,113,0.2)}
-.btn-refresh{background:#13151f;color:#fb923c;border:1px solid rgba(251,146,60,0.25);padding:10px 22px;border-radius:100px;font-weight:700;font-family:inherit;cursor:pointer;font-size:13px;margin-bottom:20px;transition:all .2s}
-.btn-refresh:hover{background:rgba(251,146,60,0.08);transform:translateY(-1px)}
-.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin:20px 0}
-.stat-card{background:#13151f;padding:20px;border-radius:20px;border:1px solid #1e2030;transition:border-color .2s}
-.stat-card:hover{border-color:#2d3055}
-.stat-card.pea{border-left:3px solid #7c6dfa}
-.stat-card.cto{border-left:3px solid #a78bfa}
-.stat-card.crypto{border-left:3px solid #fb923c}
-.stat-label{font-size:11px;color:#6b7280;margin-bottom:10px;text-transform:uppercase;letter-spacing:0.8px;font-weight:600}
-.stat-value{font-size:26px;font-weight:800;color:#e2e8f0;letter-spacing:-0.5px}
-.progress-bar{background:#1e2030;height:10px;border-radius:100px;overflow:hidden;margin-top:14px}
-.progress-fill{height:100%;display:flex;align-items:center;justify-content:flex-end;padding-right:6px;font-weight:700;font-size:9px;color:#fff;background:linear-gradient(90deg,#7c6dfa,#a78bfa);transition:width .6s cubic-bezier(.4,0,.2,1);border-radius:100px}
-.chart-section{background:#13151f;border-radius:20px;padding:26px;margin-bottom:16px;border:1px solid #1e2030}
-.section-title{font-size:15px;font-weight:700;color:#e2e8f0;margin-bottom:20px;display:flex;align-items:center;gap:8px}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+/* === PARAMS SECTION === */
+.params-section{
+  background:rgba(255,255,255,0.02);
+  border-radius:20px;padding:24px;margin-bottom:20px;
+  border:1px solid rgba(255,255,255,0.05);
+  backdrop-filter:blur(10px)
+}
+.params-title{font-size:14px;font-weight:600;color:#e8eaed;margin-bottom:18px;display:flex;gap:8px;align-items:center}
+.params-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.param-item{
+  background:rgba(255,255,255,0.02);
+  padding:14px 16px;border-radius:14px;
+  border:1px solid rgba(255,255,255,0.05);
+  transition:all .3s cubic-bezier(.4,0,.2,1)
+}
+.param-item:hover{border-color:rgba(124,109,250,0.3);background:rgba(124,109,250,0.03)}
+.param-item label{
+  display:block;font-weight:500;color:rgba(255,255,255,0.4);
+  margin-bottom:8px;font-size:10px;text-transform:uppercase;letter-spacing:0.8px
+}
+.param-item input{
+  width:100%;padding:10px 12px;border-radius:10px;
+  border:1px solid rgba(255,255,255,0.06);
+  font-size:15px;font-family:inherit;font-weight:600;
+  background:rgba(0,0,0,0.3);color:#e8eaed;
+  transition:all .3s ease
+}
+.param-item input:focus{outline:none;border-color:rgba(124,109,250,0.5);box-shadow:0 0 0 3px rgba(124,109,250,0.08)}
+/* === BUTTONS === */
+.btn-primary{
+  background:linear-gradient(135deg,#7c6dfa 0%,#6358e8 100%);
+  color:#fff;border:none;padding:14px 36px;border-radius:100px;
+  font-weight:600;font-family:inherit;cursor:pointer;font-size:14px;
+  transition:all .3s cubic-bezier(.4,0,.2,1);
+  box-shadow:0 4px 24px rgba(124,109,250,0.25);
+  letter-spacing:0.2px
+}
+.btn-primary:hover{
+  transform:translateY(-2px);
+  box-shadow:0 8px 32px rgba(124,109,250,0.35);
+  filter:brightness(1.05)
+}
+.btn-primary:active{transform:translateY(0);box-shadow:0 2px 12px rgba(124,109,250,0.2)}
+.btn-add{
+  background:linear-gradient(135deg,#7c6dfa,#6358e8);
+  color:#fff;padding:10px 18px;border-radius:12px;border:none;
+  font-weight:600;font-family:inherit;cursor:pointer;font-size:13px;
+  transition:all .3s cubic-bezier(.4,0,.2,1);
+  box-shadow:0 2px 12px rgba(124,109,250,0.2)
+}
+.btn-add:hover{transform:translateY(-1px);filter:brightness(1.08)}
+.btn-delete{
+  background:rgba(239,68,68,0.08);color:#ef4444;
+  border:1px solid rgba(239,68,68,0.12);
+  padding:6px 14px;border-radius:8px;cursor:pointer;
+  font-size:12px;font-family:inherit;font-weight:500;
+  transition:all .2s ease
+}
+.btn-delete:hover{background:rgba(239,68,68,0.15);border-color:rgba(239,68,68,0.25)}
+.btn-refresh{
+  background:rgba(251,146,60,0.06);color:#fb923c;
+  border:1px solid rgba(251,146,60,0.15);
+  padding:10px 24px;border-radius:100px;
+  font-weight:600;font-family:inherit;cursor:pointer;font-size:13px;
+  margin-bottom:20px;transition:all .3s ease
+}
+.btn-refresh:hover{background:rgba(251,146,60,0.1);transform:translateY(-1px)}
+/* === STAT CARDS === */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin:20px 0}
+.stat-card{
+  background:rgba(255,255,255,0.02);
+  padding:20px;border-radius:16px;
+  border:1px solid rgba(255,255,255,0.05);
+  transition:all .3s cubic-bezier(.4,0,.2,1);
+  position:relative;overflow:hidden
+}
+.stat-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,0.06),transparent);
+  opacity:0;transition:opacity .3s
+}
+.stat-card:hover{border-color:rgba(255,255,255,0.08);background:rgba(255,255,255,0.03)}
+.stat-card:hover::before{opacity:1}
+.stat-card.pea{border-left:2px solid #7c6dfa}
+.stat-card.cto{border-left:2px solid #a78bfa}
+.stat-card.crypto{border-left:2px solid #fb923c}
+.stat-label{
+  font-size:10px;color:rgba(255,255,255,0.35);
+  margin-bottom:10px;text-transform:uppercase;letter-spacing:1px;font-weight:500
+}
+.stat-value{font-size:24px;font-weight:700;color:#e8eaed;letter-spacing:-0.5px}
+/* === PROGRESS BAR === */
+.progress-bar{
+  background:rgba(255,255,255,0.06);height:8px;
+  border-radius:100px;overflow:hidden;margin-top:14px
+}
+.progress-fill{
+  height:100%;display:flex;align-items:center;justify-content:flex-end;
+  padding-right:4px;font-weight:700;font-size:0;color:transparent;
+  background:linear-gradient(90deg,#7c6dfa,#a78bfa);
+  transition:width .8s cubic-bezier(.4,0,.2,1);border-radius:100px;
+  box-shadow:0 0 12px rgba(124,109,250,0.3)
+}
+/* === CHART SECTIONS === */
+.chart-section{
+  background:rgba(255,255,255,0.02);
+  border-radius:20px;padding:24px;margin-bottom:14px;
+  border:1px solid rgba(255,255,255,0.05);
+  transition:border-color .3s
+}
+.chart-section:hover{border-color:rgba(255,255,255,0.08)}
+.section-title{
+  font-size:14px;font-weight:600;color:#e8eaed;
+  margin-bottom:18px;display:flex;align-items:center;gap:8px
+}
+/* === TABLE CONTROLS === */
 .table-controls{display:grid;grid-template-columns:180px 140px 140px 110px;gap:10px;margin-bottom:14px;align-items:end}
-.table-controls input{padding:10px 12px;border-radius:10px;border:1px solid #1e2030;background:#0f1117;color:#e2e8f0;font-size:14px;font-family:inherit;width:100%;transition:border-color .2s}
-.table-controls input:focus{outline:none;border-color:#7c6dfa}
-.table-controls label{font-size:11px;color:#6b7280;margin-bottom:5px;display:block;text-transform:uppercase;letter-spacing:0.6px;font-weight:600}
+.table-controls input{
+  padding:10px 12px;border-radius:10px;
+  border:1px solid rgba(255,255,255,0.06);
+  background:rgba(0,0,0,0.3);color:#e8eaed;
+  font-size:14px;font-family:inherit;width:100%;
+  transition:all .3s ease
+}
+.table-controls input:focus{outline:none;border-color:rgba(124,109,250,0.5);box-shadow:0 0 0 3px rgba(124,109,250,0.08)}
+.table-controls label{
+  font-size:10px;color:rgba(255,255,255,0.35);
+  margin-bottom:5px;display:block;text-transform:uppercase;letter-spacing:0.8px;font-weight:500
+}
+/* === TABLES === */
 table{width:100%;border-collapse:collapse;margin-top:12px}
-th{background:#0f1117;color:#6b7280;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:0.6px;padding:12px 14px;text-align:left;border-bottom:1px solid #1e2030}
-td{padding:13px 14px;text-align:left;border-bottom:1px solid #1a1d2e;color:#e2e8f0;font-size:14px;font-weight:500}
+th{
+  background:rgba(0,0,0,0.2);color:rgba(255,255,255,0.35);
+  font-weight:500;font-size:10px;text-transform:uppercase;
+  letter-spacing:0.8px;padding:12px 14px;text-align:left;
+  border-bottom:1px solid rgba(255,255,255,0.05)
+}
+td{
+  padding:13px 14px;text-align:left;
+  border-bottom:1px solid rgba(255,255,255,0.03);
+  color:#e8eaed;font-size:13px;font-weight:400
+}
 tr:last-child td{border-bottom:none}
-tr:hover td{background:#12142a}
-.positive{color:#00d4aa;font-weight:700}
-.negative{color:#f87171;font-weight:700}
-.projection-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-top:10px}
-.projection-card{background:#0f1117;border:1px solid #2d2a5e;color:#fff;padding:20px 16px;border-radius:18px;text-align:center;transition:all .2s}
-.projection-card:hover{border-color:#7c6dfa;transform:translateY(-2px)}
-.projection-age{font-size:26px;font-weight:800;color:#7c6dfa;margin-bottom:6px;letter-spacing:-1px}
-.projection-amount{font-size:13px;color:#a5b4fc;font-weight:600}
+tr{transition:background .2s}
+tr:hover td{background:rgba(124,109,250,0.03)}
+.positive{color:#34d399;font-weight:600}
+.negative{color:#f87171;font-weight:600}
+/* === PROJECTION === */
+.projection-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-top:10px}
+.projection-card{
+  background:rgba(124,109,250,0.04);
+  border:1px solid rgba(124,109,250,0.1);
+  color:#fff;padding:20px 14px;border-radius:16px;text-align:center;
+  transition:all .3s cubic-bezier(.4,0,.2,1)
+}
+.projection-card:hover{
+  border-color:rgba(124,109,250,0.25);
+  transform:translateY(-3px);
+  box-shadow:0 8px 24px rgba(124,109,250,0.1)
+}
+.projection-age{font-size:24px;font-weight:800;color:#7c6dfa;margin-bottom:4px;letter-spacing:-1px}
+.projection-amount{font-size:12px;color:rgba(165,180,252,0.8);font-weight:500}
+/* === PIE CHART === */
 .pie-container{display:flex;justify-content:center;align-items:center;gap:48px;flex-wrap:wrap;margin-top:20px}
 .pie-legend{display:flex;flex-direction:column;gap:10px}
-.legend-item{display:flex;align-items:center;gap:10px;font-size:14px}
-.legend-color{width:10px;height:10px;border-radius:50%;flex-shrink:0}
-.legend-label{color:#9ca3af;font-weight:500}
-.legend-value{color:#e2e8f0;font-weight:700;margin-left:auto;padding-left:16px}
-.scenario-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:16px}
-.scenario-card{background:#0f1117;padding:22px 18px;border-radius:18px;border:1px solid #1e2030;transition:all .2s}
-.scenario-card:hover{transform:translateY(-2px)}
-.scenario-card.optimiste{border-color:rgba(0,212,170,0.3)}
-.scenario-card.neutre{border-color:rgba(124,109,250,0.3)}
-.scenario-card.pessimiste{border-color:rgba(248,113,113,0.3)}
-.scenario-title{font-size:12px;font-weight:700;margin-bottom:14px;text-align:center;text-transform:uppercase;letter-spacing:0.5px}
-.scenario-card.optimiste .scenario-title{color:#00d4aa}
+.legend-item{display:flex;align-items:center;gap:10px;font-size:13px}
+.legend-color{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.legend-label{color:rgba(255,255,255,0.45);font-weight:400}
+.legend-value{color:#e8eaed;font-weight:600;margin-left:auto;padding-left:16px;font-size:13px}
+/* === SCENARIOS === */
+.scenario-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:16px}
+.scenario-card{
+  background:rgba(255,255,255,0.02);
+  padding:20px 16px;border-radius:16px;
+  border:1px solid rgba(255,255,255,0.05);
+  transition:all .3s cubic-bezier(.4,0,.2,1)
+}
+.scenario-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,0.2)}
+.scenario-card.optimiste{border-color:rgba(52,211,153,0.2)}
+.scenario-card.neutre{border-color:rgba(124,109,250,0.2)}
+.scenario-card.pessimiste{border-color:rgba(248,113,113,0.2)}
+.scenario-title{font-size:11px;font-weight:600;margin-bottom:12px;text-align:center;text-transform:uppercase;letter-spacing:0.6px}
+.scenario-card.optimiste .scenario-title{color:#34d399}
 .scenario-card.neutre .scenario-title{color:#a78bfa}
 .scenario-card.pessimiste .scenario-title{color:#f87171}
-.scenario-value{font-size:20px;font-weight:800;text-align:center;margin:8px 0;letter-spacing:-0.5px}
-.scenario-detail{font-size:12px;color:#6b7280;text-align:center;font-weight:500}
-.crypto-split{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.crypto-box{background:#0f1117;padding:22px;border-radius:20px;border:1px solid #1e2030}
-.crypto-box.btc{border-color:rgba(251,146,60,0.25)}
-.crypto-box.eth{border-color:rgba(129,140,248,0.25)}
+.scenario-value{font-size:18px;font-weight:700;text-align:center;margin:6px 0;letter-spacing:-0.5px;color:#e8eaed}
+.scenario-detail{font-size:11px;color:rgba(255,255,255,0.3);text-align:center;font-weight:400}
+/* === CRYPTO === */
+.crypto-split{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.crypto-box{
+  background:rgba(255,255,255,0.02);padding:22px;
+  border-radius:20px;border:1px solid rgba(255,255,255,0.05);
+  transition:border-color .3s
+}
+.crypto-box:hover{border-color:rgba(255,255,255,0.08)}
+.crypto-box.btc{border-top:2px solid rgba(251,146,60,0.4)}
+.crypto-box.eth{border-top:2px solid rgba(129,140,248,0.4)}
 .crypto-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
-.crypto-title{font-size:18px;font-weight:800;display:flex;align-items:center;gap:8px;letter-spacing:-0.3px}
+.crypto-title{font-size:17px;font-weight:700;display:flex;align-items:center;gap:8px;letter-spacing:-0.2px}
 .crypto-title.btc{color:#fb923c}
 .crypto-title.eth{color:#818cf8}
-.crypto-price{font-size:13px;color:#6b7280;font-weight:600}
-.crypto-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:18px}
-.crypto-stat{background:#13151f;padding:14px;border-radius:14px;border:1px solid #1e2030}
-.crypto-stat-label{font-size:10px;color:#6b7280;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:6px;font-weight:600}
-.crypto-stat-value{font-size:17px;font-weight:800;color:#e2e8f0}
-.etf-prices-section{background:#0f1117;padding:22px;border-radius:20px;border:1px solid rgba(124,109,250,0.3);margin-bottom:18px}
-.etf-prices-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:14px}
-.etf-price-card{background:#13151f;padding:16px;border-radius:14px;border:1px solid #1e2030}
-.etf-name{font-size:11px;color:#6b7280;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.8px;font-weight:600}
-.etf-price{font-size:22px;font-weight:800;color:#7c6dfa;letter-spacing:-0.5px}
+.crypto-price{font-size:12px;color:rgba(255,255,255,0.35);font-weight:500}
+.crypto-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:18px}
+.crypto-stat{
+  background:rgba(255,255,255,0.02);padding:14px;
+  border-radius:12px;border:1px solid rgba(255,255,255,0.04)
+}
+.crypto-stat-label{font-size:9px;color:rgba(255,255,255,0.3);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;font-weight:500}
+.crypto-stat-value{font-size:16px;font-weight:700;color:#e8eaed}
+/* === ETF PRICES === */
+.etf-prices-section{
+  background:rgba(255,255,255,0.02);padding:22px;
+  border-radius:20px;border:1px solid rgba(124,109,250,0.12);
+  margin-bottom:18px
+}
+.etf-prices-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:14px}
+.etf-price-card{
+  background:rgba(255,255,255,0.02);padding:16px;
+  border-radius:14px;border:1px solid rgba(255,255,255,0.04)
+}
+.etf-name{font-size:10px;color:rgba(255,255,255,0.3);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;font-weight:500}
+.etf-price{font-size:22px;font-weight:700;color:#7c6dfa;letter-spacing:-0.5px}
 .etf-update-controls{display:grid;grid-template-columns:1fr 1fr 130px;gap:10px;align-items:end;margin-top:14px}
-.etf-update-controls input{padding:10px 12px;border-radius:10px;border:1px solid #1e2030;background:#08090e;color:#e2e8f0;font-size:14px;font-family:inherit;font-weight:600;width:100%;transition:border-color .2s}
-.etf-update-controls input:focus{outline:none;border-color:#7c6dfa}
-.etf-update-controls label{font-size:11px;color:#6b7280;margin-bottom:5px;display:block;text-transform:uppercase;letter-spacing:0.6px;font-weight:600}
-.etf-prices-section.cto{border-color:rgba(167,139,250,0.3)}
+.etf-update-controls input{
+  padding:10px 12px;border-radius:10px;
+  border:1px solid rgba(255,255,255,0.06);
+  background:rgba(0,0,0,0.3);color:#e8eaed;
+  font-size:14px;font-family:inherit;font-weight:600;
+  width:100%;transition:all .3s ease
+}
+.etf-update-controls input:focus{outline:none;border-color:rgba(124,109,250,0.5);box-shadow:0 0 0 3px rgba(124,109,250,0.08)}
+.etf-update-controls label{font-size:10px;color:rgba(255,255,255,0.35);margin-bottom:5px;display:block;text-transform:uppercase;letter-spacing:0.8px;font-weight:500}
+.etf-prices-section.cto{border-color:rgba(167,139,250,0.15)}
 .etf-prices-section.cto .etf-price{color:#a78bfa}
 input[type="date"],input[type="number"]{color-scheme:dark}
-@media (max-width:900px){.scenario-grid{grid-template-columns:1fr 1fr}.table-controls{grid-template-columns:1fr 1fr}.pie-container{flex-direction:column}.crypto-split{grid-template-columns:1fr}.folder-tabs{overflow-x:auto;border-radius:16px 16px 0 0}.etf-prices-grid{grid-template-columns:1fr}.etf-update-controls{grid-template-columns:1fr 1fr}}
-@media (max-width:600px){.scenario-grid{grid-template-columns:1fr}body{padding:12px}.page-content{padding:20px}.header{padding:24px 20px}}
+select{color-scheme:dark}
+/* === RESPONSIVE === */
+@media (max-width:900px){
+  .scenario-grid{grid-template-columns:1fr 1fr}
+  .table-controls{grid-template-columns:1fr 1fr}
+  .pie-container{flex-direction:column}
+  .crypto-split{grid-template-columns:1fr}
+  .folder-tabs{overflow-x:auto;border-radius:14px 14px 0 0;width:100%}
+  .folder-tab{font-size:12px;padding:9px 14px}
+  .etf-prices-grid{grid-template-columns:1fr}
+  .etf-update-controls{grid-template-columns:1fr 1fr}
+  .container{padding:14px}
+}
+@media (max-width:600px){
+  .scenario-grid{grid-template-columns:1fr}
+  body{padding:0}
+  .container{padding:10px}
+  .page-content{padding:16px;border-radius:0 0 16px 16px}
+  .header{padding:20px 16px;border-radius:18px;margin-bottom:4px}
+  .header h1{font-size:20px}
+  .stats-grid{grid-template-columns:1fr 1fr}
+  .stat-value{font-size:20px}
+  .params-grid{grid-template-columns:1fr 1fr}
+}
 </style>
 </head>
 <body>
@@ -134,24 +369,24 @@ input[type="date"],input[type="number"]{color-scheme:dark}
     <!-- VUE RAPIDE -->
     <div id="simple" class="page">
       <!-- Badges de progression -->
-      <div style="background:#0f1117;border:1px solid #1e2030;border-radius:20px;padding:24px;margin-bottom:20px">
-        <div style="font-size:18px;font-weight:700;color:#e2e8f0;margin-bottom:20px">🏆 Tes badges</div>
-        <div id="badgesContainer" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px"></div>
+      <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);border-radius:20px;padding:24px;margin-bottom:20px">
+        <div style="font-size:16px;font-weight:600;color:#e8eaed;margin-bottom:20px">🏆 Tes badges</div>
+        <div id="badgesContainer" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px"></div>
       </div>
       <!-- Vue ultra-simple -->
       <div style="text-align:center;padding:40px 20px">
-        <div style="font-size:14px;color:#6b7280;margin-bottom:10px">💰 TON CAPITAL</div>
-        <div style="font-size:72px;font-weight:800;color:#7c6dfa;margin-bottom:30px;letter-spacing:-3px" id="capitalSimple">0 €</div>
+        <div style="font-size:12px;color:rgba(255,255,255,0.35);margin-bottom:8px;text-transform:uppercase;letter-spacing:1.5px;font-weight:500">💰 TON CAPITAL</div>
+        <div style="font-size:64px;font-weight:800;color:#7c6dfa;margin-bottom:32px;letter-spacing:-3px" id="capitalSimple">0 €</div>
         
-        <div style="background:#13151f;border-radius:20px;padding:30px;max-width:500px;margin:0 auto 30px">
-          <div style="font-size:16px;font-weight:700;color:#e2e8f0;margin-bottom:20px">🎯 Objectif du mois</div>
-          <div style="font-size:48px;font-weight:800;color:#00d4aa;margin-bottom:10px" id="objectifMois">900 €</div>
-          <div style="font-size:14px;color:#6b7280">à investir ce mois-ci</div>
+        <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);border-radius:20px;padding:28px;max-width:480px;margin:0 auto 20px">
+          <div style="font-size:13px;font-weight:500;color:rgba(255,255,255,0.4);margin-bottom:16px;text-transform:uppercase;letter-spacing:0.5px">🎯 Objectif du mois</div>
+          <div style="font-size:42px;font-weight:700;color:#34d399;margin-bottom:8px" id="objectifMois">900 €</div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.3)">à investir ce mois-ci</div>
         </div>
-        <div style="background:#13151f;border-radius:20px;padding:30px;max-width:500px;margin:0 auto">
-          <div style="font-size:16px;font-weight:700;color:#e2e8f0;margin-bottom:20px">🚀 Prochaine action</div>
-          <div style="font-size:24px;font-weight:700;color:#fb923c" id="prochaineAction">Investis 900€ dans le PEA</div>
-          <div style="font-size:14px;color:#6b7280;margin-top:10px" id="tempsRestant">Dans 5 jours</div>
+        <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);border-radius:20px;padding:28px;max-width:480px;margin:0 auto">
+          <div style="font-size:13px;font-weight:500;color:rgba(255,255,255,0.4);margin-bottom:16px;text-transform:uppercase;letter-spacing:0.5px">🚀 Prochaine action</div>
+          <div style="font-size:22px;font-weight:600;color:#fb923c" id="prochaineAction">Investis 900 €</div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.3);margin-top:8px" id="tempsRestant">Dans 5 jours</div>
         </div>
       </div>
       <!-- Graphique motivation -->
@@ -163,21 +398,22 @@ input[type="date"],input[type="number"]{color-scheme:dark}
     <!-- VUE D'ENSEMBLE -->
     <div id="overview" class="page active">
       <!-- Résumé du jour -->
-      <div style="background:linear-gradient(135deg,#7c6dfa 0%,#6355cc 100%);padding:24px;border-radius:20px;margin-bottom:20px;color:#fff;box-shadow:0 8px 28px rgba(124,109,250,0.4)">
-        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px">
+      <div style="background:linear-gradient(135deg,rgba(124,109,250,0.15) 0%,rgba(99,88,232,0.08) 100%);padding:28px;border-radius:20px;margin-bottom:20px;color:#fff;border:1px solid rgba(124,109,250,0.15);position:relative;overflow:hidden">
+        <div style="position:absolute;top:-40px;right:-40px;width:200px;height:200px;background:radial-gradient(circle,rgba(124,109,250,0.1),transparent 70%);pointer-events:none"></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;position:relative">
           <div>
-            <div style="font-size:13px;opacity:0.9;margin-bottom:6px">📊 CAPITAL TOTAL</div>
-            <div style="font-size:36px;font-weight:800;letter-spacing:-1px" id="capitalTotalHero">0 €</div>
+            <div style="font-size:11px;color:rgba(255,255,255,0.45);margin-bottom:8px;text-transform:uppercase;letter-spacing:1.2px;font-weight:500">Capital total</div>
+            <div style="font-size:36px;font-weight:700;letter-spacing:-1px;color:#fff" id="capitalTotalHero">0 €</div>
           </div>
           <div style="text-align:right">
-            <div style="font-size:13px;opacity:0.9;margin-bottom:6px">📈 AUJOURD'HUI</div>
-            <div style="font-size:28px;font-weight:800" id="variationJour">+0 €</div>
+            <div style="font-size:11px;color:rgba(255,255,255,0.45);margin-bottom:8px;text-transform:uppercase;letter-spacing:1.2px;font-weight:500">Aujourd'hui</div>
+            <div style="font-size:26px;font-weight:700;color:#fff" id="variationJour">+0 €</div>
           </div>
         </div>
-        <div style="margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.2);display:flex;justify-content:space-between;font-size:13px;opacity:0.9">
-          <div>🎯 Progression : <strong id="progHero">0%</strong></div>
-          <div>💰 Taux d'épargne : <strong id="tauxEpargne">0%</strong></div>
-          <div>📅 Prochain invest : <strong id="prochainInvest">--</strong></div>
+        <div style="margin-top:20px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.08);display:flex;justify-content:space-between;font-size:12px;color:rgba(255,255,255,0.5);position:relative">
+          <div>🎯 Progression : <strong style="color:rgba(255,255,255,0.85)" id="progHero">0%</strong></div>
+          <div>💰 Taux d'épargne : <strong style="color:rgba(255,255,255,0.85)" id="tauxEpargne">0%</strong></div>
+          <div>📅 Prochain invest : <strong style="color:rgba(255,255,255,0.85)" id="prochainInvest">--</strong></div>
         </div>
       </div>
       <div class="params-section">
@@ -275,12 +511,12 @@ input[type="date"],input[type="number"]{color-scheme:dark}
       <div class="chart-section">
         <div class="section-title">📈 Historique des investissements PEA</div>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-bottom:16px">
-          <div><label style="font-size:11px;color:#6b7280;margin-bottom:6px;display:block;text-transform:uppercase;letter-spacing:0.6px;font-weight:600">📅 Date</label><input id="nouvelleDatePEA" type="date" style="padding:10px 12px;border-radius:10px;border:1px solid #1e2030;background:#0f1117;color:#e2e8f0;font-size:14px;font-family:inherit;width:100%" /></div>
-          <div><label style="font-size:11px;color:#6b7280;margin-bottom:6px;display:block;text-transform:uppercase;letter-spacing:0.6px;font-weight:600">💰 Montant total (€)</label><input id="nouveauMontantPEA" type="number" placeholder="900" value="900" step="0.01" style="padding:10px 12px;border-radius:10px;border:1px solid #1e2030;background:#0f1117;color:#e2e8f0;font-size:14px;font-family:inherit;width:100%;font-weight:600" /></div>
-          <div><label style="font-size:11px;color:#6b7280;margin-bottom:6px;display:block;text-transform:uppercase;letter-spacing:0.6px;font-weight:600">🌍 Parts WPEA</label><input id="nouvellesPartsWPEA" type="number" placeholder="7.2345" step="0.0001" style="padding:10px 12px;border-radius:10px;border:1px solid #1e2030;background:#0f1117;color:#e2e8f0;font-size:14px;font-family:inherit;width:100%;font-weight:600" /></div>
-          <div><label style="font-size:11px;color:#6b7280;margin-bottom:6px;display:block;text-transform:uppercase;letter-spacing:0.6px;font-weight:600">💵 Prix WPEA (€)</label><input id="nouveauPrixWPEA" type="number" placeholder="124.50" step="0.01" style="padding:10px 12px;border-radius:10px;border:1px solid #1e2030;background:#0f1117;color:#e2e8f0;font-size:14px;font-family:inherit;width:100%;font-weight:600" /></div>
-          <div><label style="font-size:11px;color:#6b7280;margin-bottom:6px;display:block;text-transform:uppercase;letter-spacing:0.6px;font-weight:600">🌏 Parts PAEEM</label><input id="nouvellesPartsPAEEM" type="number" placeholder="3.1234" step="0.0001" style="padding:10px 12px;border-radius:10px;border:1px solid #1e2030;background:#0f1117;color:#e2e8f0;font-size:14px;font-family:inherit;width:100%;font-weight:600" /></div>
-          <div><label style="font-size:11px;color:#6b7280;margin-bottom:6px;display:block;text-transform:uppercase;letter-spacing:0.6px;font-weight:600">💵 Prix PAEEM (€)</label><input id="nouveauPrixPAEEM" type="number" placeholder="45.80" step="0.01" style="padding:10px 12px;border-radius:10px;border:1px solid #1e2030;background:#0f1117;color:#e2e8f0;font-size:14px;font-family:inherit;width:100%;font-weight:600" /></div>
+          <div><label style="font-size:10px;color:rgba(255,255,255,0.35);margin-bottom:6px;display:block;text-transform:uppercase;letter-spacing:0.8px;font-weight:500">📅 Date</label><input id="nouvelleDatePEA" type="date" style="padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:rgba(0,0,0,0.3);color:#e8eaed;font-size:14px;font-family:inherit;width:100%" /></div>
+          <div><label style="font-size:10px;color:rgba(255,255,255,0.35);margin-bottom:6px;display:block;text-transform:uppercase;letter-spacing:0.8px;font-weight:500">💰 Montant total (€)</label><input id="nouveauMontantPEA" type="number" placeholder="900" value="900" step="0.01" style="padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:rgba(0,0,0,0.3);color:#e8eaed;font-size:14px;font-family:inherit;width:100%;font-weight:600" /></div>
+          <div><label style="font-size:10px;color:rgba(255,255,255,0.35);margin-bottom:6px;display:block;text-transform:uppercase;letter-spacing:0.8px;font-weight:500">🌍 Parts WPEA</label><input id="nouvellesPartsWPEA" type="number" placeholder="7.2345" step="0.0001" style="padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:rgba(0,0,0,0.3);color:#e8eaed;font-size:14px;font-family:inherit;width:100%;font-weight:600" /></div>
+          <div><label style="font-size:10px;color:rgba(255,255,255,0.35);margin-bottom:6px;display:block;text-transform:uppercase;letter-spacing:0.8px;font-weight:500">💵 Prix WPEA (€)</label><input id="nouveauPrixWPEA" type="number" placeholder="124.50" step="0.01" style="padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:rgba(0,0,0,0.3);color:#e8eaed;font-size:14px;font-family:inherit;width:100%;font-weight:600" /></div>
+          <div><label style="font-size:10px;color:rgba(255,255,255,0.35);margin-bottom:6px;display:block;text-transform:uppercase;letter-spacing:0.8px;font-weight:500">🌏 Parts PAEEM</label><input id="nouvellesPartsPAEEM" type="number" placeholder="3.1234" step="0.0001" style="padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:rgba(0,0,0,0.3);color:#e8eaed;font-size:14px;font-family:inherit;width:100%;font-weight:600" /></div>
+          <div><label style="font-size:10px;color:rgba(255,255,255,0.35);margin-bottom:6px;display:block;text-transform:uppercase;letter-spacing:0.8px;font-weight:500">💵 Prix PAEEM (€)</label><input id="nouveauPrixPAEEM" type="number" placeholder="45.80" step="0.01" style="padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:rgba(0,0,0,0.3);color:#e8eaed;font-size:14px;font-family:inherit;width:100%;font-weight:600" /></div>
           <div style="display:flex;align-items:end"><button class="btn-add" onclick="ajouterMois('pea')" style="width:100%;padding:12px 16px">➕ Ajouter</button></div>
         </div>
         <table>
@@ -312,12 +548,12 @@ input[type="date"],input[type="number"]{color-scheme:dark}
       <div class="chart-section">
         <div class="section-title">📊 Historique des investissements CTO</div>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-bottom:16px">
-          <div><label style="font-size:11px;color:#6b7280;margin-bottom:6px;display:block;text-transform:uppercase;letter-spacing:0.6px;font-weight:600">📅 Date</label><input id="nouvelleDateCTO" type="date" style="padding:10px 12px;border-radius:10px;border:1px solid #1e2030;background:#0f1117;color:#e2e8f0;font-size:14px;font-family:inherit;width:100%" /></div>
-          <div><label style="font-size:11px;color:#6b7280;margin-bottom:6px;display:block;text-transform:uppercase;letter-spacing:0.6px;font-weight:600">💰 Montant total (€)</label><input id="nouveauMontantCTO" type="number" placeholder="0" value="0" step="0.01" style="padding:10px 12px;border-radius:10px;border:1px solid #1e2030;background:#0f1117;color:#e2e8f0;font-size:14px;font-family:inherit;width:100%;font-weight:600" /></div>
-          <div><label style="font-size:11px;color:#6b7280;margin-bottom:6px;display:block;text-transform:uppercase;letter-spacing:0.6px;font-weight:600">🌍 Parts WPEA</label><input id="nouvellesPartsWPEACTO" type="number" placeholder="7.2345" step="0.0001" style="padding:10px 12px;border-radius:10px;border:1px solid #1e2030;background:#0f1117;color:#e2e8f0;font-size:14px;font-family:inherit;width:100%;font-weight:600" /></div>
-          <div><label style="font-size:11px;color:#6b7280;margin-bottom:6px;display:block;text-transform:uppercase;letter-spacing:0.6px;font-weight:600">💵 Prix WPEA (€)</label><input id="nouveauPrixWPEACTO" type="number" placeholder="124.50" step="0.01" style="padding:10px 12px;border-radius:10px;border:1px solid #1e2030;background:#0f1117;color:#e2e8f0;font-size:14px;font-family:inherit;width:100%;font-weight:600" /></div>
-          <div><label style="font-size:11px;color:#6b7280;margin-bottom:6px;display:block;text-transform:uppercase;letter-spacing:0.6px;font-weight:600">🌏 Parts PAEEM</label><input id="nouvellesPartsPAEEMCTO" type="number" placeholder="3.1234" step="0.0001" style="padding:10px 12px;border-radius:10px;border:1px solid #1e2030;background:#0f1117;color:#e2e8f0;font-size:14px;font-family:inherit;width:100%;font-weight:600" /></div>
-          <div><label style="font-size:11px;color:#6b7280;margin-bottom:6px;display:block;text-transform:uppercase;letter-spacing:0.6px;font-weight:600">💵 Prix PAEEM (€)</label><input id="nouveauPrixPAEEMCTO" type="number" placeholder="45.80" step="0.01" style="padding:10px 12px;border-radius:10px;border:1px solid #1e2030;background:#0f1117;color:#e2e8f0;font-size:14px;font-family:inherit;width:100%;font-weight:600" /></div>
+          <div><label style="font-size:10px;color:rgba(255,255,255,0.35);margin-bottom:6px;display:block;text-transform:uppercase;letter-spacing:0.8px;font-weight:500">📅 Date</label><input id="nouvelleDateCTO" type="date" style="padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:rgba(0,0,0,0.3);color:#e8eaed;font-size:14px;font-family:inherit;width:100%" /></div>
+          <div><label style="font-size:10px;color:rgba(255,255,255,0.35);margin-bottom:6px;display:block;text-transform:uppercase;letter-spacing:0.8px;font-weight:500">💰 Montant total (€)</label><input id="nouveauMontantCTO" type="number" placeholder="0" value="0" step="0.01" style="padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:rgba(0,0,0,0.3);color:#e8eaed;font-size:14px;font-family:inherit;width:100%;font-weight:600" /></div>
+          <div><label style="font-size:10px;color:rgba(255,255,255,0.35);margin-bottom:6px;display:block;text-transform:uppercase;letter-spacing:0.8px;font-weight:500">🌍 Parts WPEA</label><input id="nouvellesPartsWPEACTO" type="number" placeholder="7.2345" step="0.0001" style="padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:rgba(0,0,0,0.3);color:#e8eaed;font-size:14px;font-family:inherit;width:100%;font-weight:600" /></div>
+          <div><label style="font-size:10px;color:rgba(255,255,255,0.35);margin-bottom:6px;display:block;text-transform:uppercase;letter-spacing:0.8px;font-weight:500">💵 Prix WPEA (€)</label><input id="nouveauPrixWPEACTO" type="number" placeholder="124.50" step="0.01" style="padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:rgba(0,0,0,0.3);color:#e8eaed;font-size:14px;font-family:inherit;width:100%;font-weight:600" /></div>
+          <div><label style="font-size:10px;color:rgba(255,255,255,0.35);margin-bottom:6px;display:block;text-transform:uppercase;letter-spacing:0.8px;font-weight:500">🌏 Parts PAEEM</label><input id="nouvellesPartsPAEEMCTO" type="number" placeholder="3.1234" step="0.0001" style="padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:rgba(0,0,0,0.3);color:#e8eaed;font-size:14px;font-family:inherit;width:100%;font-weight:600" /></div>
+          <div><label style="font-size:10px;color:rgba(255,255,255,0.35);margin-bottom:6px;display:block;text-transform:uppercase;letter-spacing:0.8px;font-weight:500">💵 Prix PAEEM (€)</label><input id="nouveauPrixPAEEMCTO" type="number" placeholder="45.80" step="0.01" style="padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:rgba(0,0,0,0.3);color:#e8eaed;font-size:14px;font-family:inherit;width:100%;font-weight:600" /></div>
           <div style="display:flex;align-items:end"><button class="btn-add" onclick="ajouterMois('cto')" style="width:100%;padding:12px 16px">➕ Ajouter</button></div>
         </div>
         <table>
@@ -329,7 +565,7 @@ input[type="date"],input[type="number"]{color-scheme:dark}
     <!-- CRYPTO -->
     <div id="crypto" class="page">
       <button class="btn-refresh" onclick="rafraichirCours()">🔄 Rafraîchir les cours</button>
-      <div style="font-size:12px;color:#6b7280;margin-bottom:20px;font-weight:500">Dernière mise à jour: <span id="lastUpdate">Jamais</span></div>
+      <div style="font-size:11px;color:rgba(255,255,255,0.3);margin-bottom:20px;font-weight:400">Dernière mise à jour: <span id="lastUpdate">Jamais</span></div>
       
       <div class="crypto-split">
         <div class="crypto-box btc">
@@ -417,7 +653,7 @@ input[type="date"],input[type="number"]{color-scheme:dark}
       </div>
       <div class="chart-section">
         <div class="section-title">🎮 Simulateur "Et si..."</div>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px;margin-bottom:20px">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-bottom:20px">
           <div class="param-item">
             <label>💰 Investissement mensuel supplémentaire (€)</label>
             <input id="simInvSupp" type="number" value="0" step="50" min="0" />
@@ -434,7 +670,7 @@ input[type="date"],input[type="number"]{color-scheme:dark}
         <div style="text-align:center;margin-bottom:20px">
           <button class="btn-primary" onclick="calculerSimulation()">🚀 Simuler</button>
         </div>
-        <div id="resultatsSimulation" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px"></div>
+        <div id="resultatsSimulation" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px"></div>
       </div>
       <div class="chart-section">
         <div class="section-title">📊 Prix moyen d'achat (DCA)</div>
@@ -484,12 +720,12 @@ input[type="date"],input[type="number"]{color-scheme:dark}
       </div>
       <div class="chart-section">
         <div class="section-title">💸 Simulateur d'impôts sur plus-values</div>
-        <div style="background:#13151f;border:1px solid #1e2030;border-radius:16px;padding:20px;margin-bottom:16px">
-          <div style="font-size:12px;color:#6b7280;margin-bottom:12px;font-weight:600">ℹ️ BARÈME FISCAL 2025</div>
+        <div style="background:rgba(0,0,0,0.2);border:1px solid rgba(255,255,255,0.04);border-radius:16px;padding:20px;margin-bottom:16px">
+          <div style="font-size:10px;color:rgba(255,255,255,0.35);margin-bottom:12px;font-weight:500;text-transform:uppercase;letter-spacing:0.8px">ℹ️ BARÈME FISCAL 2025</div>
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;font-size:13px">
-            <div><strong style="color:#7c6dfa">PEA (&gt;5 ans)</strong><br><span style="color:#6b7280">Prélèvements sociaux : 17,2%<br>Exonération d'impôt sur le revenu</span></div>
-            <div><strong style="color:#a78bfa">CTO</strong><br><span style="color:#6b7280">Flat tax : 33% (15,8% IR + 17,2% PS)<br>ou Barème progressif + 17,2% PS</span></div>
-            <div><strong style="color:#fb923c">Crypto</strong><br><span style="color:#6b7280">Flat tax : 33% (15,8% IR + 17,2% PS)<br>Cession &gt; 305€/an imposable</span></div>
+            <div><strong style="color:#7c6dfa">PEA (&gt;5 ans)</strong><br><span style="color:rgba(255,255,255,0.35)">Prélèvements sociaux : 17,2%<br>Exonération d'impôt sur le revenu</span></div>
+            <div><strong style="color:#a78bfa">CTO</strong><br><span style="color:rgba(255,255,255,0.35)">Flat tax : 33% (15,8% IR + 17,2% PS)<br>ou Barème progressif + 17,2% PS</span></div>
+            <div><strong style="color:#fb923c">Crypto</strong><br><span style="color:rgba(255,255,255,0.35)">Flat tax : 33% (15,8% IR + 17,2% PS)<br>Cession &gt; 305€/an imposable</span></div>
           </div>
         </div>
         <div id="simulateurImpots" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px"></div>
@@ -526,17 +762,17 @@ input[type="date"],input[type="number"]{color-scheme:dark}
       <!-- Exposition géographique -->
       <div class="chart-section">
         <div class="section-title">🌍 Exposition géographique</div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
-          <div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:center">
+          <div style="display:flex;justify-content:center">
             <canvas id="geoChart" width="300" height="300"></canvas>
           </div>
-          <div id="geoLegend" style="display:flex;flex-direction:column;justify-content:center;gap:10px"></div>
+          <div id="geoLegend" style="display:flex;flex-direction:column;justify-content:center;gap:12px"></div>
         </div>
       </div>
       <!-- Exposition par actif -->
       <div class="chart-section">
         <div class="section-title">💎 Exposition par actif</div>
-        <div style="background:#0f1117;padding:16px;border-radius:12px;border:1px solid #1e2030">
+        <div style="background:rgba(0,0,0,0.2);padding:16px;border-radius:14px;border:1px solid rgba(255,255,255,0.04)">
           <div id="expositionActifs"></div>
         </div>
       </div>
@@ -547,22 +783,22 @@ input[type="date"],input[type="number"]{color-scheme:dark}
           <div class="stat-card">
             <div class="stat-label">💰 Montant à risque (actions)</div>
             <div class="stat-value" id="montantRisque">0 €</div>
-            <div style="font-size:12px;color:#6b7280;margin-top:8px">PEA + CTO investis</div>
+            <div style="font-size:11px;color:rgba(255,255,255,0.3);margin-top:8px">PEA + CTO investis</div>
           </div>
           <div class="stat-card crypto">
             <div class="stat-label">⚡ Risque Crypto (%)</div>
             <div class="stat-value" id="risqueCrypto">0%</div>
-            <div style="font-size:12px;color:#6b7280;margin-top:8px">% du capital total</div>
+            <div style="font-size:11px;color:rgba(255,255,255,0.3);margin-top:8px">% du capital total</div>
           </div>
           <div class="stat-card">
             <div class="stat-label">🛡️ Sécurité (Livret + Espèces)</div>
             <div class="stat-value" id="securite">0 €</div>
-            <div style="font-size:12px;color:#6b7280;margin-top:8px">Capital non risqué</div>
+            <div style="font-size:11px;color:rgba(255,255,255,0.3);margin-top:8px">Capital non risqué</div>
           </div>
           <div class="stat-card">
             <div class="stat-label">📊 Diversification</div>
             <div class="stat-value" id="diversification">Bonne</div>
-            <div style="font-size:12px;color:#6b7280;margin-top:8px">Score de diversification</div>
+            <div style="font-size:11px;color:rgba(255,255,255,0.3);margin-top:8px">Score de diversification</div>
           </div>
         </div>
       </div>
@@ -570,9 +806,9 @@ input[type="date"],input[type="number"]{color-scheme:dark}
       <div class="chart-section">
         <div class="section-title">🎯 Mes objectifs financiers</div>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-bottom:16px">
-          <div><label style="font-size:11px;color:#6b7280;margin-bottom:6px;display:block;text-transform:uppercase;letter-spacing:0.6px;font-weight:600">🎯 Nom de l'objectif</label><input id="objectifNom" type="text" placeholder="Apport maison" style="padding:10px 12px;border-radius:10px;border:1px solid #1e2030;background:#0f1117;color:#e2e8f0;font-size:14px;font-family:inherit;width:100%;font-weight:600" /></div>
-          <div><label style="font-size:11px;color:#6b7280;margin-bottom:6px;display:block;text-transform:uppercase;letter-spacing:0.6px;font-weight:600">💰 Montant cible (€)</label><input id="objectifMontant" type="number" placeholder="50000" step="1000" style="padding:10px 12px;border-radius:10px;border:1px solid #1e2030;background:#0f1117;color:#e2e8f0;font-size:14px;font-family:inherit;width:100%;font-weight:600" /></div>
-          <div><label style="font-size:11px;color:#6b7280;margin-bottom:6px;display:block;text-transform:uppercase;letter-spacing:0.6px;font-weight:600">📅 Date cible</label><input id="objectifDate" type="date" style="padding:10px 12px;border-radius:10px;border:1px solid #1e2030;background:#0f1117;color:#e2e8f0;font-size:14px;font-family:inherit;width:100%" /></div>
+          <div><label style="font-size:10px;color:rgba(255,255,255,0.35);margin-bottom:6px;display:block;text-transform:uppercase;letter-spacing:0.8px;font-weight:500">🎯 Nom de l'objectif</label><input id="objectifNom" type="text" placeholder="Apport maison" style="padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:rgba(0,0,0,0.3);color:#e8eaed;font-size:14px;font-family:inherit;width:100%;font-weight:600" /></div>
+          <div><label style="font-size:10px;color:rgba(255,255,255,0.35);margin-bottom:6px;display:block;text-transform:uppercase;letter-spacing:0.8px;font-weight:500">💰 Montant cible (€)</label><input id="objectifMontant" type="number" placeholder="50000" step="1000" style="padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:rgba(0,0,0,0.3);color:#e8eaed;font-size:14px;font-family:inherit;width:100%;font-weight:600" /></div>
+          <div><label style="font-size:10px;color:rgba(255,255,255,0.35);margin-bottom:6px;display:block;text-transform:uppercase;letter-spacing:0.8px;font-weight:500">📅 Date cible</label><input id="objectifDate" type="date" style="padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:rgba(0,0,0,0.3);color:#e8eaed;font-size:14px;font-family:inherit;width:100%" /></div>
           <div style="display:flex;align-items:end"><button class="btn-add" onclick="ajouterObjectif()" style="width:100%;padding:12px 16px">➕ Ajouter objectif</button></div>
         </div>
         <div id="listeObjectifs"></div>
@@ -580,9 +816,9 @@ input[type="date"],input[type="number"]{color-scheme:dark}
       <!-- Comparaison vs benchmark -->
       <div class="chart-section">
         <div class="section-title">📊 Performance vs Benchmark (MSCI World)</div>
-        <div style="background:#0f1117;padding:20px;border-radius:12px;border:1px solid #1e2030;text-align:center">
-          <div style="font-size:48px;font-weight:800;margin-bottom:10px" id="vsBenchmark">+0%</div>
-          <div style="font-size:14px;color:#6b7280">Différence vs MSCI World (+7% annuel moyen)</div>
+        <div style="background:rgba(0,0,0,0.2);padding:24px;border-radius:16px;border:1px solid rgba(255,255,255,0.04);text-align:center">
+          <div style="font-size:42px;font-weight:700;margin-bottom:10px;color:#e8eaed" id="vsBenchmark">+0%</div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.35)">Différence vs MSCI World (+7% annuel moyen)</div>
         </div>
       </div>
     </div>
@@ -590,7 +826,7 @@ input[type="date"],input[type="number"]{color-scheme:dark}
     <div id="dividendes" class="page">
       <div class="chart-section">
         <div class="section-title">💰 Gestion des dividendes</div>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:20px">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-bottom:20px">
           <div class="stat-card pea">
             <div class="stat-label">💵 Total dividendes PEA</div>
             <div class="stat-value" id="totalDivPEA">0 €</div>
@@ -612,9 +848,9 @@ input[type="date"],input[type="number"]{color-scheme:dark}
       <div class="chart-section">
         <div class="section-title">➕ Ajouter un dividende</div>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-bottom:16px">
-          <div><label style="font-size:11px;color:#6b7280;margin-bottom:6px;display:block;text-transform:uppercase;letter-spacing:0.6px;font-weight:600">📅 Date</label><input id="dividendeDate" type="date" style="padding:10px 12px;border-radius:10px;border:1px solid #1e2030;background:#0f1117;color:#e2e8f0;font-size:14px;font-family:inherit;width:100%" /></div>
-          <div><label style="font-size:11px;color:#6b7280;margin-bottom:6px;display:block;text-transform:uppercase;letter-spacing:0.6px;font-weight:600">💰 Montant (€)</label><input id="dividendeMontant" type="number" step="0.01" placeholder="25.50" style="padding:10px 12px;border-radius:10px;border:1px solid #1e2030;background:#0f1117;color:#e2e8f0;font-size:14px;font-family:inherit;width:100%;font-weight:600" /></div>
-          <div><label style="font-size:11px;color:#6b7280;margin-bottom:6px;display:block;text-transform:uppercase;letter-spacing:0.6px;font-weight:600">📂 Type</label><select id="dividendeType" style="padding:10px 12px;border-radius:10px;border:1px solid #1e2030;background:#0f1117;color:#e2e8f0;font-size:14px;font-family:inherit;width:100%;font-weight:600"><option value="pea">PEA</option><option value="cto">CTO</option></select></div>
+          <div><label style="font-size:10px;color:rgba(255,255,255,0.35);margin-bottom:6px;display:block;text-transform:uppercase;letter-spacing:0.8px;font-weight:500">📅 Date</label><input id="dividendeDate" type="date" style="padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:rgba(0,0,0,0.3);color:#e8eaed;font-size:14px;font-family:inherit;width:100%" /></div>
+          <div><label style="font-size:10px;color:rgba(255,255,255,0.35);margin-bottom:6px;display:block;text-transform:uppercase;letter-spacing:0.8px;font-weight:500">💰 Montant (€)</label><input id="dividendeMontant" type="number" step="0.01" placeholder="25.50" style="padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:rgba(0,0,0,0.3);color:#e8eaed;font-size:14px;font-family:inherit;width:100%;font-weight:600" /></div>
+          <div><label style="font-size:10px;color:rgba(255,255,255,0.35);margin-bottom:6px;display:block;text-transform:uppercase;letter-spacing:0.8px;font-weight:500">📂 Type</label><select id="dividendeType" style="padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:rgba(0,0,0,0.3);color:#e8eaed;font-size:14px;font-family:inherit;width:100%;font-weight:600"><option value="pea">PEA</option><option value="cto">CTO</option></select></div>
           <div style="display:flex;align-items:end"><button class="btn-add" onclick="ajouterDividende()" style="width:100%;padding:12px 16px">➕ Ajouter</button></div>
         </div>
         <table>
@@ -652,13 +888,13 @@ input[type="date"],input[type="number"]{color-scheme:dark}
       </div>
       <div class="chart-section">
         <div class="section-title">💸 Stratégie de retrait optimale</div>
-        <div style="background:#0f1117;padding:20px;border-radius:12px;border:1px solid #1e2030">
-          <div style="font-size:13px;color:#6b7280;margin-bottom:16px;line-height:1.6">
+        <div style="background:rgba(0,0,0,0.2);padding:22px;border-radius:16px;border:1px solid rgba(255,255,255,0.04)">
+          <div style="font-size:13px;color:rgba(255,255,255,0.4);margin-bottom:16px;line-height:1.8">
             <strong style="color:#7c6dfa">💡 Ordre de retrait recommandé pour optimiser la fiscalité :</strong><br><br>
-            <strong>1️⃣ CTO en premier</strong> - PFU 31,4% + abattement si détention longue<br>
-            <strong>2️⃣ PEA ensuite</strong> - Après 5 ans : seulement 18,6% de prélèvements sociaux<br>
-            <strong>3️⃣ Assurance-vie</strong> - Abattements importants après 8 ans<br>
-            <strong>4️⃣ Crypto en dernier</strong> - PFU 31,4% sans abattement
+            <strong style="color:#e8eaed">1️⃣ CTO en premier</strong> - PFU 31,4% + abattement si détention longue<br>
+            <strong style="color:#e8eaed">2️⃣ PEA ensuite</strong> - Après 5 ans : seulement 18,6% de prélèvements sociaux<br>
+            <strong style="color:#e8eaed">3️⃣ Assurance-vie</strong> - Abattements importants après 8 ans<br>
+            <strong style="color:#e8eaed">4️⃣ Crypto en dernier</strong> - PFU 31,4% sans abattement
           </div>
           <div id="strategieRetrait"></div>
         </div>
@@ -719,82 +955,82 @@ input[type="date"],input[type="number"]{color-scheme:dark}
       <div class="chart-section">
         <div class="section-title">📊 Comparaison : Chaudronnerie Civil vs Armée</div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
-          <div style="background:#0f1117;padding:24px;border-radius:16px;border:2px solid #7c6dfa">
+          <div style="background:rgba(124,109,250,0.04);padding:24px;border-radius:16px;border:1px solid rgba(124,109,250,0.15)">
             <div style="text-align:center;margin-bottom:20px">
-              <div style="font-size:18px;font-weight:700;color:#7c6dfa;margin-bottom:8px">🏭 Chaudronnerie Civil</div>
+              <div style="font-size:16px;font-weight:600;color:#7c6dfa;margin-bottom:8px">🏭 Chaudronnerie Civil</div>
             </div>
             <div style="margin-bottom:12px">
-              <div style="font-size:12px;color:#6b7280;margin-bottom:4px">💰 Salaire moyen</div>
-              <div style="font-size:24px;font-weight:800;color:#e2e8f0" id="salaireCivil">2 200 €/mois</div>
+              <div style="font-size:11px;color:rgba(255,255,255,0.35);margin-bottom:4px">💰 Salaire moyen</div>
+              <div style="font-size:22px;font-weight:700;color:#e8eaed" id="salaireCivil">2 200 €/mois</div>
             </div>
             <div style="margin-bottom:12px">
-              <div style="font-size:12px;color:#6b7280;margin-bottom:4px">🏖️ Retraite à</div>
-              <div style="font-size:24px;font-weight:800;color:#e2e8f0">64 ans</div>
+              <div style="font-size:11px;color:rgba(255,255,255,0.35);margin-bottom:4px">🏖️ Retraite à</div>
+              <div style="font-size:22px;font-weight:700;color:#e8eaed">64 ans</div>
             </div>
             <div style="margin-bottom:12px">
-              <div style="font-size:12px;color:#6b7280;margin-bottom:4px">💼 Avantages</div>
-              <div style="font-size:14px;color:#e2e8f0">Prime ancienneté, 13ème mois</div>
+              <div style="font-size:11px;color:rgba(255,255,255,0.35);margin-bottom:4px">💼 Avantages</div>
+              <div style="font-size:13px;color:#e8eaed">Prime ancienneté, 13ème mois</div>
             </div>
-            <div style="margin-top:20px;padding-top:20px;border-top:1px solid #1e2030">
-              <div style="font-size:12px;color:#6b7280;margin-bottom:4px">💰 Total sur 40 ans</div>
-              <div style="font-size:20px;font-weight:800;color:#00d4aa" id="totalCivil">1 056 000 €</div>
+            <div style="margin-top:20px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.06)">
+              <div style="font-size:11px;color:rgba(255,255,255,0.35);margin-bottom:4px">💰 Total sur 40 ans</div>
+              <div style="font-size:20px;font-weight:700;color:#34d399" id="totalCivil">1 056 000 €</div>
             </div>
           </div>
-          <div style="background:#0f1117;padding:24px;border-radius:16px;border:2px solid #00d4aa">
+          <div style="background:rgba(52,211,153,0.04);padding:24px;border-radius:16px;border:1px solid rgba(52,211,153,0.15)">
             <div style="text-align:center;margin-bottom:20px">
-              <div style="font-size:18px;font-weight:700;color:#00d4aa;margin-bottom:8px">🎖️ Armée</div>
+              <div style="font-size:16px;font-weight:600;color:#34d399;margin-bottom:8px">🎖️ Armée</div>
             </div>
             <div style="margin-bottom:12px">
-              <div style="font-size:12px;color:#6b7280;margin-bottom:4px">💰 Solde + Avantages</div>
-              <div style="font-size:24px;font-weight:800;color:#e2e8f0" id="salaireArmeeTotal">2 000 €/mois</div>
+              <div style="font-size:11px;color:rgba(255,255,255,0.35);margin-bottom:4px">💰 Solde + Avantages</div>
+              <div style="font-size:22px;font-weight:700;color:#e8eaed" id="salaireArmeeTotal">2 000 €/mois</div>
             </div>
             <div style="margin-bottom:12px">
-              <div style="font-size:12px;color:#6b7280;margin-bottom:4px">🏖️ Retraite à</div>
-              <div style="font-size:24px;font-weight:800;color:#00d4aa">42-50 ans</div>
+              <div style="font-size:11px;color:rgba(255,255,255,0.35);margin-bottom:4px">🏖️ Retraite à</div>
+              <div style="font-size:22px;font-weight:700;color:#34d399">42-50 ans</div>
             </div>
             <div style="margin-bottom:12px">
-              <div style="font-size:12px;color:#6b7280;margin-bottom:4px">💼 Avantages</div>
-              <div style="font-size:14px;color:#e2e8f0">Logement, nourriture, santé</div>
+              <div style="font-size:11px;color:rgba(255,255,255,0.35);margin-bottom:4px">💼 Avantages</div>
+              <div style="font-size:13px;color:#e8eaed">Logement, nourriture, santé</div>
             </div>
-            <div style="margin-top:20px;padding-top:20px;border-top:1px solid #1e2030">
-              <div style="font-size:12px;color:#6b7280;margin-bottom:4px">💰 Total sur carrière</div>
-              <div style="font-size:20px;font-weight:800;color:#00d4aa" id="totalArmee">600 000 €</div>
+            <div style="margin-top:20px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.06)">
+              <div style="font-size:11px;color:rgba(255,255,255,0.35);margin-bottom:4px">💰 Total sur carrière</div>
+              <div style="font-size:20px;font-weight:700;color:#34d399" id="totalArmee">600 000 €</div>
             </div>
           </div>
         </div>
       </div>
       <div class="chart-section">
         <div class="section-title">🎯 Évolution grades armée</div>
-        <div style="background:#0f1117;padding:20px;border-radius:12px;border:1px solid #1e2030">
+        <div style="background:rgba(0,0,0,0.2);padding:20px;border-radius:16px;border:1px solid rgba(255,255,255,0.04)">
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px">
-            <div style="text-align:center;padding:16px;background:#13151f;border-radius:10px">
-              <div style="font-size:32px;margin-bottom:8px">🎖️</div>
-              <div style="font-weight:700;color:#e2e8f0;margin-bottom:4px">Soldat 1ère classe</div>
-              <div style="font-size:12px;color:#6b7280;margin-bottom:8px">Années 1-3</div>
-              <div style="font-size:20px;font-weight:800;color:#00d4aa">~1 500 €</div>
+            <div style="text-align:center;padding:16px;background:rgba(255,255,255,0.02);border-radius:14px;border:1px solid rgba(255,255,255,0.04)">
+              <div style="font-size:28px;margin-bottom:8px">🎖️</div>
+              <div style="font-weight:600;color:#e8eaed;margin-bottom:4px;font-size:13px">Soldat 1ère classe</div>
+              <div style="font-size:11px;color:rgba(255,255,255,0.3);margin-bottom:8px">Années 1-3</div>
+              <div style="font-size:18px;font-weight:700;color:#34d399">~1 500 €</div>
             </div>
-            <div style="text-align:center;padding:16px;background:#13151f;border-radius:10px">
-              <div style="font-size:32px;margin-bottom:8px">🎖️🎖️</div>
-              <div style="font-weight:700;color:#e2e8f0;margin-bottom:4px">Caporal</div>
-              <div style="font-size:12px;color:#6b7280;margin-bottom:8px">Années 4-8</div>
-              <div style="font-size:20px;font-weight:800;color:#00d4aa">~1 800 €</div>
+            <div style="text-align:center;padding:16px;background:rgba(255,255,255,0.02);border-radius:14px;border:1px solid rgba(255,255,255,0.04)">
+              <div style="font-size:28px;margin-bottom:8px">🎖️🎖️</div>
+              <div style="font-weight:600;color:#e8eaed;margin-bottom:4px;font-size:13px">Caporal</div>
+              <div style="font-size:11px;color:rgba(255,255,255,0.3);margin-bottom:8px">Années 4-8</div>
+              <div style="font-size:18px;font-weight:700;color:#34d399">~1 800 €</div>
             </div>
-            <div style="text-align:center;padding:16px;background:#13151f;border-radius:10px">
-              <div style="font-size:32px;margin-bottom:8px">🎖️🎖️🎖️</div>
-              <div style="font-weight:700;color:#e2e8f0;margin-bottom:4px">Sergent</div>
-              <div style="font-size:12px;color:#6b7280;margin-bottom:8px">Années 9-15</div>
-              <div style="font-size:20px;font-weight:800;color:#00d4aa">~2 200 €</div>
+            <div style="text-align:center;padding:16px;background:rgba(255,255,255,0.02);border-radius:14px;border:1px solid rgba(255,255,255,0.04)">
+              <div style="font-size:28px;margin-bottom:8px">🎖️🎖️🎖️</div>
+              <div style="font-weight:600;color:#e8eaed;margin-bottom:4px;font-size:13px">Sergent</div>
+              <div style="font-size:11px;color:rgba(255,255,255,0.3);margin-bottom:8px">Années 9-15</div>
+              <div style="font-size:18px;font-weight:700;color:#34d399">~2 200 €</div>
             </div>
-            <div style="text-align:center;padding:16px;background:#13151f;border-radius:10px">
-              <div style="font-size:32px;margin-bottom:8px">⭐</div>
-              <div style="font-weight:700;color:#e2e8f0;margin-bottom:4px">Adjudant</div>
-              <div style="font-size:12px;color:#6b7280;margin-bottom:8px">Années 15+</div>
-              <div style="font-size:20px;font-weight:800;color:#00d4aa">~2 600 €</div>
+            <div style="text-align:center;padding:16px;background:rgba(255,255,255,0.02);border-radius:14px;border:1px solid rgba(255,255,255,0.04)">
+              <div style="font-size:28px;margin-bottom:8px">⭐</div>
+              <div style="font-weight:600;color:#e8eaed;margin-bottom:4px;font-size:13px">Adjudant</div>
+              <div style="font-size:11px;color:rgba(255,255,255,0.3);margin-bottom:8px">Années 15+</div>
+              <div style="font-size:18px;font-weight:700;color:#34d399">~2 600 €</div>
             </div>
           </div>
-          <div style="margin-top:16px;padding:16px;background:#13151f;border-radius:10px;border-left:3px solid #00d4aa">
-            <div style="font-size:13px;color:#6b7280;line-height:1.6">
-              <strong style="color:#00d4aa">💡 Bon à savoir :</strong><br>
+          <div style="margin-top:16px;padding:16px;background:rgba(52,211,153,0.05);border-radius:12px;border-left:3px solid #34d399">
+            <div style="font-size:13px;color:rgba(255,255,255,0.4);line-height:1.8">
+              <strong style="color:#34d399">💡 Bon à savoir :</strong><br>
               • Retraite possible dès 17 ans de service (vers 42 ans si tu t'engages à 25 ans)<br>
               • Avantages : logement gratuit économise ~600€/mois, repas ~200€/mois<br>
               • Possibilité de reconversion civile avec formations payées
@@ -824,8 +1060,8 @@ function calculer(){const rend=Number(document.getElementById('rendement').value
   mettreAJourBadges();afficherVueSimple();
   sauvegarder()}
 function dessinerGraphique(valPEA,valCTO,valCrypto,livret,courant,soldeEspeces){const canvas=document.getElementById('pieChart');const ctx=canvas.getContext('2d');const total=valPEA+valCTO+valCrypto+livret+courant+soldeEspeces;const legend=document.getElementById('pieLegend');if(total===0){ctx.clearRect(0,0,canvas.width,canvas.height);ctx.fillStyle='#6b7280';ctx.font='16px Inter,sans-serif';ctx.textAlign='center';ctx.fillText('Commence à investir !',canvas.width/2,canvas.height/2);legend.innerHTML='';return}const data=[{label:'📈 PEA',value:valPEA,color:'#7c6dfa'},{label:'💵 PEA Espèces',value:soldeEspeces,color:'#a78bfa'},{label:'📊 CTO',value:valCTO,color:'#6366f1'},{label:'₿ Crypto',value:valCrypto,color:'#fb923c'},{label:'💚 Livret A',value:livret,color:'#00d4aa'},{label:'💳 Compte',value:courant,color:'#60a5fa'}].filter(x=>x.value>0);ctx.clearRect(0,0,canvas.width,canvas.height);const cx=canvas.width/2,cy=canvas.height/2,r=110;let angle=-Math.PI/2;data.forEach(item=>{const slice=(item.value/total)*2*Math.PI;ctx.beginPath();ctx.fillStyle=item.color;ctx.moveTo(cx,cy);ctx.arc(cx,cy,r,angle,angle+slice);ctx.closePath();ctx.fill();const mid=angle+slice/2;const pct=((item.value/total)*100).toFixed(1);ctx.fillStyle='#fff';ctx.font='bold 12px Inter,sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(pct+'%',cx+Math.cos(mid)*r*0.65,cy+Math.sin(mid)*r*0.65);angle+=slice});legend.innerHTML=data.map(item=>{const pct=((item.value/total)*100).toFixed(1);return `<div class="legend-item"><div class="legend-color" style="background:${item.color}"></div><span class="legend-label">${item.label}</span><span class="legend-value">${formatEuroDecimal(item.value)} (${pct}%)</span></div>`}).join('')}
-function afficherHistorique(type){const h=type==='pea'?historiquePEA:historiqueCTO;const tbody=document.getElementById('historique'+(type==='pea'?'PEA':'CTO'));if(h.length===0){tbody.innerHTML='<tr><td colspan="10" style="text-align:center;color:#6b7280;padding:24px">Aucun investissement</td></tr>';return}const rend=(Number(document.getElementById('rendement').value)||7)/100;const fraisPct=(Number(document.getElementById('fraisCourtage').value)||0)/100;const today=new Date();let cumulValeur=0,cumulVerse=0,html='';h.forEach(item=>{const depDate=new Date(item.date);const frais=item.montant*fraisPct;const montantInvesti=item.montant-frais;let valeurLigne=0;if(type==='pea'&&item.partsWPEA&&item.partsPAEEM&&coursWPEA>0&&coursPAEEM>0){valeurLigne=(item.partsWPEA*coursWPEA)+(item.partsPAEEM*coursPAEEM)}else if(type==='cto'&&item.partsWPEA&&item.partsPAEEM&&coursWPEACTO>0&&coursPAEEMCTO>0){valeurLigne=(item.partsWPEA*coursWPEACTO)+(item.partsPAEEM*coursPAEEMCTO)}else{let months=(today.getFullYear()-depDate.getFullYear())*12+(today.getMonth()-depDate.getMonth());if(months<0)months=0;valeurLigne=montantInvesti*Math.pow(1+rend/12,months)}cumulValeur+=valeurLigne;cumulVerse+=item.montant;const pvCumul=cumulValeur-(cumulVerse-(cumulVerse*fraisPct));const dateStr=depDate.toLocaleDateString('fr-FR',{day:'2-digit',month:'long',year:'numeric'});let htmlPartsWPEA='--',htmlPrixAchatWPEA='--',htmlPartsPAEEM='--',htmlPrixAchatPAEEM='--';if(item.partsWPEA>0&&item.prixAchatWPEA>0){htmlPartsWPEA=item.partsWPEA.toFixed(4);htmlPrixAchatWPEA=formatEuroDecimal(item.prixAchatWPEA)}if(item.partsPAEEM>0&&item.prixAchatPAEEM>0){htmlPartsPAEEM=item.partsPAEEM.toFixed(4);htmlPrixAchatPAEEM=formatEuroDecimal(item.prixAchatPAEEM)}html+=`<tr><td>${dateStr}</td><td><strong>${formatEuroDecimal(item.montant)}</strong></td><td style="color:#f87171">${formatEuroDecimal(frais)}</td><td>${htmlPartsWPEA}</td><td>${htmlPrixAchatWPEA}</td><td>${htmlPartsPAEEM}</td><td>${htmlPrixAchatPAEEM}</td><td class="positive"><strong>${formatEuroDecimal(cumulValeur)}</strong></td><td class="${pvCumul>=0?'positive':'negative'}">${formatEuroDecimal(pvCumul,true)}</td><td><button class="btn-delete" onclick="supprimer('${type}',${item.id})">🗑️</button></td></tr>`});tbody.innerHTML=html}
-function afficherHistoriqueCrypto(type){const h=type==='btc'?historiqueBTC:historiqueETH;const tbody=document.getElementById('historique'+(type==='btc'?'BTC':'ETH'));const cours=type==='btc'?coursBTC:coursETH;const fraisPct=(Number(document.getElementById('fraisCourtage').value)||0)/100;if(h.length===0){tbody.innerHTML='<tr><td colspan="7" style="text-align:center;color:#6b7280;padding:24px">Aucun investissement</td></tr>';return}tbody.innerHTML=h.map(item=>{const depDate=new Date(item.date);const dateStr=depDate.toLocaleDateString('fr-FR',{day:'2-digit',month:'long',year:'numeric'});const frais=item.montant*fraisPct;const montantNet=item.montant-frais;const quantite=montantNet/item.prixAchat;const valeurActuelle=quantite*cours;const plusValue=valeurActuelle-montantNet;return `<tr><td>${dateStr}</td><td><strong>${formatEuroDecimal(item.montant)}</strong></td><td>${formatEuroDecimal(item.prixAchat)}</td><td>${quantite.toFixed(8)}</td><td class="positive">${formatEuroDecimal(valeurActuelle)}</td><td class="${plusValue>=0?'positive':'negative'}">${formatEuroDecimal(plusValue,true)}</td><td><button class="btn-delete" onclick="supprimer('${type}',${item.id})">🗑️</button></td></tr>`}).join('')}
+function afficherHistorique(type){const h=type==='pea'?historiquePEA:historiqueCTO;const tbody=document.getElementById('historique'+(type==='pea'?'PEA':'CTO'));if(h.length===0){tbody.innerHTML='<tr><td colspan="10" style="text-align:center;color:rgba(255,255,255,0.3);padding:24px">Aucun investissement</td></tr>';return}const rend=(Number(document.getElementById('rendement').value)||7)/100;const fraisPct=(Number(document.getElementById('fraisCourtage').value)||0)/100;const today=new Date();let cumulValeur=0,cumulVerse=0,html='';h.forEach(item=>{const depDate=new Date(item.date);const frais=item.montant*fraisPct;const montantInvesti=item.montant-frais;let valeurLigne=0;if(type==='pea'&&item.partsWPEA&&item.partsPAEEM&&coursWPEA>0&&coursPAEEM>0){valeurLigne=(item.partsWPEA*coursWPEA)+(item.partsPAEEM*coursPAEEM)}else if(type==='cto'&&item.partsWPEA&&item.partsPAEEM&&coursWPEACTO>0&&coursPAEEMCTO>0){valeurLigne=(item.partsWPEA*coursWPEACTO)+(item.partsPAEEM*coursPAEEMCTO)}else{let months=(today.getFullYear()-depDate.getFullYear())*12+(today.getMonth()-depDate.getMonth());if(months<0)months=0;valeurLigne=montantInvesti*Math.pow(1+rend/12,months)}cumulValeur+=valeurLigne;cumulVerse+=item.montant;const pvCumul=cumulValeur-(cumulVerse-(cumulVerse*fraisPct));const dateStr=depDate.toLocaleDateString('fr-FR',{day:'2-digit',month:'long',year:'numeric'});let htmlPartsWPEA='--',htmlPrixAchatWPEA='--',htmlPartsPAEEM='--',htmlPrixAchatPAEEM='--';if(item.partsWPEA>0&&item.prixAchatWPEA>0){htmlPartsWPEA=item.partsWPEA.toFixed(4);htmlPrixAchatWPEA=formatEuroDecimal(item.prixAchatWPEA)}if(item.partsPAEEM>0&&item.prixAchatPAEEM>0){htmlPartsPAEEM=item.partsPAEEM.toFixed(4);htmlPrixAchatPAEEM=formatEuroDecimal(item.prixAchatPAEEM)}html+=`<tr><td>${dateStr}</td><td><strong>${formatEuroDecimal(item.montant)}</strong></td><td style="color:#f87171">${formatEuroDecimal(frais)}</td><td>${htmlPartsWPEA}</td><td>${htmlPrixAchatWPEA}</td><td>${htmlPartsPAEEM}</td><td>${htmlPrixAchatPAEEM}</td><td class="positive"><strong>${formatEuroDecimal(cumulValeur)}</strong></td><td class="${pvCumul>=0?'positive':'negative'}">${formatEuroDecimal(pvCumul,true)}</td><td><button class="btn-delete" onclick="supprimer('${type}',${item.id})">🗑️</button></td></tr>`});tbody.innerHTML=html}
+function afficherHistoriqueCrypto(type){const h=type==='btc'?historiqueBTC:historiqueETH;const tbody=document.getElementById('historique'+(type==='btc'?'BTC':'ETH'));const cours=type==='btc'?coursBTC:coursETH;const fraisPct=(Number(document.getElementById('fraisCourtage').value)||0)/100;if(h.length===0){tbody.innerHTML='<tr><td colspan="7" style="text-align:center;color:rgba(255,255,255,0.3);padding:24px">Aucun investissement</td></tr>';return}tbody.innerHTML=h.map(item=>{const depDate=new Date(item.date);const dateStr=depDate.toLocaleDateString('fr-FR',{day:'2-digit',month:'long',year:'numeric'});const frais=item.montant*fraisPct;const montantNet=item.montant-frais;const quantite=montantNet/item.prixAchat;const valeurActuelle=quantite*cours;const plusValue=valeurActuelle-montantNet;return `<tr><td>${dateStr}</td><td><strong>${formatEuroDecimal(item.montant)}</strong></td><td>${formatEuroDecimal(item.prixAchat)}</td><td>${quantite.toFixed(8)}</td><td class="positive">${formatEuroDecimal(valeurActuelle)}</td><td class="${plusValue>=0?'positive':'negative'}">${formatEuroDecimal(plusValue,true)}</td><td><button class="btn-delete" onclick="supprimer('${type}',${item.id})">🗑️</button></td></tr>`}).join('')}
 function afficherProjection(capital,rend){const ages=[20,25,30,35,40,45];const age=Number(document.getElementById('age').value)||17;const invPEA=Number(document.getElementById('investissementPEA').value)||0;const invCTO=Number(document.getElementById('investissementCTO').value)||0;const fraisPct=(Number(document.getElementById('fraisCourtage').value)||0)/100;const inv=(invPEA+invCTO)*(1-fraisPct);const mRate=(rend/100)/12;const grid=document.getElementById('projectionGrid');const tbody=document.getElementById('projectionBody');grid.innerHTML='';tbody.innerHTML='';ages.forEach(a=>{if(a<=age)return;const yrs=a-age,mths=yrs*12;const final=mRate===0?capital+inv*mths:capital*Math.pow(1+mRate,mths)+inv*((Math.pow(1+mRate,mths)-1)/mRate);const versed=capital+(invPEA+invCTO)*mths;const pv=final-versed+(invPEA+invCTO)*mths*fraisPct;grid.innerHTML+=`<div class="projection-card"><div class="projection-age">${a} ans</div><div class="projection-amount">${formatEuroDecimal(final)}</div></div>`;tbody.innerHTML+=`<tr><td><strong>${a} ans</strong></td><td>${yrs} an${yrs>1?'s':''}</td><td>${formatEuroDecimal(versed)}</td><td class="positive"><strong>${formatEuroDecimal(final)}</strong></td><td class="${pv>=0?'positive':'negative'}">${formatEuroDecimal(pv,true)}</td></tr>`})}
 function calculerScenarios(capital,rendActuel){const age=Number(document.getElementById('age').value)||17;const invPEA=Number(document.getElementById('investissementPEA').value)||0;const invCTO=Number(document.getElementById('investissementCTO').value)||0;const fraisPct=(Number(document.getElementById('fraisCourtage').value)||0)/100;const inv=(invPEA+invCTO)*(1-fraisPct);const yrs=45-age;if(yrs<=0)return;[{id:'Pessimiste',r:5},{id:'Neutre',r:6.5},{id:'Optimiste',r:8},{id:'UltraOptimiste',r:9.5}].forEach(s=>{const mth=yrs*12,mRate=(s.r/100)/12;const final=mRate===0?capital+inv*mth:capital*Math.pow(1+mRate,mth)+inv*((Math.pow(1+mRate,mth)-1)/mRate);const gains=final-capital-(invPEA+invCTO)*mth+(invPEA+invCTO)*mth*fraisPct;document.getElementById('scenario'+s.id).textContent=formatEuroDecimal(final);document.getElementById('detail'+s.id).textContent='+'+formatEuroDecimal(gains)+' de gains'})}
 function ajouterMois(type){if(type==='pea'){const date=document.getElementById('nouvelleDatePEA').value;const montant=Number(document.getElementById('nouveauMontantPEA').value)||0;const partsWPEA=Number(document.getElementById('nouvellesPartsWPEA').value)||0;const prixWPEA=Number(document.getElementById('nouveauPrixWPEA').value)||0;const partsPAEEM=Number(document.getElementById('nouvellesPartsPAEEM').value)||0;const prixPAEEM=Number(document.getElementById('nouveauPrixPAEEM').value)||0;if(!date||montant<=0){alert('❌ Remplis au minimum la date et le montant total !');return}historiquePEA.push({date,montant,world:partsWPEA*prixWPEA,em:partsPAEEM*prixPAEEM,partsWPEA,prixAchatWPEA:prixWPEA,partsPAEEM,prixAchatPAEEM:prixPAEEM,id:Date.now()});historiquePEA.sort((a,b)=>new Date(a.date)-new Date(b.date));document.getElementById('nouvelleDatePEA').value='';document.getElementById('nouveauMontantPEA').value='900';document.getElementById('nouvellesPartsWPEA').value='';document.getElementById('nouveauPrixWPEA').value='';document.getElementById('nouvellesPartsPAEEM').value='';document.getElementById('nouveauPrixPAEEM').value=''}else{const date=document.getElementById('nouvelleDateCTO').value;const montant=Number(document.getElementById('nouveauMontantCTO').value)||0;const partsWPEA=Number(document.getElementById('nouvellesPartsWPEACTO').value)||0;const prixWPEA=Number(document.getElementById('nouveauPrixWPEACTO').value)||0;const partsPAEEM=Number(document.getElementById('nouvellesPartsPAEEMCTO').value)||0;const prixPAEEM=Number(document.getElementById('nouveauPrixPAEEMCTO').value)||0;if(!date||montant<=0){alert('❌ Remplis la date et le montant !');return}historiqueCTO.push({date,montant,world:partsWPEA*prixWPEA,em:partsPAEEM*prixPAEEM,partsWPEA,prixAchatWPEA:prixWPEA,partsPAEEM,prixAchatPAEEM:prixPAEEM,id:Date.now()});historiqueCTO.sort((a,b)=>new Date(a.date)-new Date(b.date));document.getElementById('nouvelleDateCTO').value='';document.getElementById('nouveauMontantCTO').value='0';document.getElementById('nouvellesPartsWPEACTO').value='';document.getElementById('nouveauPrixWPEACTO').value='';document.getElementById('nouvellesPartsPAEEMCTO').value='';document.getElementById('nouveauPrixPAEEMCTO').value=''}calculer()}
@@ -835,7 +1071,7 @@ function switchPage(page){document.querySelectorAll('.folder-tab').forEach(t=>t.
 function formatEuroDecimal(val,signe=false){if(!val||isNaN(val))return '0,00 €';const fmt=val.toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})+' €';return signe&&val>=0?'+ '+fmt:fmt}
 function formatEuro(val,signe=false){if(!val||isNaN(val))return '0 €';const fmt=Math.round(val).toLocaleString('fr-FR')+' €';return signe&&val>=0?'+ '+fmt:fmt}
 function calculerDCA(){let totalPartsWPEA=0,totalInvestiWPEA=0;let totalPartsPAEEM=0,totalInvestiPAEEM=0;historiquePEA.forEach(item=>{if(item.partsWPEA>0){totalPartsWPEA+=item.partsWPEA;totalInvestiWPEA+=item.partsWPEA*item.prixAchatWPEA}if(item.partsPAEEM>0){totalPartsPAEEM+=item.partsPAEEM;totalInvestiPAEEM+=item.partsPAEEM*item.prixAchatPAEEM}});let totalPartsWPEACTO=0,totalInvestiWPEACTO=0;let totalPartsPAEEMCTO=0,totalInvestiPAEEMCTO=0;historiqueCTO.forEach(item=>{if(item.partsWPEA>0){totalPartsWPEACTO+=item.partsWPEA;totalInvestiWPEACTO+=item.partsWPEA*item.prixAchatWPEA}if(item.partsPAEEM>0){totalPartsPAEEMCTO+=item.partsPAEEM;totalInvestiPAEEMCTO+=item.partsPAEEM*item.prixAchatPAEEM}});let totalInvestiBTC=0,totalQuantiteBTC=0;historiqueBTC.forEach(item=>{const fraisPct=(Number(document.getElementById('fraisCourtage').value)||0)/100;const montantNet=item.montant-(item.montant*fraisPct);totalQuantiteBTC+=montantNet/item.prixAchat;totalInvestiBTC+=montantNet});let totalInvestiETH=0,totalQuantiteETH=0;historiqueETH.forEach(item=>{const fraisPct=(Number(document.getElementById('fraisCourtage').value)||0)/100;const montantNet=item.montant-(item.montant*fraisPct);totalQuantiteETH+=montantNet/item.prixAchat;totalInvestiETH+=montantNet});document.getElementById('dcaWPEA').textContent=totalPartsWPEA>0?formatEuroDecimal(totalInvestiWPEA/totalPartsWPEA):'-- €';document.getElementById('dcaPAEEM').textContent=totalPartsPAEEM>0?formatEuroDecimal(totalInvestiPAEEM/totalPartsPAEEM):'-- €';document.getElementById('dcaWPEACTO').textContent=totalPartsWPEACTO>0?formatEuroDecimal(totalInvestiWPEACTO/totalPartsWPEACTO):'-- €';document.getElementById('dcaPAEEMCTO').textContent=totalPartsPAEEMCTO>0?formatEuroDecimal(totalInvestiPAEEMCTO/totalPartsPAEEMCTO):'-- €';document.getElementById('dcaBTC').textContent=totalQuantiteBTC>0?formatEuroDecimal(totalInvestiBTC/totalQuantiteBTC):'-- €';document.getElementById('dcaETH').textContent=totalQuantiteETH>0?formatEuroDecimal(totalInvestiETH/totalQuantiteETH):'-- €'}
-function afficherHistoriqueUnifie(){const tbody=document.getElementById('historiqueUnifie');let transactions=[];historiquePEA.forEach(item=>{transactions.push({date:new Date(item.date),type:'📈 PEA',montant:item.montant,details:`${item.partsWPEA?item.partsWPEA.toFixed(4)+' WPEA':''} ${item.partsPAEEM?'+ '+item.partsPAEEM.toFixed(4)+' PAEEM':''}`})});historiqueCTO.forEach(item=>{transactions.push({date:new Date(item.date),type:'📊 CTO',montant:item.montant,details:`${item.partsWPEA?item.partsWPEA.toFixed(4)+' WPEA':''} ${item.partsPAEEM?'+ '+item.partsPAEEM.toFixed(4)+' PAEEM':''}`})});historiqueBTC.forEach(item=>{const fraisPct=(Number(document.getElementById('fraisCourtage').value)||0)/100;const qteBTC=(item.montant-item.montant*fraisPct)/item.prixAchat;transactions.push({date:new Date(item.date),type:'₿ Bitcoin',montant:item.montant,details:qteBTC.toFixed(8)+' BTC @ '+formatEuroDecimal(item.prixAchat)})});historiqueETH.forEach(item=>{const fraisPct=(Number(document.getElementById('fraisCourtage').value)||0)/100;const qteETH=(item.montant-item.montant*fraisPct)/item.prixAchat;transactions.push({date:new Date(item.date),type:'⟠ Ethereum',montant:item.montant,details:qteETH.toFixed(8)+' ETH @ '+formatEuroDecimal(item.prixAchat)})});transactions.sort((a,b)=>b.date-a.date);if(transactions.length===0){tbody.innerHTML='<tr><td colspan="4" style="text-align:center;color:#6b7280;padding:24px">Aucune transaction</td></tr>';return}tbody.innerHTML=transactions.map(t=>{const dateStr=t.date.toLocaleDateString('fr-FR',{day:'2-digit',month:'long',year:'numeric'});return `<tr><td>${dateStr}</td><td><strong>${t.type}</strong></td><td class="positive">${formatEuroDecimal(t.montant)}</td><td style="color:#6b7280">${t.details}</td></tr>`}).join('')}
+function afficherHistoriqueUnifie(){const tbody=document.getElementById('historiqueUnifie');let transactions=[];historiquePEA.forEach(item=>{transactions.push({date:new Date(item.date),type:'📈 PEA',montant:item.montant,details:`${item.partsWPEA?item.partsWPEA.toFixed(4)+' WPEA':''} ${item.partsPAEEM?'+ '+item.partsPAEEM.toFixed(4)+' PAEEM':''}`})});historiqueCTO.forEach(item=>{transactions.push({date:new Date(item.date),type:'📊 CTO',montant:item.montant,details:`${item.partsWPEA?item.partsWPEA.toFixed(4)+' WPEA':''} ${item.partsPAEEM?'+ '+item.partsPAEEM.toFixed(4)+' PAEEM':''}`})});historiqueBTC.forEach(item=>{const fraisPct=(Number(document.getElementById('fraisCourtage').value)||0)/100;const qteBTC=(item.montant-item.montant*fraisPct)/item.prixAchat;transactions.push({date:new Date(item.date),type:'₿ Bitcoin',montant:item.montant,details:qteBTC.toFixed(8)+' BTC @ '+formatEuroDecimal(item.prixAchat)})});historiqueETH.forEach(item=>{const fraisPct=(Number(document.getElementById('fraisCourtage').value)||0)/100;const qteETH=(item.montant-item.montant*fraisPct)/item.prixAchat;transactions.push({date:new Date(item.date),type:'⟠ Ethereum',montant:item.montant,details:qteETH.toFixed(8)+' ETH @ '+formatEuroDecimal(item.prixAchat)})});transactions.sort((a,b)=>b.date-a.date);if(transactions.length===0){tbody.innerHTML='<tr><td colspan="4" style="text-align:center;color:rgba(255,255,255,0.3);padding:24px">Aucune transaction</td></tr>';return}tbody.innerHTML=transactions.map(t=>{const dateStr=t.date.toLocaleDateString('fr-FR',{day:'2-digit',month:'long',year:'numeric'});return `<tr><td>${dateStr}</td><td><strong>${t.type}</strong></td><td class="positive">${formatEuroDecimal(t.montant)}</td><td style="color:rgba(255,255,255,0.3)">${t.details}</td></tr>`}).join('')}
 function calculerSimulation(){const invSupp=Number(document.getElementById('simInvSupp').value)||0;const rendSim=Number(document.getElementById('simRendement').value)||7;const ageCible=Number(document.getElementById('simAgeCible').value)||45;const age=Number(document.getElementById('age').value)||17;const invPEA=Number(document.getElementById('investissementPEA').value)||0;const invCTO=Number(document.getElementById('investissementCTO').value)||0;const fraisPct=(Number(document.getElementById('fraisCourtage').value)||0)/100;const livret=Number(document.getElementById('livretA').value)||0;const courant=Number(document.getElementById('compteCourant').value)||0;const soldeEspeces=Number(document.getElementById('soldeEspecesPEA').value)||0;const pea=calculerValeur(historiquePEA,rendSim,true);const cto=calculerValeur(historiqueCTO,rendSim,false);const capitalActuel=pea.valeur+cto.valeur+livret+courant+soldeEspeces;const yrs=ageCible-age;if(yrs<=0){alert('⚠️ L\'âge cible doit être supérieur à ton âge actuel !');return}const invTotal=(invPEA+invCTO+invSupp)*(1-fraisPct);const mRate=(rendSim/100)/12;const mths=yrs*12;const capitalActuelScenario=mRate===0?capitalActuel+(invPEA+invCTO)*(1-fraisPct)*mths:capitalActuel*Math.pow(1+mRate,mths)+(invPEA+invCTO)*(1-fraisPct)*((Math.pow(1+mRate,mths)-1)/mRate);const capitalSimule=mRate===0?capitalActuel+invTotal*mths:capitalActuel*Math.pow(1+mRate,mths)+invTotal*((Math.pow(1+mRate,mths)-1)/mRate);const diff=capitalSimule-capitalActuelScenario;const resultat=document.getElementById('resultatsSimulation');resultat.innerHTML=`<div class="stat-card"><div class="stat-label">💰 Capital actuel</div><div class="stat-value">${formatEuroDecimal(capitalActuel)}</div></div><div class="stat-card neutre"><div class="stat-label">📊 Scénario actuel à ${ageCible} ans</div><div class="stat-value">${formatEuroDecimal(capitalActuelScenario)}</div></div><div class="stat-card optimiste"><div class="stat-label">🚀 Avec ${formatEuroDecimal(invSupp*yrs*12)} de plus</div><div class="stat-value">${formatEuroDecimal(capitalSimule)}</div></div><div class="stat-card"><div class="stat-label">💎 Différence</div><div class="stat-value positive">+ ${formatEuroDecimal(diff)}</div></div>`}
 function calculerFIRE(){const depensesAnnuelles=Number(document.getElementById('fireDepenses').value)||40000;const tauxRetrait=Number(document.getElementById('fireTaux').value)||4;const age=Number(document.getElementById('age').value)||17;const invPEA=Number(document.getElementById('investissementPEA').value)||0;const invCTO=Number(document.getElementById('investissementCTO').value)||0;const rend=Number(document.getElementById('rendement').value)||7;const fraisPct=(Number(document.getElementById('fraisCourtage').value)||0)/100;const livret=Number(document.getElementById('livretA').value)||0;const courant=Number(document.getElementById('compteCourant').value)||0;const soldeEspeces=Number(document.getElementById('soldeEspecesPEA').value)||0;const pea=calculerValeur(historiquePEA,rend,true);const cto=calculerValeur(historiqueCTO,rend,false);const capitalActuel=pea.valeur+cto.valeur+livret+courant+soldeEspeces;const capitalNecessaire=depensesAnnuelles/(tauxRetrait/100);const manquant=capitalNecessaire-capitalActuel;let ageFIRE=age;if(manquant>0){const invMensuel=(invPEA+invCTO)*(1-fraisPct);const mRate=(rend/100)/12;if(invMensuel>0&&mRate>0){const moisNecessaires=Math.log((capitalNecessaire*mRate/invMensuel)+1)/Math.log(1+mRate)-Math.log((capitalActuel*mRate/invMensuel)+1)/Math.log(1+mRate);ageFIRE=age+Math.ceil(moisNecessaires/12)}else{ageFIRE='∞'}}const resultat=document.getElementById('resultatsFIRE');resultat.innerHTML=`<div class="stat-card pessimiste"><div class="stat-label">🎯 Capital nécessaire FIRE</div><div class="stat-value">${formatEuroDecimal(capitalNecessaire)}</div></div><div class="stat-card"><div class="stat-label">💰 Capital actuel</div><div class="stat-value">${formatEuroDecimal(capitalActuel)}</div></div><div class="stat-card ${manquant>0?'neutre':'optimiste'}"><div class="stat-label">${manquant>0?'📉 Manquant':'✅ Surplus'}</div><div class="stat-value ${manquant>0?'':'positive'}">${formatEuroDecimal(Math.abs(manquant))}</div></div><div class="stat-card optimiste"><div class="stat-label">🔥 Âge FIRE estimé</div><div class="stat-value" style="color:#00d4aa">${ageFIRE==='∞'?'∞':ageFIRE+' ans'}</div></div>`}
 function calculerImpotsSimulation(){const pea=calculerValeur(historiquePEA,Number(document.getElementById('rendement').value)||7,true);const cto=calculerValeur(historiqueCTO,Number(document.getElementById('rendement').value)||7,false);const btc=calculerCrypto(historiqueBTC,coursBTC);const eth=calculerCrypto(historiqueETH,coursETH);const impotPEA=pea.plusValue*0.186;const impotCTO=cto.plusValue*0.314;const impotCrypto=(btc.plusValue+eth.plusValue)*0.314;const netPEA=pea.plusValue-impotPEA;const netCTO=cto.plusValue-impotCTO;const netCrypto=(btc.plusValue+eth.plusValue)-impotCrypto;const resultat=document.getElementById('simulateurImpots');resultat.innerHTML=`<div class="stat-card pea"><div class="stat-label">📈 PEA - Plus-value brute</div><div class="stat-value positive">${formatEuroDecimal(pea.plusValue)}</div><div style="font-size:12px;color:#6b7280;margin-top:8px">Impôts (18,6%) : ${formatEuroDecimal(impotPEA)}</div><div style="font-size:14px;color:#00d4aa;margin-top:4px;font-weight:700">Net : ${formatEuroDecimal(netPEA)}</div></div><div class="stat-card cto"><div class="stat-label">📊 CTO - Plus-value brute</div><div class="stat-value positive">${formatEuroDecimal(cto.plusValue)}</div><div style="font-size:12px;color:#6b7280;margin-top:8px">PFU (31,4%) : ${formatEuroDecimal(impotCTO)}</div><div style="font-size:14px;color:#00d4aa;margin-top:4px;font-weight:700">Net : ${formatEuroDecimal(netCTO)}</div></div><div class="stat-card crypto"><div class="stat-label">₿ Crypto - Plus-value brute</div><div class="stat-value positive">${formatEuroDecimal(btc.plusValue+eth.plusValue)}</div><div style="font-size:12px;color:#6b7280;margin-top:8px">PFU (31,4%) : ${formatEuroDecimal(impotCrypto)}</div><div style="font-size:14px;color:#00d4aa;margin-top:4px;font-weight:700">Net : ${formatEuroDecimal(netCrypto)}</div></div><div class="stat-card"><div class="stat-label">💸 Total impôts à payer</div><div class="stat-value" style="color:#f87171">${formatEuroDecimal(impotPEA+impotCTO+impotCrypto)}</div><div style="font-size:12px;color:#6b7280;margin-top:8px">Plus-value nette totale</div><div style="font-size:14px;color:#00d4aa;margin-top:4px;font-weight:700">${formatEuroDecimal(netPEA+netCTO+netCrypto)}</div></div>`}
@@ -892,7 +1128,7 @@ const cto=calculerValeur(historiqueCTO,Number(document.getElementById('rendement
 const totalVal=pea.valeur+cto.valeur;
 document.getElementById('rendementDiv').textContent=totalVal>0?((totalPEA+totalCTO)/totalVal*100).toFixed(2)+'%':'0%';
 document.getElementById('prochainDiv').textContent='--';
-if(dividendes.length===0){tbody.innerHTML='<tr><td colspan="4" style="text-align:center;color:#6b7280;padding:24px">Aucun dividende</td></tr>';return}
+if(dividendes.length===0){tbody.innerHTML='<tr><td colspan="4" style="text-align:center;color:rgba(255,255,255,0.3);padding:24px">Aucun dividende</td></tr>';return}
 const sorted=[...dividendes].sort((a,b)=>new Date(b.date)-new Date(a.date));
 tbody.innerHTML=sorted.map(d=>{const dateStr=new Date(d.date).toLocaleDateString('fr-FR',{day:'2-digit',month:'long',year:'numeric'});
 return '<tr><td>'+dateStr+'</td><td><strong>'+(d.type==='pea'?'PEA':'CTO')+'</strong></td><td class="positive">'+formatEuroDecimal(d.montant)+'</td><td><button class="btn-delete" onclick="supprimerDividende('+d.id+')">X</button></td></tr>'}).join('');
@@ -947,7 +1183,7 @@ const renteObtenue=capitalProj*(tauxRetrait/100)/12;
 const resultat=document.getElementById('resultatsRetraite');
 resultat.innerHTML='<div class="stat-card"><div class="stat-label">Capital necessaire</div><div class="stat-value">'+formatEuroDecimal(capitalNecessaire)+'</div></div><div class="stat-card optimiste"><div class="stat-label">Capital projete a '+ageRetraite+' ans</div><div class="stat-value">'+formatEuroDecimal(capitalProj)+'</div></div><div class="stat-card '+(capitalProj>=capitalNecessaire?'optimiste':'pessimiste')+'"><div class="stat-label">'+(capitalProj>=capitalNecessaire?'Surplus':'Deficit')+'</div><div class="stat-value">'+formatEuroDecimal(Math.abs(capitalProj-capitalNecessaire))+'</div></div><div class="stat-card neutre"><div class="stat-label">Rente mensuelle possible</div><div class="stat-value">'+formatEuroDecimal(renteObtenue)+'/mois</div></div>';
 const strat=document.getElementById('strategieRetrait');
-if(strat){strat.innerHTML='<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px"><div style="background:#13151f;padding:14px;border-radius:12px;border:1px solid #1e2030;text-align:center"><div style="font-size:11px;color:#6b7280;margin-bottom:6px">CTO (en premier)</div><div style="font-size:18px;font-weight:800;color:#a78bfa">'+formatEuroDecimal(cto.valeur)+'</div></div><div style="background:#13151f;padding:14px;border-radius:12px;border:1px solid #1e2030;text-align:center"><div style="font-size:11px;color:#6b7280;margin-bottom:6px">PEA (ensuite)</div><div style="font-size:18px;font-weight:800;color:#7c6dfa">'+formatEuroDecimal(pea.valeur)+'</div></div></div>'}}
+if(strat){strat.innerHTML='<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px"><div style="background:rgba(255,255,255,0.02);padding:14px;border-radius:14px;border:1px solid rgba(255,255,255,0.04);text-align:center"><div style="font-size:10px;color:rgba(255,255,255,0.35);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px">CTO (en premier)</div><div style="font-size:18px;font-weight:700;color:#a78bfa">'+formatEuroDecimal(cto.valeur)+'</div></div><div style="background:rgba(255,255,255,0.02);padding:14px;border-radius:14px;border:1px solid rgba(255,255,255,0.04);text-align:center"><div style="font-size:10px;color:rgba(255,255,255,0.35);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px">PEA (ensuite)</div><div style="font-size:18px;font-weight:700;color:#7c6dfa">'+formatEuroDecimal(pea.valeur)+'</div></div></div>'}}
 function calculerCarriere(){
 const salaireAlt=Number(document.getElementById('salaireAlternance').value)||1200;
 const salaireMCVal=Number(document.getElementById('salaireMC').value)||1800;
@@ -1022,7 +1258,7 @@ const badgesList=[
 {key:'streak12',icon:'🏅',label:'Streak 12 mois',desc:'12 mois consecutifs'}
 ];
 container.innerHTML=badgesList.map(b=>{const unlocked=badges[b.key];
-return '<div style="background:'+(unlocked?'linear-gradient(135deg,#1a1d3a,#2d2a5e)':'#0f1117')+';border:1px solid '+(unlocked?'#7c6dfa':'#1e2030')+';border-radius:16px;padding:16px;text-align:center;opacity:'+(unlocked?'1':'0.4')+';transition:all .2s"><div style="font-size:28px;margin-bottom:6px">'+(unlocked?b.icon:'🔒')+'</div><div style="font-size:12px;font-weight:700;color:'+(unlocked?'#e2e8f0':'#6b7280')+'">'+b.label+'</div><div style="font-size:10px;color:#6b7280;margin-top:4px">'+b.desc+'</div></div>'}).join('')}
+return '<div style="background:'+(unlocked?'rgba(124,109,250,0.08)':'rgba(255,255,255,0.01)')+';border:1px solid '+(unlocked?'rgba(124,109,250,0.2)':'rgba(255,255,255,0.04)')+';border-radius:14px;padding:14px 10px;text-align:center;opacity:'+(unlocked?'1':'0.35')+';transition:all .3s cubic-bezier(.4,0,.2,1)"><div style="font-size:24px;margin-bottom:6px">'+(unlocked?b.icon:'🔒')+'</div><div style="font-size:11px;font-weight:600;color:'+(unlocked?'#e8eaed':'rgba(255,255,255,0.4)')+'">'+b.label+'</div><div style="font-size:9px;color:rgba(255,255,255,0.3);margin-top:4px">'+b.desc+'</div></div>'}).join('')}
 function afficherVueSimple(){
 const pea=calculerValeur(historiquePEA,Number(document.getElementById('rendement').value)||7,true);
 const cto=calculerValeur(historiqueCTO,Number(document.getElementById('rendement').value)||7,false);
@@ -1052,4 +1288,3 @@ ctx.fillStyle='#6b7280';ctx.font='10px Inter,sans-serif';ctx.textAlign='center';
 ctx.fillStyle='#e2e8f0';ctx.font='bold 10px Inter,sans-serif';ctx.fillText(formatEuro(vals[i]),x+barW/2,y-8)})}
 </script>
 </body>
-</html>   
