@@ -126,11 +126,32 @@ input[type="date"],input[type="number"]{color-scheme:dark}
     <button class="folder-tab" onclick="switchPage('crypto')">₿ Crypto</button>
     <button class="folder-tab" onclick="switchPage('analyse')">🔬 Analyse</button>
     <button class="folder-tab" onclick="switchPage('performance')">📈 Performance</button>
+    <button class="folder-tab" onclick="switchPage('dividendes')">💰 Dividendes</button>
+    <button class="folder-tab" onclick="switchPage('retraite')">🏖️ Retraite</button>
   </div>
 
   <div class="page-content">
     <!-- VUE D'ENSEMBLE -->
     <div id="overview" class="page active">
+      <!-- Résumé du jour -->
+      <div style="background:linear-gradient(135deg,#7c6dfa 0%,#6355cc 100%);padding:24px;border-radius:20px;margin-bottom:20px;color:#fff;box-shadow:0 8px 28px rgba(124,109,250,0.4)">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px">
+          <div>
+            <div style="font-size:13px;opacity:0.9;margin-bottom:6px">📊 CAPITAL TOTAL</div>
+            <div style="font-size:36px;font-weight:800;letter-spacing:-1px" id="capitalTotalHero">0 €</div>
+          </div>
+          <div style="text-align:right">
+            <div style="font-size:13px;opacity:0.9;margin-bottom:6px">📈 AUJOURD'HUI</div>
+            <div style="font-size:28px;font-weight:800" id="variationJour">+0 €</div>
+          </div>
+        </div>
+        <div style="margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.2);display:flex;justify-content:space-between;font-size:13px;opacity:0.9">
+          <div>🎯 Progression : <strong id="progHero">0%</strong></div>
+          <div>💰 Taux d'épargne : <strong id="tauxEpargne">0%</strong></div>
+          <div>📅 Prochain invest : <strong id="prochainInvest">--</strong></div>
+        </div>
+      </div>
+
       <div class="params-section">
         <div class="params-title">⚙️ Mes paramètres</div>
         <div class="params-grid">
@@ -560,22 +581,131 @@ input[type="date"],input[type="number"]{color-scheme:dark}
         </div>
       </div>
     </div>
+
+    <!-- DIVIDENDES -->
+    <div id="dividendes" class="page">
+      <div class="chart-section">
+        <div class="section-title">💰 Gestion des dividendes</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:20px">
+          <div class="stat-card pea">
+            <div class="stat-label">💵 Total dividendes PEA</div>
+            <div class="stat-value" id="totalDivPEA">0 €</div>
+          </div>
+          <div class="stat-card cto">
+            <div class="stat-label">💵 Total dividendes CTO</div>
+            <div class="stat-value" id="totalDivCTO">0 €</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">📊 Rendement moyen</div>
+            <div class="stat-value" id="rendementDiv">0%</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">📅 Prochains dividendes</div>
+            <div class="stat-value" id="prochainDiv">--</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="chart-section">
+        <div class="section-title">➕ Ajouter un dividende</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-bottom:16px">
+          <div><label style="font-size:11px;color:#6b7280;margin-bottom:6px;display:block;text-transform:uppercase;letter-spacing:0.6px;font-weight:600">📅 Date</label><input id="dividendeDate" type="date" style="padding:10px 12px;border-radius:10px;border:1px solid #1e2030;background:#0f1117;color:#e2e8f0;font-size:14px;font-family:inherit;width:100%" /></div>
+          <div><label style="font-size:11px;color:#6b7280;margin-bottom:6px;display:block;text-transform:uppercase;letter-spacing:0.6px;font-weight:600">💰 Montant (€)</label><input id="dividendeMontant" type="number" step="0.01" placeholder="25.50" style="padding:10px 12px;border-radius:10px;border:1px solid #1e2030;background:#0f1117;color:#e2e8f0;font-size:14px;font-family:inherit;width:100%;font-weight:600" /></div>
+          <div><label style="font-size:11px;color:#6b7280;margin-bottom:6px;display:block;text-transform:uppercase;letter-spacing:0.6px;font-weight:600">📂 Type</label><select id="dividendeType" style="padding:10px 12px;border-radius:10px;border:1px solid #1e2030;background:#0f1117;color:#e2e8f0;font-size:14px;font-family:inherit;width:100%;font-weight:600"><option value="pea">PEA</option><option value="cto">CTO</option></select></div>
+          <div style="display:flex;align-items:end"><button class="btn-add" onclick="ajouterDividende()" style="width:100%;padding:12px 16px">➕ Ajouter</button></div>
+        </div>
+        <table>
+          <thead><tr><th>📅 Date</th><th>📂 Type</th><th>💰 Montant</th><th>🗑️</th></tr></thead>
+          <tbody id="historiqueDividendes"></tbody>
+        </table>
+      </div>
+
+      <div class="chart-section">
+        <div class="section-title">📊 Évolution des dividendes</div>
+        <canvas id="dividendesChart" width="800" height="300"></canvas>
+      </div>
+    </div>
+
+    <!-- RETRAITE -->
+    <div id="retraite" class="page">
+      <div class="chart-section">
+        <div class="section-title">🏖️ Planification retraite</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-bottom:20px">
+          <div class="param-item">
+            <label>🎂 Âge de départ souhaité</label>
+            <input id="ageRetraite" type="number" value="65" min="50" max="75" />
+          </div>
+          <div class="param-item">
+            <label>💰 Rente mensuelle souhaitée (€)</label>
+            <input id="renteRetraite" type="number" value="3000" step="100" min="0" />
+          </div>
+          <div class="param-item">
+            <label>📊 Taux retrait annuel (%)</label>
+            <input id="tauxRetraitRetraite" type="number" value="4" step="0.5" min="1" max="10" />
+          </div>
+        </div>
+        <div style="text-align:center;margin-bottom:20px">
+          <button class="btn-primary" onclick="calculerRetraite()">🏖️ Calculer ma retraite</button>
+        </div>
+        <div id="resultatsRetraite" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px"></div>
+      </div>
+
+      <div class="chart-section">
+        <div class="section-title">💸 Stratégie de retrait optimale</div>
+        <div style="background:#0f1117;padding:20px;border-radius:12px;border:1px solid #1e2030">
+          <div style="font-size:13px;color:#6b7280;margin-bottom:16px;line-height:1.6">
+            <strong style="color:#7c6dfa">💡 Ordre de retrait recommandé pour optimiser la fiscalité :</strong><br><br>
+            <strong>1️⃣ CTO en premier</strong> - PFU 31,4% + abattement si détention longue<br>
+            <strong>2️⃣ PEA ensuite</strong> - Après 5 ans : seulement 18,6% de prélèvements sociaux<br>
+            <strong>3️⃣ Assurance-vie</strong> - Abattements importants après 8 ans<br>
+            <strong>4️⃣ Crypto en dernier</strong> - PFU 31,4% sans abattement
+          </div>
+          <div id="strategieRetrait"></div>
+        </div>
+      </div>
+
+      <div class="chart-section">
+        <div class="section-title">📉 Scénarios de crise</div>
+        <div class="scenario-grid">
+          <div class="scenario-card pessimiste">
+            <div class="scenario-title">📉 Krach -40%</div>
+            <div class="scenario-value" id="scenarioKrach">0 €</div>
+            <div class="scenario-detail">Impact immédiat</div>
+          </div>
+          <div class="scenario-card neutre">
+            <div class="scenario-title">📊 Correction -20%</div>
+            <div class="scenario-value" id="scenarioCorrection">0 €</div>
+            <div class="scenario-detail">Impact modéré</div>
+          </div>
+          <div class="scenario-card optimiste">
+            <div class="scenario-title">🚀 Bull Run +50%</div>
+            <div class="scenario-value" id="scenarioBull">0 €</div>
+            <div class="scenario-detail">Scénario optimiste</div>
+          </div>
+          <div class="scenario-card">
+            <div class="scenario-title">⏱️ Récupération</div>
+            <div class="scenario-value" id="scenarioRecup">-- mois</div>
+            <div class="scenario-detail">Après -40%</div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
 <script>
 let historiquePEA=[];let historiqueCTO=[];let historiqueBTC=[];let historiqueETH=[];let coursBTC=0;let coursETH=0;let coursWPEA=0;let coursPAEEM=0;let coursWPEACTO=0;let coursPAEEMCTO=0;
-let objectifs=[];
+let objectifs=[];let dividendes=[];let capitalHier=0;
 window.onload=function(){try{const saved=localStorage.getItem('dashboardPEA_CTO_Crypto_v2');if(saved){const data=JSON.parse(saved);Object.keys(data).forEach(key=>{const el=document.getElementById(key);if(el&&el.type==='number')el.value=data[key]});historiquePEA=data.historiquePEA||[];historiqueCTO=data.historiqueCTO||[];      historiqueBTC=data.historiqueBTC||[];historiqueETH=data.historiqueETH||[];coursWPEA=data.coursWPEA||0;coursPAEEM=data.coursPAEEM||0;coursWPEACTO=data.coursWPEACTO||0;coursPAEEMCTO=data.coursPAEEMCTO||0;
-      objectifs=data.objectifs||[];if(coursWPEA>0){document.getElementById('coursWPEA').textContent=formatEuroDecimal(coursWPEA);document.getElementById('nouveauCoursWPEA').value=coursWPEA}if(coursPAEEM>0){document.getElementById('coursPAEEM').textContent=formatEuroDecimal(coursPAEEM);document.getElementById('nouveauCoursPAEEM').value=coursPAEEM}if(coursWPEACTO>0){document.getElementById('coursWPEACTO').textContent=formatEuroDecimal(coursWPEACTO);document.getElementById('nouveauCoursWPEACTO').value=coursWPEACTO}if(coursPAEEMCTO>0){document.getElementById('coursPAEEMCTO').textContent=formatEuroDecimal(coursPAEEMCTO);document.getElementById('nouveauCoursPAEEMCTO').value=coursPAEEMCTO}}}catch(e){console.log('Pas de sauvegarde')}rafraichirCours();setTimeout(()=>calculer(),100)};
+      objectifs=data.objectifs||[];dividendes=data.dividendes||[];capitalHier=data.capitalHier||0;if(coursWPEA>0){document.getElementById('coursWPEA').textContent=formatEuroDecimal(coursWPEA);document.getElementById('nouveauCoursWPEA').value=coursWPEA}if(coursPAEEM>0){document.getElementById('coursPAEEM').textContent=formatEuroDecimal(coursPAEEM);document.getElementById('nouveauCoursPAEEM').value=coursPAEEM}if(coursWPEACTO>0){document.getElementById('coursWPEACTO').textContent=formatEuroDecimal(coursWPEACTO);document.getElementById('nouveauCoursWPEACTO').value=coursWPEACTO}if(coursPAEEMCTO>0){document.getElementById('coursPAEEMCTO').textContent=formatEuroDecimal(coursPAEEMCTO);document.getElementById('nouveauCoursPAEEMCTO').value=coursPAEEMCTO}}}catch(e){console.log('Pas de sauvegarde')}rafraichirCours();setTimeout(()=>calculer(),100)};
 function mettreAJourCoursETF(){const wpea=Number(document.getElementById('nouveauCoursWPEA').value);const paeem=Number(document.getElementById('nouveauCoursPAEEM').value);if(wpea>0){coursWPEA=wpea;document.getElementById('coursWPEA').textContent=formatEuroDecimal(coursWPEA)}if(paeem>0){coursPAEEM=paeem;document.getElementById('coursPAEEM').textContent=formatEuroDecimal(coursPAEEM)}if(wpea>0||paeem>0){calculer();alert('✅ Cours des ETF mis à jour !')}else{alert('❌ Entre au moins un cours valide !')}}
 function mettreAJourCoursETFCTO(){const wpea=Number(document.getElementById('nouveauCoursWPEACTO').value);const paeem=Number(document.getElementById('nouveauCoursPAEEMCTO').value);if(wpea>0){coursWPEACTO=wpea;document.getElementById('coursWPEACTO').textContent=formatEuroDecimal(coursWPEACTO)}if(paeem>0){coursPAEEMCTO=paeem;document.getElementById('coursPAEEMCTO').textContent=formatEuroDecimal(coursPAEEMCTO)}if(wpea>0||paeem>0){calculer();alert('✅ Cours des ETF CTO mis à jour !')}else{alert('❌ Entre au moins un cours valide !')}}
-function sauvegarder(){const data={revenu:document.getElementById('revenu').value,investissementPEA:document.getElementById('investissementPEA').value,investissementCTO:document.getElementById('investissementCTO').value,soldeEspecesPEA:document.getElementById('soldeEspecesPEA').value,fraisCourtage:document.getElementById('fraisCourtage').value,peaMsciWorld:document.getElementById('peaMsciWorld').value,peaMsciEM:document.getElementById('peaMsciEM').value,ctoMsciWorld:document.getElementById('ctoMsciWorld').value,ctoMsciEM:document.getElementById('ctoMsciEM').value,rendement:document.getElementById('rendement').value,age:document.getElementById('age').value,livretA:document.getElementById('livretA').value,compteCourant:document.getElementById('compteCourant').value,historiquePEA:historiquePEA,historiqueCTO:historiqueCTO,historiqueBTC:historiqueBTC,historiqueETH:historiqueETH,coursWPEA:coursWPEA,coursPAEEM:coursPAEEM,coursWPEACTO:coursWPEACTO,coursPAEEMCTO:coursPAEEMCTO,objectifs:objectifs};localStorage.setItem('dashboardPEA_CTO_Crypto_v2',JSON.stringify(data))}
+function sauvegarder(){const data={revenu:document.getElementById('revenu').value,investissementPEA:document.getElementById('investissementPEA').value,investissementCTO:document.getElementById('investissementCTO').value,soldeEspecesPEA:document.getElementById('soldeEspecesPEA').value,fraisCourtage:document.getElementById('fraisCourtage').value,peaMsciWorld:document.getElementById('peaMsciWorld').value,peaMsciEM:document.getElementById('peaMsciEM').value,ctoMsciWorld:document.getElementById('ctoMsciWorld').value,ctoMsciEM:document.getElementById('ctoMsciEM').value,rendement:document.getElementById('rendement').value,age:document.getElementById('age').value,livretA:document.getElementById('livretA').value,compteCourant:document.getElementById('compteCourant').value,historiquePEA:historiquePEA,historiqueCTO:historiqueCTO,historiqueBTC:historiqueBTC,historiqueETH:historiqueETH,coursWPEA:coursWPEA,coursPAEEM:coursPAEEM,coursWPEACTO:coursWPEACTO,coursPAEEMCTO:coursPAEEMCTO,objectifs:objectifs,dividendes:dividendes,capitalHier:capitalHier};localStorage.setItem('dashboardPEA_CTO_Crypto_v2',JSON.stringify(data))}
 async function rafraichirCours(){try{document.getElementById('prixBTC').textContent='Prix: Chargement...';document.getElementById('prixETH').textContent='Prix: Chargement...';const response=await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=eur',{method:'GET',headers:{'Accept':'application/json'}});if(!response.ok)throw new Error('Limite API atteinte. Attends 1 minute.');const data=await response.json();coursBTC=data.bitcoin.eur;coursETH=data.ethereum.eur;document.getElementById('prixBTC').textContent='Prix: '+formatEuroDecimal(coursBTC);document.getElementById('prixETH').textContent='Prix: '+formatEuroDecimal(coursETH);document.getElementById('nouveauPrixBTC').value=coursBTC.toFixed(2);document.getElementById('nouveauPrixETH').value=coursETH.toFixed(2);document.getElementById('lastUpdate').textContent=new Date().toLocaleString('fr-FR');calculer()}catch(e){console.error('Erreur cours crypto:',e);document.getElementById('prixBTC').textContent='Prix: Entre manuellement';document.getElementById('prixETH').textContent='Prix: Entre manuellement';document.getElementById('lastUpdate').textContent='Erreur - Entre les prix manuellement';alert('⚠️ Impossible de récupérer les cours.\nEntre les prix manuellement dans les champs "Prix BTC/ETH".\n\nTu peux voir les prix sur Kraken ou attendre 1 minute avant de réessayer.')}}
 function calculerValeur(historique,rendementAnn,isPEA=false){const today=new Date();const rendement=rendementAnn/100;const fraisPct=(Number(document.getElementById('fraisCourtage').value)||0)/100;let valeur=0,totalVerse=0,totalFrais=0;historique.forEach(item=>{const frais=item.montant*fraisPct;const montantInvesti=item.montant-frais;totalFrais+=frais;totalVerse+=item.montant;if(isPEA&&item.partsWPEA&&item.partsPAEEM&&coursWPEA>0&&coursPAEEM>0){valeur+=item.partsWPEA*coursWPEA+item.partsPAEEM*coursPAEEM}else if(!isPEA&&item.partsWPEA&&item.partsPAEEM&&coursWPEACTO>0&&coursPAEEMCTO>0){valeur+=item.partsWPEA*coursWPEACTO+item.partsPAEEM*coursPAEEMCTO}else{const depDate=new Date(item.date);let months=(today.getFullYear()-depDate.getFullYear())*12+(today.getMonth()-depDate.getMonth());if(months<0)months=0;valeur+=montantInvesti*Math.pow(1+rendement/12,months)}});return{valeur,totalVerse,plusValue:valeur-(totalVerse-totalFrais),totalFrais}}
 function calculerCrypto(historique,coursActuel){const fraisPct=(Number(document.getElementById('fraisCourtage').value)||0)/100;let totalInvesti=0,quantiteTotale=0,totalFrais=0;historique.forEach(item=>{const frais=item.montant*fraisPct;const montantNet=item.montant-frais;quantiteTotale+=montantNet/item.prixAchat;totalInvesti+=item.montant;totalFrais+=frais});const valeurActuelle=quantiteTotale*coursActuel;return{totalInvesti,quantiteTotale,valeurActuelle,plusValue:valeurActuelle-(totalInvesti-totalFrais),totalFrais}}
 function calculer(){const rend=Number(document.getElementById('rendement').value)||7;const livret=Number(document.getElementById('livretA').value)||0;const courant=Number(document.getElementById('compteCourant').value)||0;const soldeEspeces=Number(document.getElementById('soldeEspecesPEA').value)||0;const pea=calculerValeur(historiquePEA,rend,true);const cto=calculerValeur(historiqueCTO,rend,false);const btc=calculerCrypto(historiqueBTC,coursBTC);const eth=calculerCrypto(historiqueETH,coursETH);const cryptoValeur=btc.valeurActuelle+eth.valeurActuelle;const cryptoPlusValue=btc.plusValue+eth.plusValue;const fraisTotaux=pea.totalFrais+cto.totalFrais+btc.totalFrais+eth.totalFrais;const total=livret+courant+pea.valeur+soldeEspeces+cto.valeur+cryptoValeur;const prog=(total/1000000*100).toFixed(2);document.getElementById('capitalTotal').textContent=formatEuroDecimal(total);document.getElementById('valeurPEA').textContent=formatEuroDecimal(pea.valeur);document.getElementById('soldeEspecesPEADisplay').textContent=formatEuroDecimal(soldeEspeces);document.getElementById('valeurCTO').textContent=formatEuroDecimal(cto.valeur);document.getElementById('valeurCrypto').textContent=formatEuroDecimal(cryptoValeur);document.getElementById('plusValuePEA').textContent=formatEuroDecimal(pea.plusValue,true);document.getElementById('plusValuePEA').style.color=pea.plusValue>=0?'#00d4aa':'#f87171';document.getElementById('plusValueCTO').textContent=formatEuroDecimal(cto.plusValue,true);document.getElementById('plusValueCTO').style.color=cto.plusValue>=0?'#a78bfa':'#f87171';document.getElementById('plusValueCrypto').textContent=formatEuroDecimal(cryptoPlusValue,true);document.getElementById('plusValueCrypto').style.color=cryptoPlusValue>=0?'#fb923c':'#f87171';document.getElementById('fraisTotaux').textContent=formatEuroDecimal(fraisTotaux);document.getElementById('progression').textContent=prog+'%';const bar=document.getElementById('progressBar');bar.style.width=Math.min(prog,100)+'%';bar.textContent=prog+'%';document.getElementById('totalBTC').textContent=formatEuroDecimal(btc.totalInvesti);document.getElementById('quantiteBTC').textContent=btc.quantiteTotale.toFixed(8);document.getElementById('valeurActuelleBTC').textContent=formatEuroDecimal(btc.valeurActuelle);document.getElementById('plusValueBTC').textContent=formatEuroDecimal(btc.plusValue,true);document.getElementById('plusValueBTC').style.color=btc.plusValue>=0?'#00d4aa':'#f87171';document.getElementById('totalETH').textContent=formatEuroDecimal(eth.totalInvesti);document.getElementById('quantiteETH').textContent=eth.quantiteTotale.toFixed(8);document.getElementById('valeurActuelleETH').textContent=formatEuroDecimal(eth.valeurActuelle);document.getElementById('plusValueETH').textContent=formatEuroDecimal(eth.plusValue,true);document.getElementById('plusValueETH').style.color=eth.plusValue>=0?'#00d4aa':'#f87171';dessinerGraphique(pea.valeur,cto.valeur,cryptoValeur,livret,courant,soldeEspeces);afficherHistorique('pea');afficherHistorique('cto');afficherHistoriqueCrypto('btc');afficherHistoriqueCrypto('eth');afficherProjection(pea.valeur+cto.valeur+livret+courant+soldeEspeces,rend);calculerScenarios(pea.valeur+cto.valeur+livret+courant+soldeEspeces,rend);calculerDCA();  calculerImpotsSimulation();afficherHistoriqueUnifie();dessinerGraphiqueEvolution();
-  calculerPerformance();dessinerExpositionGeo();calculerRisque();afficherObjectifs();
+  calculerPerformance();dessinerExpositionGeo();calculerRisque();afficherObjectifs();afficherDividendes();calculerScenariosCrise();
   sauvegarder()}
 function dessinerGraphique(valPEA,valCTO,valCrypto,livret,courant,soldeEspeces){const canvas=document.getElementById('pieChart');const ctx=canvas.getContext('2d');const total=valPEA+valCTO+valCrypto+livret+courant+soldeEspeces;const legend=document.getElementById('pieLegend');if(total===0){ctx.clearRect(0,0,canvas.width,canvas.height);ctx.fillStyle='#6b7280';ctx.font='16px Inter,sans-serif';ctx.textAlign='center';ctx.fillText('Commence à investir !',canvas.width/2,canvas.height/2);legend.innerHTML='';return}const data=[{label:'📈 PEA',value:valPEA,color:'#7c6dfa'},{label:'💵 PEA Espèces',value:soldeEspeces,color:'#a78bfa'},{label:'📊 CTO',value:valCTO,color:'#6366f1'},{label:'₿ Crypto',value:valCrypto,color:'#fb923c'},{label:'💚 Livret A',value:livret,color:'#00d4aa'},{label:'💳 Compte',value:courant,color:'#60a5fa'}].filter(x=>x.value>0);ctx.clearRect(0,0,canvas.width,canvas.height);const cx=canvas.width/2,cy=canvas.height/2,r=110;let angle=-Math.PI/2;data.forEach(item=>{const slice=(item.value/total)*2*Math.PI;ctx.beginPath();ctx.fillStyle=item.color;ctx.moveTo(cx,cy);ctx.arc(cx,cy,r,angle,angle+slice);ctx.closePath();ctx.fill();const mid=angle+slice/2;const pct=((item.value/total)*100).toFixed(1);ctx.fillStyle='#fff';ctx.font='bold 12px Inter,sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(pct+'%',cx+Math.cos(mid)*r*0.65,cy+Math.sin(mid)*r*0.65);angle+=slice});legend.innerHTML=data.map(item=>{const pct=((item.value/total)*100).toFixed(1);return `<div class="legend-item"><div class="legend-color" style="background:${item.color}"></div><span class="legend-label">${item.label}</span><span class="legend-value">${formatEuroDecimal(item.value)} (${pct}%)</span></div>`}).join('')}
 function afficherHistorique(type){const h=type==='pea'?historiquePEA:historiqueCTO;const tbody=document.getElementById('historique'+(type==='pea'?'PEA':'CTO'));if(h.length===0){tbody.innerHTML='<tr><td colspan="10" style="text-align:center;color:#6b7280;padding:24px">Aucun investissement</td></tr>';return}const rend=(Number(document.getElementById('rendement').value)||7)/100;const fraisPct=(Number(document.getElementById('fraisCourtage').value)||0)/100;const today=new Date();let cumulValeur=0,cumulVerse=0,html='';h.forEach(item=>{const depDate=new Date(item.date);const frais=item.montant*fraisPct;const montantInvesti=item.montant-frais;let valeurLigne=0;if(type==='pea'&&item.partsWPEA&&item.partsPAEEM&&coursWPEA>0&&coursPAEEM>0){valeurLigne=(item.partsWPEA*coursWPEA)+(item.partsPAEEM*coursPAEEM)}else if(type==='cto'&&item.partsWPEA&&item.partsPAEEM&&coursWPEACTO>0&&coursPAEEMCTO>0){valeurLigne=(item.partsWPEA*coursWPEACTO)+(item.partsPAEEM*coursPAEEMCTO)}else{let months=(today.getFullYear()-depDate.getFullYear())*12+(today.getMonth()-depDate.getMonth());if(months<0)months=0;valeurLigne=montantInvesti*Math.pow(1+rend/12,months)}cumulValeur+=valeurLigne;cumulVerse+=item.montant;const pvCumul=cumulValeur-(cumulVerse-(cumulVerse*fraisPct));const dateStr=depDate.toLocaleDateString('fr-FR',{day:'2-digit',month:'long',year:'numeric'});let htmlPartsWPEA='--',htmlPrixAchatWPEA='--',htmlPartsPAEEM='--',htmlPrixAchatPAEEM='--';if(item.partsWPEA>0&&item.prixAchatWPEA>0){htmlPartsWPEA=item.partsWPEA.toFixed(4);htmlPrixAchatWPEA=formatEuroDecimal(item.prixAchatWPEA)}if(item.partsPAEEM>0&&item.prixAchatPAEEM>0){htmlPartsPAEEM=item.partsPAEEM.toFixed(4);htmlPrixAchatPAEEM=formatEuroDecimal(item.prixAchatPAEEM)}html+=`<tr><td>${dateStr}</td><td><strong>${formatEuroDecimal(item.montant)}</strong></td><td style="color:#f87171">${formatEuroDecimal(frais)}</td><td>${htmlPartsWPEA}</td><td>${htmlPrixAchatWPEA}</td><td>${htmlPartsPAEEM}</td><td>${htmlPrixAchatPAEEM}</td><td class="positive"><strong>${formatEuroDecimal(cumulValeur)}</strong></td><td class="${pvCumul>=0?'positive':'negative'}">${formatEuroDecimal(pvCumul,true)}</td><td><button class="btn-delete" onclick="supprimer('${type}',${item.id})">🗑️</button></td></tr>`});tbody.innerHTML=html}
@@ -607,6 +737,20 @@ function ajouterObjectif(){const nom=document.getElementById('objectifNom').valu
 function afficherObjectifs(){const liste=document.getElementById('listeObjectifs');if(objectifs.length===0){liste.innerHTML='<div style="text-align:center;color:#6b7280;padding:24px">Aucun objectif défini</div>';return}const pea=calculerValeur(historiquePEA,Number(document.getElementById('rendement').value)||7,true);const cto=calculerValeur(historiqueCTO,Number(document.getElementById('rendement').value)||7,false);const btc=calculerCrypto(historiqueBTC,coursBTC);const eth=calculerCrypto(historiqueETH,coursETH);const livret=Number(document.getElementById('livretA').value)||0;const courant=Number(document.getElementById('compteCourant').value)||0;const soldeEspeces=Number(document.getElementById('soldeEspecesPEA').value)||0;const capitalActuel=pea.valeur+cto.valeur+btc.valeurActuelle+eth.valeurActuelle+livret+courant+soldeEspeces;liste.innerHTML=objectifs.map(obj=>{const prog=(capitalActuel/obj.montant)*100;const dateCible=new Date(obj.date);const aujourdhui=new Date();const joursRestants=Math.ceil((dateCible-aujourdhui)/(1000*60*60*24));const atteint=prog>=100;return `<div style="background:#0f1117;padding:16px;border-radius:12px;border:1px solid ${atteint?'#00d4aa':'#1e2030'};margin-bottom:12px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><div><div style="font-weight:700;font-size:16px;color:#e2e8f0">${obj.nom}</div><div style="font-size:12px;color:#6b7280;margin-top:4px">${formatEuroDecimal(obj.montant)} • ${joursRestants>0?joursRestants+' jours restants':'Échéance dépassée'}</div></div><button class="btn-delete" onclick="supprimerObjectif(${obj.id})" style="padding:6px 12px">🗑️</button></div><div style="background:#1e2030;height:10px;border-radius:100px;overflow:hidden"><div style="background:${atteint?'#00d4aa':'linear-gradient(90deg,#7c6dfa,#a78bfa)'};height:100%;width:${Math.min(prog,100)}%;border-radius:100px;transition:width 0.5s"></div></div><div style="text-align:right;margin-top:6px;font-size:13px;font-weight:700;color:${atteint?'#00d4aa':'#a78bfa'}">${prog.toFixed(1)}% ${atteint?'✅ Objectif atteint !':''}</div></div>`}).join('')}
 
 function supprimerObjectif(id){if(!confirm('Supprimer cet objectif ?'))return;objectifs=objectifs.filter(o=>o.id!==id);afficherObjectifs();sauvegarder()}
+
+// === DIVIDENDES ===
+function ajouterDividende(){const date=document.getElementById('dividendeDate').value;const montant=Number(document.getElementById('dividendeMontant').value);const type=document.getElementById('dividendeType').value;if(!date||!montant){alert('❌ Remplis tous les champs !');return}dividendes.push({id:Date.now(),date,montant,type});dividendes.sort((a,b)=>new Date(b.date)-new Date(a.date));document.getElementById('dividendeDate').value='';document.getElementById('dividendeMontant').value='';afficherDividendes();sauvegarder()}
+
+function afficherDividendes(){const tbody=document.getElementById('historiqueDividendes');if(dividendes.length===0){tbody.innerHTML='<tr><td colspan="4" style="text-align:center;color:#6b7280;padding:24px">Aucun dividende enregistré</td></tr>';document.getElementById('totalDivPEA').textContent='0 €';document.getElementById('totalDivCTO').textContent='0 €';document.getElementById('rendementDiv').textContent='0%';document.getElementById('prochainDiv').textContent='--';return}tbody.innerHTML=dividendes.map(d=>{const dateStr=new Date(d.date).toLocaleDateString('fr-FR',{day:'2-digit',month:'long',year:'numeric'});return `<tr><td>${dateStr}</td><td><strong style="color:${d.type==='pea'?'#7c6dfa':'#a78bfa'}">${d.type.toUpperCase()}</strong></td><td class="positive">${formatEuroDecimal(d.montant)}</td><td><button class="btn-delete" onclick="supprimerDividende(${d.id})">🗑️</button></td></tr>`}).join('');const totalPEA=dividendes.filter(d=>d.type==='pea').reduce((sum,d)=>sum+d.montant,0);const totalCTO=dividendes.filter(d=>d.type==='cto').reduce((sum,d)=>sum+d.montant,0);document.getElementById('totalDivPEA').textContent=formatEuroDecimal(totalPEA);document.getElementById('totalDivCTO').textContent=formatEuroDecimal(totalCTO);const pea=calculerValeur(historiquePEA,Number(document.getElementById('rendement').value)||7,true);const cto=calculerValeur(historiqueCTO,Number(document.getElementById('rendement').value)||7,false);const totalCapital=pea.valeur+cto.valeur;const rendement=totalCapital>0?((totalPEA+totalCTO)/totalCapital)*100:0;document.getElementById('rendementDiv').textContent=rendement.toFixed(2)+'%';const divFuturs=dividendes.filter(d=>new Date(d.date)>new Date());if(divFuturs.length>0){const plusProche=divFuturs.reduce((a,b)=>new Date(a.date)<new Date(b.date)?a:b);const jours=Math.ceil((new Date(plusProche.date)-new Date())/(1000*60*60*24));document.getElementById('prochainDiv').textContent=jours>0?`${jours} jours`:'Aujourd\'hui'}else{document.getElementById('prochainDiv').textContent='--'}dessinerGraphiqueDividendes()}
+
+function supprimerDividende(id){if(!confirm('Supprimer ce dividende ?'))return;dividendes=dividendes.filter(d=>d.id!==id);afficherDividendes();sauvegarder()}
+
+function dessinerGraphiqueDividendes(){const canvas=document.getElementById('dividendesChart');if(!canvas||dividendes.length===0)return;const ctx=canvas.getContext('2d');ctx.clearRect(0,0,canvas.width,canvas.height);const parMois={};dividendes.forEach(d=>{const mois=new Date(d.date).toISOString().slice(0,7);parMois[mois]=(parMois[mois]||0)+d.montant});const moisTries=Object.keys(parMois).sort();const valeurs=moisTries.map(m=>parMois[m]);const maxVal=Math.max(...valeurs,10);const padding=60;const graphWidth=canvas.width-padding*2;const graphHeight=canvas.height-padding*2;const barWidth=graphWidth/moisTries.length-10;ctx.fillStyle='#6b7280';ctx.font='11px Inter,sans-serif';ctx.textAlign='right';ctx.textBaseline='middle';for(let i=0;i<=5;i++){const y=padding+(graphHeight/5)*i;const val=maxVal-(maxVal/5)*i;ctx.fillText(val.toFixed(0)+'€',padding-10,y)}moisTries.forEach((mois,i)=>{const x=padding+i*(barWidth+10);const hauteur=(valeurs[i]/maxVal)*graphHeight;const y=padding+graphHeight-hauteur;const gradient=ctx.createLinearGradient(0,y,0,y+hauteur);gradient.addColorStop(0,'#7c6dfa');gradient.addColorStop(1,'#a78bfa');ctx.fillStyle=gradient;ctx.fillRect(x,y,barWidth,hauteur);ctx.fillStyle='#e2e8f0';ctx.font='10px Inter,sans-serif';ctx.textAlign='center';ctx.fillText(valeurs[i].toFixed(0)+'€',x+barWidth/2,y-8);ctx.fillStyle='#6b7280';ctx.fillText(mois.slice(5),x+barWidth/2,canvas.height-padding+20)})}
+
+// === RETRAITE ===
+function calculerRetraite(){const ageRetraite=Number(document.getElementById('ageRetraite').value)||65;const renteMensuelle=Number(document.getElementById('renteRetraite').value)||3000;const tauxRetrait=Number(document.getElementById('tauxRetraitRetraite').value)||4;const age=Number(document.getElementById('age').value)||17;const pea=calculerValeur(historiquePEA,Number(document.getElementById('rendement').value)||7,true);const cto=calculerValeur(historiqueCTO,Number(document.getElementById('rendement').value)||7,false);const btc=calculerCrypto(historiqueBTC,coursBTC);const eth=calculerCrypto(historiqueETH,coursETH);const livret=Number(document.getElementById('livretA').value)||0;const courant=Number(document.getElementById('compteCourant').value)||0;const soldeEspeces=Number(document.getElementById('soldeEspecesPEA').value)||0;const capitalActuel=pea.valeur+cto.valeur+btc.valeurActuelle+eth.valeurActuelle+livret+courant+soldeEspeces;const renteAnnuelle=renteMensuelle*12;const capitalNecessaire=renteAnnuelle/(tauxRetrait/100);const anneesJusquaRetraite=ageRetraite-age;const invPEA=Number(document.getElementById('investissementPEA').value)||0;const invCTO=Number(document.getElementById('investissementCTO').value)||0;const rend=Number(document.getElementById('rendement').value)||7;const fraisPct=(Number(document.getElementById('fraisCourtage').value)||0)/100;const invTotal=(invPEA+invCTO)*(1-fraisPct);const mRate=(rend/100)/12;const mths=anneesJusquaRetraite*12;const capitalRetraite=mRate===0?capitalActuel+invTotal*mths:capitalActuel*Math.pow(1+mRate,mths)+invTotal*((Math.pow(1+mRate,mths)-1)/mRate);const surplus=capitalRetraite-capitalNecessaire;const anneesRente=capitalRetraite/(renteAnnuelle);const resultat=document.getElementById('resultatsRetraite');resultat.innerHTML=`<div class="stat-card pessimiste"><div class="stat-label">🎯 Capital nécessaire</div><div class="stat-value">${formatEuroDecimal(capitalNecessaire)}</div></div><div class="stat-card optimiste"><div class="stat-label">💰 Capital à ${ageRetraite} ans</div><div class="stat-value">${formatEuroDecimal(capitalRetraite)}</div></div><div class="stat-card ${surplus>=0?'optimiste':'pessimiste'}"><div class="stat-label">${surplus>=0?'✅ Surplus':'❌ Manque'}</div><div class="stat-value">${formatEuroDecimal(Math.abs(surplus))}</div></div><div class="stat-card"><div class="stat-label">⏱️ Rente pendant</div><div class="stat-value">${anneesRente.toFixed(0)} ans</div></div>`;const strategie=document.getElementById('strategieRetrait');const impotCTO=cto.valeur*0.314;const impotPEA=pea.valeur*0.186;const impotCrypto=(btc.valeurActuelle+eth.valeurActuelle)*0.314;const ordre=[{nom:'CTO',montant:cto.valeur,impot:impotCTO,net:cto.valeur-impotCTO},{nom:'PEA',montant:pea.valeur,impot:impotPEA,net:pea.valeur-impotPEA},{nom:'Crypto',montant:btc.valeurActuelle+eth.valeurActuelle,impot:impotCrypto,net:(btc.valeurActuelle+eth.valeurActuelle)-impotCrypto}].filter(x=>x.montant>0);strategie.innerHTML=ordre.map((o,i)=>`<div style="background:#13151f;padding:16px;border-radius:12px;margin-bottom:12px;border:1px solid #1e2030"><div style="display:flex;justify-content:space-between;margin-bottom:8px"><strong style="color:#e2e8f0">${i+1}. ${o.nom}</strong><span style="color:#00d4aa;font-weight:700">${formatEuroDecimal(o.net)} net</span></div><div style="font-size:12px;color:#6b7280">Brut: ${formatEuroDecimal(o.montant)} - Impôts: ${formatEuroDecimal(o.impot)}</div></div>`).join('')}
+
+function calculerScenariosCrise(){const pea=calculerValeur(historiquePEA,Number(document.getElementById('rendement').value)||7,true);const cto=calculerValeur(historiqueCTO,Number(document.getElementById('rendement').value)||7,false);const btc=calculerCrypto(historiqueBTC,coursBTC);const eth=calculerCrypto(historiqueETH,coursETH);const livret=Number(document.getElementById('livretA').value)||0;const courant=Number(document.getElementById('compteCourant').value)||0;const soldeEspeces=Number(document.getElementById('soldeEspecesPEA').value)||0;const total=pea.valeur+cto.valeur+btc.valeurActuelle+eth.valeurActuelle+livret+courant+soldeEspeces;const krach=total*0.6;const correction=total*0.8;const bull=total*1.5;document.getElementById('scenarioKrach').textContent=formatEuroDecimal(krach);document.getElementById('scenarioCorrection').textContent=formatEuroDecimal(correction);document.getElementById('scenarioBull').textContent=formatEuroDecimal(bull);const invPEA=Number(document.getElementById('investissementPEA').value)||0;const invCTO=Number(document.getElementById('investissementCTO').value)||0;const invMensuel=(invPEA+invCTO);const perteKrach=total-krach;const moisRecup=invMensuel>0?Math.ceil(perteKrach/(invMensuel*0.07)):'∞';document.getElementById('scenarioRecup').textContent=moisRecup+' mois'}
 
 </script>
 </body>
