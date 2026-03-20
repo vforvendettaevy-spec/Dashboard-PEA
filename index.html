@@ -90,6 +90,9 @@ th{background:#1e2433;color:#cbd5e0;font-weight:700;font-size:13px;text-transfor
 .etf-name{font-size:14px;color:#9ca3af;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.3px}
 .etf-price{font-size:22px;font-weight:800;color:#39b46e}
 .etf-update-controls{display:grid;grid-template-columns:1fr 1fr 120px;gap:10px;align-items:end;margin-top:12px}
+/* CTO ETF section uses purple accent to distinguish from PEA */
+.etf-prices-section.cto{border-color:#7a6ff0}
+.etf-prices-section.cto .etf-price{color:#7a6ff0}
 @media (max-width:900px){.scenario-grid{grid-template-columns:1fr 1fr}.table-controls{grid-template-columns:1fr 1fr}.pie-container{flex-direction:column}.crypto-split{grid-template-columns:1fr}.folder-tabs{overflow-x:auto}.etf-prices-grid{grid-template-columns:1fr}}
 @media (max-width:600px){.scenario-grid{grid-template-columns:1fr}}
 </style>
@@ -229,43 +232,46 @@ th{background:#1e2433;color:#cbd5e0;font-weight:700;font-size:13px;text-transfor
     </div>
 
     <!-- PAGE 3: CTO -->
-<div id="cto" class="page">
-  <div class="etf-prices-section">
-    <div class="section-title">📊 Cours actuels des ETF</div>
-    <div class="etf-prices-grid">
-      <div class="etf-price-card">
-        <div class="etf-name">🌍 WPEA (MSCI World)</div>
-        <div class="etf-price" id="coursWPEACTO">-- €</div>
+    <div id="cto" class="page">
+      <!-- AJOUT : Section cours actuels des ETF (identique au PEA) -->
+      <div class="etf-prices-section cto">
+        <div class="section-title">📊 Cours actuels des ETF</div>
+        <div class="etf-prices-grid">
+          <div class="etf-price-card">
+            <div class="etf-name">🌍 WPEA (MSCI World)</div>
+            <div class="etf-price" id="coursWPEACTO" style="color:#7a6ff0">-- €</div>
+          </div>
+          <div class="etf-price-card">
+            <div class="etf-name">🌏 PAEEM (Émergents)</div>
+            <div class="etf-price" id="coursPAEEMCTO" style="color:#7a6ff0">-- €</div>
+          </div>
+        </div>
+        <div class="etf-update-controls">
+          <div><label>💵 Prix WPEA (€)</label><input id="nouveauCoursWPEACTO" type="number" step="0.01" placeholder="ex: 124.50" /></div>
+          <div><label>💵 Prix PAEEM (€)</label><input id="nouveauCoursPAEEMCTO" type="number" step="0.01" placeholder="ex: 45.80" /></div>
+          <button class="btn-add" onclick="mettreAJourCoursETFCTO()">🔄 Mettre à jour</button>
+        </div>
       </div>
-      <div class="etf-price-card">
-        <div class="etf-name">🌏 PAEEM (Émergents)</div>
-        <div class="etf-price" id="coursPAEEMCTO">-- €</div>
-      </div>
-    </div>
-    <div class="etf-update-controls">
-      <div><label>💵 Prix WPEA (€)</label><input id="nouveauCoursWPEACTO" type="number" step="0.01" placeholder="ex: 124.50" /></div>
-      <div><label>💵 Prix PAEEM (€)</label><input id="nouveauCoursPAEEMCTO" type="number" step="0.01" placeholder="ex: 45.80" /></div>
-      <button class="btn-add" onclick="mettreAJourCoursETFCTO()">🔄 Mettre à jour</button>
-    </div>
-  </div>
 
-  <div class="chart-section">
-    <div class="section-title">📊 Historique des investissements CTO</div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-bottom:14px">
-      <div><label style="font-size:12px;color:#9ca3af;margin-bottom:4px;display:block">📅 Date</label><input id="nouvelleDateCTO" type="date" style="padding:10px;border-radius:8px;border:1px solid #4a5568;background:#1e2433;color:#e2e8f0;font-size:14px;width:100%" /></div>
-      <div><label style="font-size:12px;color:#9ca3af;margin-bottom:4px;display:block">💰 Montant total (€)</label><input id="nouveauMontantCTO" type="number" placeholder="0" value="0" step="0.01" style="padding:10px;border-radius:8px;border:1px solid #4a5568;background:#1e2433;color:#e2e8f0;font-size:14px;width:100%" /></div>
-      <div><label style="font-size:12px;color:#9ca3af;margin-bottom:4px;display:block">🌍 Parts WPEA</label><input id="nouvellesPartsWPEACTO" type="number" placeholder="7.2345" step="0.0001" style="padding:10px;border-radius:8px;border:1px solid #4a5568;background:#1e2433;color:#e2e8f0;font-size:14px;width:100%" /></div>
-      <div><label style="font-size:12px;color:#9ca3af;margin-bottom:4px;display:block">💵 Prix WPEA (€)</label><input id="nouveauPrixWPEACTO" type="number" placeholder="124.50" step="0.01" style="padding:10px;border-radius:8px;border:1px solid #4a5568;background:#1e2433;color:#e2e8f0;font-size:14px;width:100%" /></div>
-      <div><label style="font-size:12px;color:#9ca3af;margin-bottom:4px;display:block">🌏 Parts PAEEM</label><input id="nouvellesPartsPAEEMCTO" type="number" placeholder="3.1234" step="0.0001" style="padding:10px;border-radius:8px;border:1px solid #4a5568;background:#1e2433;color:#e2e8f0;font-size:14px;width:100%" /></div>
-      <div><label style="font-size:12px;color:#9ca3af;margin-bottom:4px;display:block">💵 Prix PAEEM (€)</label><input id="nouveauPrixPAEEMCTO" type="number" placeholder="45.80" step="0.01" style="padding:10px;border-radius:8px;border:1px solid #4a5568;background:#1e2433;color:#e2e8f0;font-size:14px;width:100%" /></div>
-      <div style="display:flex;align-items:end"><button class="btn-add" onclick="ajouterMoisCTO()" style="width:100%;padding:12px">➕ Ajouter</button></div>
+      <div class="chart-section">
+        <div class="section-title">📊 Historique des investissements CTO</div>
+        <!-- AJOUT : Formulaire enrichi avec parts et prix (identique au PEA) -->
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-bottom:14px">
+          <div><label style="font-size:12px;color:#9ca3af;margin-bottom:4px;display:block">📅 Date</label><input id="nouvelleDateCTO" type="date" style="padding:10px;border-radius:8px;border:1px solid #4a5568;background:#1e2433;color:#e2e8f0;font-size:14px;width:100%" /></div>
+          <div><label style="font-size:12px;color:#9ca3af;margin-bottom:4px;display:block">💰 Montant total (€)</label><input id="nouveauMontantCTO" type="number" placeholder="0" value="0" step="0.01" style="padding:10px;border-radius:8px;border:1px solid #4a5568;background:#1e2433;color:#e2e8f0;font-size:14px;width:100%" /></div>
+          <div><label style="font-size:12px;color:#9ca3af;margin-bottom:4px;display:block">🌍 Parts WPEA</label><input id="nouvellesPartsWPEACTO" type="number" placeholder="7.2345" step="0.0001" style="padding:10px;border-radius:8px;border:1px solid #4a5568;background:#1e2433;color:#e2e8f0;font-size:14px;width:100%" /></div>
+          <div><label style="font-size:12px;color:#9ca3af;margin-bottom:4px;display:block">💵 Prix WPEA (€)</label><input id="nouveauPrixWPEACTO" type="number" placeholder="124.50" step="0.01" style="padding:10px;border-radius:8px;border:1px solid #4a5568;background:#1e2433;color:#e2e8f0;font-size:14px;width:100%" /></div>
+          <div><label style="font-size:12px;color:#9ca3af;margin-bottom:4px;display:block">🌏 Parts PAEEM</label><input id="nouvellesPartsPAEEMCTO" type="number" placeholder="3.1234" step="0.0001" style="padding:10px;border-radius:8px;border:1px solid #4a5568;background:#1e2433;color:#e2e8f0;font-size:14px;width:100%" /></div>
+          <div><label style="font-size:12px;color:#9ca3af;margin-bottom:4px;display:block">💵 Prix PAEEM (€)</label><input id="nouveauPrixPAEEMCTO" type="number" placeholder="45.80" step="0.01" style="padding:10px;border-radius:8px;border:1px solid #4a5568;background:#1e2433;color:#e2e8f0;font-size:14px;width:100%" /></div>
+          <div style="display:flex;align-items:end"><button class="btn-add" onclick="ajouterMois('cto')" style="width:100%;padding:12px">➕ Ajouter</button></div>
+        </div>
+        <!-- AJOUT : Tableau enrichi avec colonnes parts (identique au PEA) -->
+        <table>
+          <thead><tr><th>📅 Date</th><th>💰 Versement</th><th>⚡ Frais</th><th>🌍 Parts WPEA</th><th>💵 Prix achat</th><th>🌏 Parts PAEEM</th><th>💵 Prix achat</th><th>📈 Valeur actuelle</th><th>💹 Plus-value</th><th>🗑️</th></tr></thead>
+          <tbody id="historiqueCTO"></tbody>
+        </table>
+      </div>
     </div>
-    <table>
-      <thead><tr><th>📅 Date</th><th>💰 Versement</th><th>⚡ Frais</th><th>🌍 Parts WPEA</th><th>💵 Prix achat</th><th>🌏 Parts PAEEM</th><th>💵 Prix achat</th><th>📈 Valeur actuelle</th><th>💹 Plus-value</th><th>🗑️</th></tr></thead>
-      <tbody id="historiqueCTO"></tbody>
-    </table>
-  </div>
-</div>
 
     <!-- PAGE 4: CRYPTO -->
     <div id="crypto" class="page">
@@ -356,6 +362,9 @@ let coursBTC = 0;
 let coursETH = 0;
 let coursWPEA = 0;
 let coursPAEEM = 0;
+// AJOUT : variables cours ETF pour le CTO
+let coursWPEACTO = 0;
+let coursPAEEMCTO = 0;
 
 window.onload = function() {
   try {
@@ -372,6 +381,9 @@ window.onload = function() {
       historiqueETH = data.historiqueETH || [];
       coursWPEA = data.coursWPEA || 0;
       coursPAEEM = data.coursPAEEM || 0;
+      // AJOUT : restauration des cours ETF du CTO
+      coursWPEACTO = data.coursWPEACTO || 0;
+      coursPAEEMCTO = data.coursPAEEMCTO || 0;
       
       if (coursWPEA > 0) {
         document.getElementById('coursWPEA').textContent = formatEuroDecimal(coursWPEA);
@@ -380,6 +392,15 @@ window.onload = function() {
       if (coursPAEEM > 0) {
         document.getElementById('coursPAEEM').textContent = formatEuroDecimal(coursPAEEM);
         document.getElementById('nouveauCoursPAEEM').value = coursPAEEM;
+      }
+      // AJOUT : affichage des cours ETF du CTO au chargement
+      if (coursWPEACTO > 0) {
+        document.getElementById('coursWPEACTO').textContent = formatEuroDecimal(coursWPEACTO);
+        document.getElementById('nouveauCoursWPEACTO').value = coursWPEACTO;
+      }
+      if (coursPAEEMCTO > 0) {
+        document.getElementById('coursPAEEMCTO').textContent = formatEuroDecimal(coursPAEEMCTO);
+        document.getElementById('nouveauCoursPAEEMCTO').value = coursPAEEMCTO;
       }
     }
   } catch(e) {
@@ -409,24 +430,24 @@ function mettreAJourCoursETF() {
     alert('❌ Entre au moins un cours valide !');
   }
 }
-  function mettreAJourCoursETFCTO() {
+
+// AJOUT : fonction de mise à jour des cours ETF du CTO (identique à mettreAJourCoursETF)
+function mettreAJourCoursETFCTO() {
   const wpea = Number(document.getElementById('nouveauCoursWPEACTO').value);
   const paeem = Number(document.getElementById('nouveauCoursPAEEMCTO').value);
   
   if (wpea > 0) {
-    coursWPEA = wpea;
-    document.getElementById('coursWPEACTO').textContent = formatEuroDecimal(coursWPEA);
-    document.getElementById('coursWPEA').textContent = formatEuroDecimal(coursWPEA);
+    coursWPEACTO = wpea;
+    document.getElementById('coursWPEACTO').textContent = formatEuroDecimal(coursWPEACTO);
   }
   if (paeem > 0) {
-    coursPAEEM = paeem;
-    document.getElementById('coursPAEEMCTO').textContent = formatEuroDecimal(coursPAEEM);
-    document.getElementById('coursPAEEM').textContent = formatEuroDecimal(coursPAEEM);
+    coursPAEEMCTO = paeem;
+    document.getElementById('coursPAEEMCTO').textContent = formatEuroDecimal(coursPAEEMCTO);
   }
   
   if (wpea > 0 || paeem > 0) {
     calculer();
-    alert('✅ Cours des ETF mis à jour !');
+    alert('✅ Cours des ETF CTO mis à jour !');
   } else {
     alert('❌ Entre au moins un cours valide !');
   }
@@ -452,7 +473,10 @@ function sauvegarder() {
     historiqueBTC: historiqueBTC,
     historiqueETH: historiqueETH,
     coursWPEA: coursWPEA,
-    coursPAEEM: coursPAEEM
+    coursPAEEM: coursPAEEM,
+    // AJOUT : sauvegarde des cours ETF du CTO
+    coursWPEACTO: coursWPEACTO,
+    coursPAEEMCTO: coursPAEEMCTO
   };
   localStorage.setItem('dashboardPEA_CTO_Crypto_v2', JSON.stringify(data));
 }
@@ -509,6 +533,11 @@ function calculerValeur(historique, rendementAnn, isPEA = false) {
       // Pour le PEA : calculer la valeur réelle avec les cours actuels
       const valeurWPEA = item.partsWPEA * coursWPEA;
       const valeurPAEEM = item.partsPAEEM * coursPAEEM;
+      valeur += valeurWPEA + valeurPAEEM;
+    } else if (!isPEA && item.partsWPEA && item.partsPAEEM && coursWPEACTO > 0 && coursPAEEMCTO > 0) {
+      // AJOUT : Pour le CTO : calculer la valeur réelle avec les cours actuels du CTO
+      const valeurWPEA = item.partsWPEA * coursWPEACTO;
+      const valeurPAEEM = item.partsPAEEM * coursPAEEMCTO;
       valeur += valeurWPEA + valeurPAEEM;
     } else {
       // Pour le CTO ou ancien PEA sans parts : utiliser le rendement moyen
@@ -689,8 +718,11 @@ function afficherHistorique(type) {
     let valeurLigne = 0;
     
     if (type === 'pea' && item.partsWPEA && item.partsPAEEM && coursWPEA > 0 && coursPAEEM > 0) {
-      // Calcul réel avec cours actuels
+      // Calcul réel avec cours actuels PEA
       valeurLigne = (item.partsWPEA * coursWPEA) + (item.partsPAEEM * coursPAEEM);
+    } else if (type === 'cto' && item.partsWPEA && item.partsPAEEM && coursWPEACTO > 0 && coursPAEEMCTO > 0) {
+      // AJOUT : Calcul réel avec cours actuels CTO
+      valeurLigne = (item.partsWPEA * coursWPEACTO) + (item.partsPAEEM * coursPAEEMCTO);
     } else {
       // Calcul avec rendement moyen
       let months = (today.getFullYear() - depDate.getFullYear()) * 12 + (today.getMonth() - depDate.getMonth());
@@ -705,27 +737,23 @@ function afficherHistorique(type) {
     const pvCumul = cumulValeur - (cumulVerse - (cumulVerse * fraisPct));
     const dateStr = depDate.toLocaleDateString('fr-FR', { day: '2-digit', month: 'long', year: 'numeric' });
     
-    if (type === 'pea') {
-      // Utiliser les parts et prix saisis manuellement
-      let htmlPartsWPEA = '--';
-      let htmlPrixAchatWPEA = '--';
-      let htmlPartsPAEEM = '--';
-      let htmlPrixAchatPAEEM = '--';
-      
-      if (item.partsWPEA > 0 && item.prixAchatWPEA > 0) {
-        htmlPartsWPEA = `${item.partsWPEA.toFixed(4)}`;
-        htmlPrixAchatWPEA = formatEuroDecimal(item.prixAchatWPEA);
-      }
-      
-      if (item.partsPAEEM > 0 && item.prixAchatPAEEM > 0) {
-        htmlPartsPAEEM = `${item.partsPAEEM.toFixed(4)}`;
-        htmlPrixAchatPAEEM = formatEuroDecimal(item.prixAchatPAEEM);
-      }
-      
-      html += `<tr><td>${dateStr}</td><td><strong>${formatEuroDecimal(item.montant)}</strong></td><td style="color:#e53e3e">${formatEuroDecimal(frais)}</td><td>${htmlPartsWPEA}</td><td>${htmlPrixAchatWPEA}</td><td>${htmlPartsPAEEM}</td><td>${htmlPrixAchatPAEEM}</td><td class="positive"><strong>${formatEuroDecimal(cumulValeur)}</strong></td><td class="${pvCumul >= 0 ? 'positive' : 'negative'}">${formatEuroDecimal(pvCumul, true)}</td><td><button class="btn-delete" onclick="supprimer('${type}', ${item.id})">🗑️</button></td></tr>`;
-    } else {
-      html += `<tr><td>${dateStr}</td><td><strong>${formatEuroDecimal(item.montant)}</strong></td><td style="color:#e53e3e">${formatEuroDecimal(frais)}</td><td>${formatEuroDecimal(item.world)}</td><td>${formatEuroDecimal(item.em)}</td><td class="positive"><strong>${formatEuroDecimal(cumulValeur)}</strong></td><td class="${pvCumul >= 0 ? 'positive' : 'negative'}">${formatEuroDecimal(pvCumul, true)}</td><td><button class="btn-delete" onclick="supprimer('${type}', ${item.id})">🗑️</button></td></tr>`;
+    // AJOUT : le CTO affiche maintenant les mêmes colonnes que le PEA (parts + prix)
+    let htmlPartsWPEA = '--';
+    let htmlPrixAchatWPEA = '--';
+    let htmlPartsPAEEM = '--';
+    let htmlPrixAchatPAEEM = '--';
+    
+    if (item.partsWPEA > 0 && item.prixAchatWPEA > 0) {
+      htmlPartsWPEA = `${item.partsWPEA.toFixed(4)}`;
+      htmlPrixAchatWPEA = formatEuroDecimal(item.prixAchatWPEA);
     }
+    
+    if (item.partsPAEEM > 0 && item.prixAchatPAEEM > 0) {
+      htmlPartsPAEEM = `${item.partsPAEEM.toFixed(4)}`;
+      htmlPrixAchatPAEEM = formatEuroDecimal(item.prixAchatPAEEM);
+    }
+    
+    html += `<tr><td>${dateStr}</td><td><strong>${formatEuroDecimal(item.montant)}</strong></td><td style="color:#e53e3e">${formatEuroDecimal(frais)}</td><td>${htmlPartsWPEA}</td><td>${htmlPrixAchatWPEA}</td><td>${htmlPartsPAEEM}</td><td>${htmlPrixAchatPAEEM}</td><td class="positive"><strong>${formatEuroDecimal(cumulValeur)}</strong></td><td class="${pvCumul >= 0 ? 'positive' : 'negative'}">${formatEuroDecimal(pvCumul, true)}</td><td><button class="btn-delete" onclick="supprimer('${type}', ${item.id})">🗑️</button></td></tr>`;
   });
   
   tbody.innerHTML = html;
@@ -864,34 +892,44 @@ function ajouterMois(type) {
     document.getElementById('nouveauPrixPAEEM').value = '';
     
   } else {
-    // CTO
-    const dateId = 'nouvelleDateCTO';
-    const montantId = 'nouveauMontantCTO';
-    const worldId = 'ctoMsciWorld';
-    const emId = 'ctoMsciEM';
-    
-    const date = document.getElementById(dateId).value;
-    const montant = Number(document.getElementById(montantId).value) || 0;
+    // AJOUT : CTO enrichi avec parts et prix (identique au PEA)
+    const date = document.getElementById('nouvelleDateCTO').value;
+    const montant = Number(document.getElementById('nouveauMontantCTO').value) || 0;
+    const partsWPEA = Number(document.getElementById('nouvellesPartsWPEACTO').value) || 0;
+    const prixWPEA = Number(document.getElementById('nouveauPrixWPEACTO').value) || 0;
+    const partsPAEEM = Number(document.getElementById('nouvellesPartsPAEEMCTO').value) || 0;
+    const prixPAEEM = Number(document.getElementById('nouveauPrixPAEEMCTO').value) || 0;
     
     if (!date || montant <= 0) {
       alert('❌ Remplis la date et le montant !');
       return;
     }
     
-    const worldPct = (Number(document.getElementById(worldId).value) || 90) / 100;
-    const emPct = (Number(document.getElementById(emId).value) || 10) / 100;
+    const montantWPEA = partsWPEA * prixWPEA;
+    const montantPAEEM = partsPAEEM * prixPAEEM;
     
     const item = {
       date: date,
       montant: montant,
-      world: montant * worldPct,
-      em: montant * emPct,
+      world: montantWPEA,
+      em: montantPAEEM,
+      partsWPEA: partsWPEA,
+      prixAchatWPEA: prixWPEA,
+      partsPAEEM: partsPAEEM,
+      prixAchatPAEEM: prixPAEEM,
       id: Date.now()
     };
     
     historiqueCTO.push(item);
     historiqueCTO.sort((a, b) => new Date(a.date) - new Date(b.date));
-    document.getElementById(dateId).value = '';
+    
+    // Vider les champs
+    document.getElementById('nouvelleDateCTO').value = '';
+    document.getElementById('nouveauMontantCTO').value = '0';
+    document.getElementById('nouvellesPartsWPEACTO').value = '';
+    document.getElementById('nouveauPrixWPEACTO').value = '';
+    document.getElementById('nouvellesPartsPAEEMCTO').value = '';
+    document.getElementById('nouveauPrixPAEEMCTO').value = '';
   }
   
   calculer();
