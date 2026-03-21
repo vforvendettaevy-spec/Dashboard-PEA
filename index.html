@@ -31,10 +31,10 @@
   --red-glow:rgba(255,83,112,0.12);
   --orange:#FF8C42;
   --orange-glow:rgba(255,140,66,0.15);
-  --text-primary:#F0F0FF;
-  --text-secondary:rgba(240,240,255,0.55);
-  --text-muted:rgba(240,240,255,0.3);
-  --text-ultra-muted:rgba(240,240,255,0.18);
+  --text-primary:#F2F2FF;
+  --text-secondary:rgba(230,228,255,0.82);
+  --text-muted:rgba(210,206,255,0.65);
+  --text-ultra-muted:rgba(200,196,255,0.45);
   --font-display:'Syne',sans-serif;
   --font-body:'DM Sans',sans-serif;
   --radius-sm:10px;
@@ -47,8 +47,134 @@
 }
 
 /* ═══════════════════════════════════════════
-   RESET & BASE
+   HERO BANNER
 ═══════════════════════════════════════════ */
+.hero-banner{
+  background:linear-gradient(135deg,rgba(107,87,255,0.18) 0%,rgba(107,87,255,0.06) 60%,rgba(0,210,127,0.05) 100%);
+  padding:32px 36px;border-radius:var(--radius-xl);margin-bottom:24px;
+  border:1px solid rgba(107,87,255,0.2);
+  position:relative;overflow:hidden
+}
+.hero-orb{
+  position:absolute;top:-60px;right:-60px;
+  width:280px;height:280px;
+  background:radial-gradient(circle,rgba(107,87,255,0.14),transparent 65%);
+  pointer-events:none
+}
+.hero-main{
+  display:flex;justify-content:space-between;align-items:flex-end;
+  flex-wrap:wrap;gap:20px;position:relative;margin-bottom:20px
+}
+.hero-label{
+  font-size:11px;color:rgba(240,240,255,0.55);
+  margin-bottom:8px;text-transform:uppercase;letter-spacing:1.4px;font-weight:600
+}
+.hero-capital{
+  font-family:var(--font-display);
+  font-size:42px;font-weight:800;letter-spacing:-1.5px;
+  color:var(--text-primary);line-height:1
+}
+.hero-variation{
+  font-family:var(--font-display);
+  font-size:28px;font-weight:700;color:var(--text-primary);
+  letter-spacing:-0.5px
+}
+.hero-footer{
+  display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;
+  font-size:12.5px;color:rgba(240,240,255,0.5);
+  padding-top:18px;border-top:1px solid rgba(255,255,255,0.08);
+  position:relative
+}
+.hero-footer strong{color:rgba(240,240,255,0.9);font-weight:600}
+
+/* ═══════════════════════════════════════════
+   GLASS CARD UTILITY
+═══════════════════════════════════════════ */
+.glass-card{
+  background:var(--bg-glass);
+  border:1px solid var(--border-subtle);
+  border-radius:var(--radius-lg);padding:26px
+}
+
+/* ═══════════════════════════════════════════
+   KPI TYPOGRAPHY UTILITIES
+═══════════════════════════════════════════ */
+.kpi-label{
+  font-size:11px;color:var(--text-muted);
+  text-transform:uppercase;letter-spacing:1.4px;font-weight:600
+}
+.kpi-mega{
+  font-family:var(--font-display);
+  font-size:62px;font-weight:800;color:var(--accent-soft);
+  letter-spacing:-3px;line-height:1;margin-bottom:36px
+}
+.kpi-large{
+  font-family:var(--font-display);
+  font-size:38px;font-weight:700;letter-spacing:-1px;margin:10px 0
+}
+.kpi-large.green{color:var(--green)}
+.kpi-large.orange{color:var(--orange)}
+.kpi-large.accent{color:var(--accent-soft)}
+.kpi-sub{font-size:13px;color:var(--text-muted);margin-top:6px}
+
+/* ═══════════════════════════════════════════
+   FIX TEXT VISIBILITY — lisibilité maximale
+═══════════════════════════════════════════ */
+/* Labels dans les sections inline */
+[style*="color:rgba(255,255,255,0.3)"],
+[style*="color:rgba(255,255,255,0.35)"]{
+  color:rgba(220,215,255,0.65) !important
+}
+[style*="color:rgba(255,255,255,0.4)"]{
+  color:rgba(225,220,255,0.72) !important
+}
+[style*="color:rgba(255,255,255,0.45)"]{
+  color:rgba(230,226,255,0.78) !important
+}
+[style*="color:rgba(255,255,255,0.5)"]{
+  color:rgba(235,232,255,0.82) !important
+}
+/* Texte principal hardcodé */
+[style*="color:#e8eaed"],[style*="color:#e2e8f0"]{
+  color:var(--text-primary) !important
+}
+[style*="color:#6b7280"]{
+  color:rgba(210,205,255,0.52) !important
+}
+/* Fond des sections inline */
+[style*="background:#0f1117"]{
+  background:var(--bg-surface) !important
+}
+[style*="background:#1e2030"]{
+  background:rgba(255,255,255,0.06) !important
+}
+[style*="border:1px solid #1e2030"]{
+  border-color:var(--border-subtle) !important
+}
+/* Font display sur les chiffres clés inline */
+.stat-value,
+.scenario-value,
+.etf-price,
+.crypto-stat-value,
+.frais-info-value,
+.projection-age{
+  font-family:var(--font-display) !important
+}
+/* Uniformisation taille — taille fixe unique pour toutes les cards */
+.stat-value{
+  font-size:22px !important;
+  font-weight:700 !important;
+  line-height:1.15 !important;
+  color:var(--text-primary) !important
+}
+/* Les plus-values inline (divs sans classe stat-value) */
+[id="plusValuePEA"],[id="plusValueCTO"],[id="plusValueCrypto"]{
+  font-family:var(--font-display) !important;
+  font-size:22px !important;
+  font-weight:700 !important
+}
+
+
 *{box-sizing:border-box;margin:0;padding:0}
 ::selection{background:rgba(107,87,255,0.35);color:#fff}
 ::-webkit-scrollbar{width:5px;height:5px}
@@ -340,14 +466,14 @@ body{
 .stat-card.crypto{border-top:2px solid var(--orange)}
 
 .stat-label{
-  font-size:10px;color:var(--text-muted);
-  margin-bottom:12px;text-transform:uppercase;letter-spacing:1.2px;font-weight:600
+  font-size:10.5px;color:var(--text-muted);
+  margin-bottom:10px;text-transform:uppercase;letter-spacing:1.1px;font-weight:600
 }
 .stat-value{
   font-family:var(--font-display);
-  font-size:26px;font-weight:700;
-  color:var(--text-primary);letter-spacing:-0.8px;
-  line-height:1
+  font-size:22px;font-weight:700;
+  color:var(--text-primary);letter-spacing:-0.5px;
+  line-height:1.15
 }
 
 /* ═══════════════════════════════════════════
@@ -708,22 +834,22 @@ input[type="date"],input[type="number"],input[type="text"],select{
   <div class="page-content">
     <!-- VUE RAPIDE -->
     <div id="simple" class="page">
-      <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);border-radius:20px;padding:24px;margin-bottom:20px">
-        <div style="font-size:16px;font-weight:600;color:#e8eaed;margin-bottom:20px">🏆 Tes badges</div>
+      <div class="glass-card" style="margin-bottom:20px">
+        <div class="section-title">🏆 Tes badges</div>
         <div id="badgesContainer" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px"></div>
       </div>
       <div style="text-align:center;padding:40px 20px">
-        <div style="font-size:12px;color:rgba(255,255,255,0.35);margin-bottom:8px;text-transform:uppercase;letter-spacing:1.5px;font-weight:500">💰 TON CAPITAL</div>
-        <div style="font-size:64px;font-weight:800;color:#7c6dfa;margin-bottom:32px;letter-spacing:-3px" id="capitalSimple">0 €</div>
-        <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);border-radius:20px;padding:28px;max-width:480px;margin:0 auto 20px">
-          <div style="font-size:13px;font-weight:500;color:rgba(255,255,255,0.4);margin-bottom:16px;text-transform:uppercase;letter-spacing:0.5px">🎯 Objectif du mois</div>
-          <div style="font-size:42px;font-weight:700;color:#34d399;margin-bottom:8px" id="objectifMois">900 €</div>
-          <div style="font-size:13px;color:rgba(255,255,255,0.3)">à investir ce mois-ci</div>
+        <div class="kpi-label" style="margin-bottom:8px">💰 TON CAPITAL</div>
+        <div class="kpi-mega" id="capitalSimple">0 €</div>
+        <div class="glass-card" style="max-width:480px;margin:0 auto 20px">
+          <div class="kpi-label" style="margin-bottom:12px">🎯 Objectif du mois</div>
+          <div class="kpi-large green" id="objectifMois">900 €</div>
+          <div class="kpi-sub">à investir ce mois-ci</div>
         </div>
-        <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);border-radius:20px;padding:28px;max-width:480px;margin:0 auto">
-          <div style="font-size:13px;font-weight:500;color:rgba(255,255,255,0.4);margin-bottom:16px;text-transform:uppercase;letter-spacing:0.5px">🚀 Prochaine action</div>
-          <div style="font-size:22px;font-weight:600;color:#fb923c" id="prochaineAction">Investis 900 €</div>
-          <div style="font-size:13px;color:rgba(255,255,255,0.3);margin-top:8px" id="tempsRestant">Dans 5 jours</div>
+        <div class="glass-card" style="max-width:480px;margin:0 auto">
+          <div class="kpi-label" style="margin-bottom:12px">🚀 Prochaine action</div>
+          <div class="kpi-large orange" id="prochaineAction">Investis 900 €</div>
+          <div class="kpi-sub" id="tempsRestant">Dans 5 jours</div>
         </div>
       </div>
       <div class="chart-section">
@@ -734,22 +860,22 @@ input[type="date"],input[type="number"],input[type="text"],select{
 
     <!-- VUE D'ENSEMBLE -->
     <div id="overview" class="page active">
-      <div style="background:linear-gradient(135deg,rgba(124,109,250,0.15) 0%,rgba(99,88,232,0.08) 100%);padding:28px;border-radius:20px;margin-bottom:20px;color:#fff;border:1px solid rgba(124,109,250,0.15);position:relative;overflow:hidden">
-        <div style="position:absolute;top:-40px;right:-40px;width:200px;height:200px;background:radial-gradient(circle,rgba(124,109,250,0.1),transparent 70%);pointer-events:none"></div>
-        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;position:relative">
+      <div class="hero-banner">
+        <div class="hero-orb"></div>
+        <div class="hero-main">
           <div>
-            <div style="font-size:11px;color:rgba(255,255,255,0.45);margin-bottom:8px;text-transform:uppercase;letter-spacing:1.2px;font-weight:500">Capital total</div>
-            <div style="font-size:36px;font-weight:700;letter-spacing:-1px;color:#fff" id="capitalTotalHero">0 €</div>
+            <div class="hero-label">Capital total</div>
+            <div class="hero-capital" id="capitalTotalHero">0 €</div>
           </div>
           <div style="text-align:right">
-            <div style="font-size:11px;color:rgba(255,255,255,0.45);margin-bottom:8px;text-transform:uppercase;letter-spacing:1.2px;font-weight:500">Aujourd'hui</div>
-            <div style="font-size:26px;font-weight:700;color:#fff" id="variationJour">+0 €</div>
+            <div class="hero-label">Variation aujourd'hui</div>
+            <div class="hero-variation" id="variationJour">+0 €</div>
           </div>
         </div>
-        <div style="margin-top:20px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.08);display:flex;justify-content:space-between;font-size:12px;color:rgba(255,255,255,0.5);position:relative">
-          <div>🎯 Progression : <strong style="color:rgba(255,255,255,0.85)" id="progHero">0%</strong></div>
-          <div>💰 Taux d'épargne : <strong style="color:rgba(255,255,255,0.85)" id="tauxEpargne">0%</strong></div>
-          <div>📅 Prochain invest : <strong style="color:rgba(255,255,255,0.85)" id="prochainInvest">--</strong></div>
+        <div class="hero-footer">
+          <div>🎯 Progression : <strong id="progHero">0%</strong></div>
+          <div>💰 Taux d'épargne : <strong id="tauxEpargne">0%</strong></div>
+          <div>📅 Prochain invest : <strong id="prochainInvest">--</strong></div>
         </div>
       </div>
       <div class="params-section">
@@ -775,11 +901,11 @@ input[type="date"],input[type="number"],input[type="text"],select{
         <div class="stat-card"><div class="stat-label">💰 Capital total</div><div class="stat-value" id="capitalTotal">0 €</div></div>
         <div class="stat-card pea"><div class="stat-label">📈 PEA - Valeur</div><div class="stat-value" id="valeurPEA">0 €</div></div>
         <div class="stat-card pea"><div class="stat-label">💵 PEA - Solde espèces</div><div class="stat-value" id="soldeEspecesPEADisplay">0 €</div></div>
-        <div class="stat-card pea"><div class="stat-label">💹 PEA - Plus-value</div><div id="plusValuePEA" style="font-size:22px;font-weight:800;color:#00d4aa">+0 €</div></div>
+        <div class="stat-card pea"><div class="stat-label">💹 PEA - Plus-value</div><div id="plusValuePEA" class="stat-value positive">+0 €</div></div>
         <div class="stat-card cto"><div class="stat-label">📈 CTO - Valeur</div><div class="stat-value" id="valeurCTO">0 €</div></div>
-        <div class="stat-card cto"><div class="stat-label">💹 CTO - Plus-value</div><div id="plusValueCTO" style="font-size:22px;font-weight:800;color:#a78bfa">+0 €</div></div>
+        <div class="stat-card cto"><div class="stat-label">💹 CTO - Plus-value</div><div id="plusValueCTO" class="stat-value positive">+0 €</div></div>
         <div class="stat-card crypto"><div class="stat-label">₿ Crypto - Valeur actuelle</div><div class="stat-value" id="valeurCrypto">0 €</div></div>
-        <div class="stat-card crypto"><div class="stat-label">💹 Crypto - Plus-value</div><div id="plusValueCrypto" style="font-size:22px;font-weight:800;color:#fb923c">+0 €</div></div>
+        <div class="stat-card crypto"><div class="stat-label">💹 Crypto - Plus-value</div><div id="plusValueCrypto" class="stat-value positive">+0 €</div></div>
         <div class="stat-card"><div class="stat-label">⚡ Frais totaux payés</div><div class="stat-value" id="fraisTotaux">0 €</div></div>
         <div class="stat-card"><div class="stat-label">🎯 Progression vers 1M€</div><div class="stat-value" id="progression">0%</div><div class="progress-bar"><div id="progressBar" class="progress-fill" style="width:0%">0%</div></div></div>
       </div>
@@ -1261,7 +1387,10 @@ let badges={premierInvest:false,sixMois:false,unAn:false,dix000:false,vingtcinq0
 // =============================================
 window.onload=function(){
   try{
-    const saved=localStorage.getItem('dashboardPEA_CTO_Crypto_v3');
+    // Essaie les clés dans l'ordre — v2 en priorité pour récupérer les données existantes
+    const keys=['dashboardPEA_CTO_Crypto_v2','dashboardPEA_CTO_Crypto_v3','dashboardPEA_CTO_Crypto'];
+    let saved=null;
+    for(const k of keys){const s=localStorage.getItem(k);if(s){saved=s;console.log('Données récupérées depuis:',k);break;}}
     if(saved){
       const data=JSON.parse(saved);
       Object.keys(data).forEach(key=>{const el=document.getElementById(key);if(el&&el.type==='number')el.value=data[key]});
@@ -1305,7 +1434,7 @@ function sauvegarder(){
     coursWPEA,coursPAEEM,coursEUNL,coursIS3N,
     objectifs,dividendes,capitalHier,badges
   };
-  localStorage.setItem('dashboardPEA_CTO_Crypto_v3',JSON.stringify(data));
+  localStorage.setItem('dashboardPEA_CTO_Crypto_v2',JSON.stringify(data));
 }
 
 // =============================================
@@ -1778,11 +1907,11 @@ function dessinerGraphiqueEvolution(){
   const pea=calculerValeur(historiquePEA,rend,true);const cto=calculerValeurCTO(rend);const capitalActuel=pea.valeur+cto.valeur+livret+courant+soldeEspeces;
   const points=[];for(let a=age;a<=65;a+=5){const yrs=a-age,mths=yrs*12;const inv=(invPEA+invCTO)*(1-fraisPct);const mRate=(rend/100)/12;const capital=mRate===0?capitalActuel+inv*mths:capitalActuel*Math.pow(1+mRate,mths)+inv*((Math.pow(1+mRate,mths)-1)/mRate);points.push({age:a,capital})}
   ctx.clearRect(0,0,canvas.width,canvas.height);const padding=60;const graphWidth=canvas.width-padding*2;const graphHeight=canvas.height-padding*2;const maxCapital=Math.max(...points.map(p=>p.capital),10000);
-  ctx.strokeStyle='#1e2030';ctx.lineWidth=1;for(let i=0;i<=5;i++){const y=padding+(graphHeight/5)*i;ctx.beginPath();ctx.moveTo(padding,y);ctx.lineTo(canvas.width-padding,y);ctx.stroke()}
-  ctx.fillStyle='#6b7280';ctx.font='11px Inter,sans-serif';ctx.textAlign='right';ctx.textBaseline='middle';for(let i=0;i<=5;i++){const y=padding+(graphHeight/5)*i;const value=maxCapital-(maxCapital/5)*i;ctx.fillText((value/1000).toFixed(0)+'k €',padding-10,y)}
+  ctx.strokeStyle='rgba(255,255,255,0.07)';ctx.lineWidth=1;for(let i=0;i<=5;i++){const y=padding+(graphHeight/5)*i;ctx.beginPath();ctx.moveTo(padding,y);ctx.lineTo(canvas.width-padding,y);ctx.stroke()}
+  ctx.fillStyle='rgba(240,240,255,0.45)';ctx.font='11px DM Sans,sans-serif';ctx.textAlign='right';ctx.textBaseline='middle';for(let i=0;i<=5;i++){const y=padding+(graphHeight/5)*i;const value=maxCapital-(maxCapital/5)*i;ctx.fillText((value/1000).toFixed(0)+'k €',padding-10,y)}
   ctx.textAlign='center';ctx.textBaseline='top';points.forEach((p,i)=>{const x=padding+(graphWidth/(points.length-1))*i;ctx.fillText(p.age+' ans',x,canvas.height-padding+10)});
-  ctx.beginPath();ctx.strokeStyle='#7c6dfa';ctx.lineWidth=3;ctx.lineJoin='round';points.forEach((p,i)=>{const x=padding+(graphWidth/(points.length-1))*i;const y=padding+graphHeight-(p.capital/maxCapital)*graphHeight;if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y)});ctx.stroke();
-  points.forEach((p,i)=>{const x=padding+(graphWidth/(points.length-1))*i;const y=padding+graphHeight-(p.capital/maxCapital)*graphHeight;ctx.beginPath();ctx.fillStyle='#7c6dfa';ctx.arc(x,y,5,0,2*Math.PI);ctx.fill();ctx.fillStyle='#e2e8f0';ctx.font='bold 10px Inter,sans-serif';ctx.textAlign='center';ctx.textBaseline='bottom';ctx.fillText((p.capital/1000).toFixed(0)+'k',x,y-10)});
+  ctx.beginPath();ctx.strokeStyle='#8B77FF';ctx.lineWidth=3;ctx.lineJoin='round';points.forEach((p,i)=>{const x=padding+(graphWidth/(points.length-1))*i;const y=padding+graphHeight-(p.capital/maxCapital)*graphHeight;if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y)});ctx.stroke();
+  points.forEach((p,i)=>{const x=padding+(graphWidth/(points.length-1))*i;const y=padding+graphHeight-(p.capital/maxCapital)*graphHeight;ctx.beginPath();ctx.fillStyle='#8B77FF';ctx.arc(x,y,5,0,2*Math.PI);ctx.fill();ctx.fillStyle='rgba(240,240,255,0.85)';ctx.font='bold 10px DM Sans,sans-serif';ctx.textAlign='center';ctx.textBaseline='bottom';ctx.fillText((p.capital/1000).toFixed(0)+'k',x,y-10)});
   const gradient=ctx.createLinearGradient(0,padding,0,canvas.height-padding);gradient.addColorStop(0,'rgba(124,109,250,0.2)');gradient.addColorStop(1,'rgba(124,109,250,0)');ctx.fillStyle=gradient;ctx.beginPath();ctx.moveTo(padding,canvas.height-padding);points.forEach((p,i)=>{const x=padding+(graphWidth/(points.length-1))*i;const y=padding+graphHeight-(p.capital/maxCapital)*graphHeight;ctx.lineTo(x,y)});ctx.lineTo(canvas.width-padding,canvas.height-padding);ctx.closePath();ctx.fill();
 }
 
@@ -1886,8 +2015,8 @@ function calculerCarriere(){
   const padding=60;const gw=canvas.width-padding*2;const gh=canvas.height-padding*2;const pointsCivil=[];const pointsArmee=[];const age=Number(document.getElementById('age').value)||17;
   for(let a=age;a<=65;a+=5){let salCivil=a<20?salaireAlt:salaireMCVal+(a-20)*50;let salArmee=a<=42?(salaireArmeeVal+avantages+(a-age)*30):0;pointsCivil.push({age:a,salaire:salCivil});pointsArmee.push({age:a,salaire:salArmee})}
   const maxSal=Math.max(...pointsCivil.map(p=>p.salaire),...pointsArmee.map(p=>p.salaire),1);
-  ctx.strokeStyle='#1e2030';ctx.lineWidth=1;for(let i=0;i<=5;i++){const y=padding+(gh/5)*i;ctx.beginPath();ctx.moveTo(padding,y);ctx.lineTo(canvas.width-padding,y);ctx.stroke()}
-  ctx.fillStyle='#6b7280';ctx.font='11px Inter,sans-serif';ctx.textAlign='right';ctx.textBaseline='middle';for(let i=0;i<=5;i++){const y=padding+(gh/5)*i;const val=maxSal-(maxSal/5)*i;ctx.fillText(Math.round(val)+' E',padding-10,y)}
+  ctx.strokeStyle='rgba(255,255,255,0.07)';ctx.lineWidth=1;for(let i=0;i<=5;i++){const y=padding+(gh/5)*i;ctx.beginPath();ctx.moveTo(padding,y);ctx.lineTo(canvas.width-padding,y);ctx.stroke()}
+  ctx.fillStyle='rgba(240,240,255,0.45)';ctx.font='11px DM Sans,sans-serif';ctx.textAlign='right';ctx.textBaseline='middle';for(let i=0;i<=5;i++){const y=padding+(gh/5)*i;const val=maxSal-(maxSal/5)*i;ctx.fillText(Math.round(val)+' E',padding-10,y)}
   ctx.textAlign='center';ctx.textBaseline='top';pointsCivil.forEach((p,i)=>{const x=padding+(gw/(pointsCivil.length-1))*i;ctx.fillStyle='#6b7280';ctx.fillText(p.age+' ans',x,canvas.height-padding+10)});
   [{pts:pointsCivil,color:'#7c6dfa'},{pts:pointsArmee,color:'#00d4aa'}].forEach(line=>{ctx.beginPath();ctx.strokeStyle=line.color;ctx.lineWidth=3;ctx.lineJoin='round';line.pts.forEach((p,i)=>{const x=padding+(gw/(line.pts.length-1))*i;const y=padding+gh-(p.salaire/maxSal)*gh;if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y)});ctx.stroke();line.pts.forEach((p,i)=>{const x=padding+(gw/(line.pts.length-1))*i;const y=padding+gh-(p.salaire/maxSal)*gh;ctx.beginPath();ctx.fillStyle=line.color;ctx.arc(x,y,4,0,2*Math.PI);ctx.fill()})});
   ctx.fillStyle='#7c6dfa';ctx.font='bold 12px Inter,sans-serif';ctx.textAlign='left';ctx.fillText('Civil',padding+10,padding+10);ctx.fillStyle='#00d4aa';ctx.fillText('Armee',padding+10,padding+28);
